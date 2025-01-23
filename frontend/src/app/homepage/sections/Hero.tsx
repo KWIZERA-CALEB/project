@@ -21,7 +21,7 @@ export default function Hero() {
 
       {/* Image Content */}
       <div className="relative mt-10 lg:mt-0 flex justify-center lg:justify-end">
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2">
           {/* First Image */}
           <div className="w-[320px] h-[320px] flex items-center justify-center rounded-xl">
             <Image

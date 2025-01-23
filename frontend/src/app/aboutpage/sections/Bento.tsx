@@ -1,17 +1,13 @@
 import { Banknote } from "lucide-react";
 
-export default function Experience() {
+export default function Bento() {
   return (
     <section className="min-h-screen bg-gray-100 w-full p-20">
       {/* Header Section */}
       <div className="text-center mb-10">
         <h1 className="text-3xl lg:text-3xl font-bold text-black leading-tight">
-          Experience a New Way of Building <br /> Work Experience
+          Why we are solving this problem
         </h1>
-        <p className="text-sm text-gray-600 mt-5">
-          Join Skills Challenges Program to accelerate your career growth and
-          become <br /> part of Africa's largest workforce of digital professionals.
-        </p>
       </div>
 
       {/* Big Blue Section */}

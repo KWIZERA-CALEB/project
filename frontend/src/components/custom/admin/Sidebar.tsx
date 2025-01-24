@@ -67,7 +67,7 @@ const Sidebar = () => {
         },
     ]
     return (
-        <div className='w-[270px] fixed h-full bg-umuravaBlueColor flex flex-col p-[18px] justify-between'>
+        <div className='w-[270px] hidden fixed h-full bg-umuravaBlueColor md:flex flex-col p-[18px] justify-between'>
             <div>
                 <img src='/assets/images/logo.png' className='w-[50px]' alt='Umurava' />
                 <div className='flex flex-col space-y-[10px] mt-[20px]'>

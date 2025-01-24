@@ -10,7 +10,6 @@ import {
     DialogTitle,
     DialogTrigger,
   } from "@/components/ui/dialog"
-  
 
 const Sidebar = () => {
     const pathname = usePathname();
@@ -83,6 +82,8 @@ const Sidebar = () => {
                             </div>
                         </Link>
                     ))}
+<<<<<<< HEAD
+=======
                     <Dialog>
                         <DialogTrigger>
                             <div className='flex flex-row pt-[6px] pb-[6px] pr-[5px] hover:bg-[#333]/[30%] rounded-[6px] ease-in-out pl-[5px] cursor-pointer items-center space-x-[10px]'>
@@ -104,6 +105,7 @@ const Sidebar = () => {
                             </DialogHeader>
                         </DialogContent>
                     </Dialog>
+>>>>>>> master
                 </div>
             </div>
             <div>

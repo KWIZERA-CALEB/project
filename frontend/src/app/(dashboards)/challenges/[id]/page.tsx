@@ -44,40 +44,40 @@ const AdminEditChallenge = ({ params }) => {
                                         <img src='/assets/images/logo.png' className='w-[60px]' alt='Challenge Image' />
                                     </div>
                                     <div className='mt-[30px]'>
-                                        <h4 className='font-sans font-bold cursor-pointer select-none text-start'>Project Brief : Payroll and HR Management System</h4>
-                                        <p className='text-[#667185] mt-[6px] font-sans select-none cursor-pointer text-start text-[14px]'>
+                                        <h4 className='font-bold cursor-pointer select-none text-start'>Project Brief : Payroll and HR Management System</h4>
+                                        <p className='text-[#667185] mt-[6px] select-none cursor-pointer text-start text-[14px]'>
                                         A Fintech company that is developing a Digital Financial Platform designed for businesses and their workforce in Africa is partnering with Umurava to run a Skills Challenge for Product Design. This Fintech Company offers Payroll Management System to Employers and Embedded Financial services and products to Employees and Gig Workers across Africa.
                                         </p>
-                                        <h4 className='font-sans font-bold mt-[6px] cursor-pointer select-none text-start'>Tasks:</h4>
+                                        <h4 className='font-bold mt-[6px] cursor-pointer select-none text-start'>Tasks:</h4>
 
                                         <div>
-                                            <h4 className='font-sans font-bold mt-[6px] cursor-pointer select-none text-start'>Product Requirements:</h4>
+                                            <h4 className='font-bold mt-[6px] cursor-pointer select-none text-start'>Product Requirements:</h4>
                                             <div className='mt-[6px]'>
-                                                <p className='text-[#667185] mt-[6px] font-sans select-none cursor-pointer text-start text-[14px]'>
+                                                <p className='text-[#667185] mt-[6px] select-none cursor-pointer text-start text-[14px]'>
                                                 A Fintech company that is developing a Digital Financial Platform designed for businesses and their workforce in Africa is partnering with Umurava to run a Skills Challenge for Product Design. This Fintech Company offers Payroll Management System to Employers and Embedded Financial services and products to Employees and Gig Workers across Africa.
                                                 </p>
                                             </div>
                                         </div>
                                         <div>
-                                            <h4 className='font-sans font-bold mt-[6px] cursor-pointer select-none text-start'>Product Design:</h4>
+                                            <h4 className='font-bold mt-[6px] cursor-pointer select-none text-start'>Product Design:</h4>
                                             <div className='mt-[6px]'>
-                                                <p className='text-[#667185] mt-[6px] font-sans select-none cursor-pointer text-start text-[14px]'>
+                                                <p className='text-[#667185] mt-[6px] select-none cursor-pointer text-start text-[14px]'>
                                                 A Fintech company that is developing a Digital Financial Platform designed for businesses and their workforce in Africa is partnering with Umurava to run a Skills Challenge for Product Design. This Fintech Company offers Payroll Management System to Employers and Embedded Financial services and products to Employees and Gig Workers across Africa.
                                                 </p>
                                             </div>
                                         </div>
                                         <div>
-                                            <h4 className='font-sans font-bold mt-[6px] cursor-pointer select-none text-start'>Deliverables:</h4>
+                                            <h4 className='font-bold mt-[6px] cursor-pointer select-none text-start'>Deliverables:</h4>
                                             <div className='mt-[6px]'>
-                                                <p className='text-[#667185] mt-[6px] font-sans select-none cursor-pointer text-start text-[14px]'>
+                                                <p className='text-[#667185] mt-[6px] select-none cursor-pointer text-start text-[14px]'>
                                                 A Fintech company that is developing a Digital Financial Platform designed for businesses and their workforce in Africa is partnering with Umurava to run a Skills Challenge for Product Design. This Fintech Company offers Payroll Management System to Employers and Embedded Financial services and products to Employees and Gig Workers across Africa.
                                                 </p>
                                             </div>
                                         </div>
                                         <div>
-                                            <h4 className='font-sans font-bold mt-[6px] cursor-pointer select-none text-start'>NOTE:</h4>
+                                            <h4 className='font-bold mt-[6px] cursor-pointer select-none text-start'>NOTE:</h4>
                                             <div className='mt-[6px]'>
-                                                <p className='text-[#667185] mt-[6px] font-sans select-none cursor-pointer text-start text-[14px]'>
+                                                <p className='text-[#667185] mt-[6px] select-none cursor-pointer text-start text-[14px]'>
                                                 A Fintech company that is developing a Digital Financial Platform designed for businesses and their workforce in Africa.
                                                 </p>
                                             </div>
@@ -88,8 +88,8 @@ const AdminEditChallenge = ({ params }) => {
                             </div>
                             <div className='w-full md:w-[40%]'>
                                 <div className='bg-white border-solid border-[1px] border-[#E4E7EC] p-[15px] rounded-[12px] mt-[20px]'>
-                                    <h4 className='font-sans font-bold cursor-pointer select-none text-start'>Key Instructions:</h4>
-                                    <p className='text-[#667185] mt-[6px] font-sans select-none cursor-pointer text-start text-[14px]'>
+                                    <h4 className='font-bold cursor-pointer select-none text-start'>Key Instructions:</h4>
+                                    <p className='text-[#667185] mt-[6px] select-none cursor-pointer text-start text-[14px]'>
                                     You are free to schedule the clarification call with the team via this
                                     </p>
 
@@ -101,8 +101,8 @@ const AdminEditChallenge = ({ params }) => {
                                                 </svg>
                                             </div>
                                             <div>
-                                                <h4 className='font-sans font-bold cursor-pointer select-none'>talent@umurava.africa</h4>
-                                                <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Contact Email</p>
+                                                <h4 className='font-bold cursor-pointer select-none'>talent@umurava.africa</h4>
+                                                <p className='text-[#667185] select-none cursor-pointer text-[14px]'>Contact Email</p>
                                             </div>
                                         </div>
                                         <div className='flex items-center flex-row space-x-[6px]'>
@@ -112,8 +112,8 @@ const AdminEditChallenge = ({ params }) => {
                                                 </svg>
                                             </div>
                                             <div>
-                                                <h4 className='font-sans font-bold cursor-pointer select-none'>Web Design</h4>
-                                                <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Challenge Category</p>
+                                                <h4 className='font-bold cursor-pointer select-none'>Web Design</h4>
+                                                <p className='text-[#667185] select-none cursor-pointer text-[14px]'>Challenge Category</p>
                                             </div>
                                         </div>
                                         <div className='flex items-center flex-row space-x-[6px]'>
@@ -123,8 +123,8 @@ const AdminEditChallenge = ({ params }) => {
                                                 </svg>
                                             </div>
                                             <div>
-                                                <h4 className='font-sans font-bold cursor-pointer select-none'>7 Days</h4>
-                                                <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Duration</p>
+                                                <h4 className='font-bold cursor-pointer select-none'>7 Days</h4>
+                                                <p className='text-[#667185] select-none cursor-pointer text-[14px]'>Duration</p>
                                             </div>
                                         </div>
                                         <div className='flex items-center flex-row space-x-[6px]'>
@@ -134,12 +134,12 @@ const AdminEditChallenge = ({ params }) => {
                                                 </svg>
                                             </div>
                                             <div>
-                                                <h4 className='font-sans font-bold cursor-pointer select-none'>$150 - $400</h4>
-                                                <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Money Prize</p>
+                                                <h4 className='font-bold cursor-pointer select-none'>$150 - $400</h4>
+                                                <p className='text-[#667185] select-none cursor-pointer text-[14px]'>Money Prize</p>
                                             </div>
                                         </div>
                                     </div>
-                                    {currentUser === 'admin'
+                                    {currentUser === 'admin' ?
                                         <div className='flex w-full flex-row space-x-[6px] mt-[10px] justify-between items-center'>
                                             <Button className='bg-[#E5533C] w-[50%] text-white hover:bg-[#E5533C]/[90%] font-sans'>
                                                 Delete

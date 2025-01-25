@@ -18,13 +18,13 @@ export default function AdminChallenges () {
                     <AdminNavbar />
                     <div className='bg-[#F9FAFB] z-20 pr-[25px] pl-[25px] pt-[70px] pb-[70px] md:pb-[25px] w-full min-h-screen'>
                         <div>
-                            <h4 className='font-sans font-bold cursor-pointer select-none'>Challenges</h4>
+                            <h4 className='font-bold cursor-pointer select-none'>Challenges</h4>
                             <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Join a challenge or workspace to gain valuable experience</p>
                         </div>
                         <div className='mt-[40px]'>
                             {/* filters */}
-                            {currentUser === 'admin' &&
-                                <div className='flex flex-row flex-wrap space-x-[1px] mb-[10px]'>
+                            {currentUser === 'admin' ?
+                                (<div className='flex flex-row flex-wrap space-x-[1px] mb-[10px]'>
                                     <Button className='bg-[#D0E0FC] text-black hover:bg-[#D0E0FC] border-solid border-[1px] border-[#FCD2C2] flex flex-row items-center justify-between'>
                                         <div>
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width='18' height='18' fill='#2B71F0'>
@@ -81,9 +81,9 @@ export default function AdminChallenges () {
                                             </div>
                                         </Button>
                                     </Link>
-                                </div>
+                                </div>)
                                 :
-                                <div className='flex flex-row flex-wrap space-x-[1px] mb-[10px]'>
+                                (<div className='flex flex-row flex-wrap space-x-[1px] mb-[10px]'>
                                     <Button className='bg-[#D0E0FC] text-black hover:bg-[#D0E0FC] border-solid border-[1px] border-[#FCD2C2] flex flex-row items-center justify-between'>
                                         <div>
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width='18' height='18' fill='#2B71F0'>
@@ -128,7 +128,7 @@ export default function AdminChallenges () {
                                             <p>0</p>
                                         </div>
                                     </Button>
-                                </div>
+                                </div>)
                             }
                             {/* filters */}
                             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>

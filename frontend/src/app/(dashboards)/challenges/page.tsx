@@ -10,6 +10,7 @@ import MobileSidebar from '@/components/custom/admin/MobileSidebar'
 
 export default function AdminChallenges () {
     const currentUser = 'admin'
+    const loading = false
     return (
         <>
             <div className='w-full h-[100vh] flex flex-row'>
@@ -131,12 +132,18 @@ export default function AdminChallenges () {
                                 </div>)
                             }
                             {/* filters */}
+                            {loading ? 
+                            <div className='w-full h-[200px] flex items-center justify-center'>
+                                <div className='loader'></div>
+                            </div>
+                            :
                             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
                                 <ChallengeCard challengeLink='/challenges/577897' challengeTitle='Design a Dashboard for SokoFund' />
                                 <ChallengeCard challengeLink='/challenges/879797' challengeTitle='Design a Dashboard for SokoFund' />
                                 <ChallengeCard challengeLink='/challenges/778787' challengeTitle='Design a Dashboard for SokoFund' />
                                 <ChallengeCard challengeLink='/challenges/76565' challengeTitle='Design a Dashboard for SokoFund' />
                             </div>
+                            }
 
                             <div className='flex flex-row justify-between mt-[15px] items-center pr-[30px] pl-[30px]'>
                                 <Button className='bg-white text-[#667185] hover:bg-white/[90%] font-sans'>

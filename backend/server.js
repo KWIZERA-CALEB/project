@@ -1,39 +1,37 @@
-import bodyParser from 'body-parser'
-import cors from 'cors'
-import { config } from 'dotenv'
-import { connectDB } from './database.js'
-import cookieParser from "cookie-parser";
-import express from 'express'
-import challengeRoutes from './routes/challenge.route.js'
-import swaggerSpec from './swagger.js'
-import swaggerUI from  'swagger-ui-express'
-config()
+import express from 'express';
+import dotenv from 'dotenv';
+import swaggerUi from 'swagger-ui-express';
+import challengeRoutes from './routes/challenge.route.js';
+import swaggerSpec from './swagger.js';
+import { connectDB } from './config/database.js';
 
-const app = express()
+dotenv.config();
+const app = express();
 
-app.use(cookieParser());
+// Middleware
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-const corsOptions = {
-    origin: [
-        'http://localhost:5173',             
-    ],
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-    credentials: true,
-}
+// Database Connection
+connectDB();
 
-app.use(cors(corsOptions))
-app.use(bodyParser.json())
+// Routes
+app.use('/api/', challengeRoutes);
 
+// Swagger Documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-server.listen(process.env.APP_PORT, () => {
-    console.log(`App conected and running on port ${process.env.APP_PORT}`)
-    connectDB()
-})
+// 404 Route
+app.use((_req, res) => {
+    res.status(404).json({ message: 'Route not found.' });
+});
 
-app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec))
+// Error Handling Middleware
+app.use((err, _req, res, _next) => {
+    console.error('Server Error:', err.message);
+    res.status(500).json({ message: 'Internal server error.' });
+});
 
-app.use('/api', challengeRoutes)
+const PORT = process.env.PORT || 5080;
 
-
-
-
+app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

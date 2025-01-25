@@ -1,15 +1,19 @@
 import Sidebar from '@/components/custom/admin/Sidebar'
 import AdminNavbar from '@/components/custom/admin/AdminNavbar'
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { useRouter } from 'next/navigation';
 import Link from 'next/link'
 import MobileSidebar from '@/components/custom/admin/MobileSidebar'
 
+interface AdminEditChallengeParams {
+    id: string;
+}
+
+interface AdminEditChallengeProps {
+    params: AdminEditChallengeParams;
+}
 
 
-const AdminEditChallenge = ({ params }) => {
+const AdminEditChallenge: React.FC<AdminEditChallengeProps> = ({ params })  => {
     const { id } = params; 
     const currentUser = 'admin'
     return (

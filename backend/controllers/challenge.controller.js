@@ -72,9 +72,23 @@ export const getSingleChallenge = async (req, res) => {
 };
 
 // Get all challenges
+// Get all challenges or filter by status
 export const getAllChallenges = async (req, res) => {
     try {
-        const challenges = await ChallengeModel.find();
+        const { status } = req.query; // Extract the `status` query parameter
+        
+        let filter = {};
+        if (status) {
+            if (['open', 'closed', 'ongoing'].includes(status)) {
+                filter.status = status; // Add the status filter if valid
+            } else {
+                return res.status(400).json({
+                    message: "Invalid status value. Allowed values are 'open', 'closed', or 'ongoing'.",
+                });
+            }
+        }
+
+        const challenges = await ChallengeModel.find(filter);
 
         return res.status(200).json({
             message: "Challenges retrieved successfully",
@@ -87,6 +101,7 @@ export const getAllChallenges = async (req, res) => {
         });
     }
 };
+
 
 // Delete a challenge by ID
 export const deleteChallenge = async (req, res) => {

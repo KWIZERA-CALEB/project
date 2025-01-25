@@ -1,6 +1,5 @@
 import Sidebar from '@/components/custom/admin/Sidebar'
 import AdminNavbar from '@/components/custom/admin/AdminNavbar'
-import { Button } from "@/components/ui/button"
 import Link from 'next/link'
 import ChallengeCard from '@/components/custom/admin/ChallengeCard'
 import MobileSidebar from '@/components/custom/admin/MobileSidebar'
@@ -18,11 +17,11 @@ export default function AdminDashboard () {
                     <AdminNavbar />
                     <div className='bg-[#F9FAFB] z-20 pr-[25px] pl-[25px] pt-[70px] pb-[70px] md:pb-[25px] w-full min-h-screen'>
                         <div>
-                            <h4 className='font-sans font-bold cursor-pointer select-none'>Welcome back Hilare</h4>
-                            <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Build Work Experience through Work Challenges</p>
+                            <h4 className='font-bold cursor-pointer select-none'>Welcome back Hilare</h4>
+                            <p className='text-[#667185] select-none cursor-pointer text-[14px]'>Build Work Experience through Work Challenges</p>
                         </div>
                         {/* statistics */}
-                        {currentUser === 'admin' ? 
+                        {currentUser === 'client' ? 
                         <>
                             <div className='w-full flex flex-col space-y-[6px] md:space-y-[0px] md:flex-row mt-[20px] justify-between items-center md:space-x-[12px]'>
                                 <div className='bg-white h-[120px] rounded-[15px] w-full md:w-[50%] flex items-center border-solid border-[1px] relative border-[#E4E7EC] p-[16px]'>
@@ -165,7 +164,53 @@ export default function AdminDashboard () {
                             </div>
                         </>
                         :
-                        <p>Talent User</p>
+                            <div className='md:mt-[12px] mt-[6px] w-full flex flex-col space-y-[6px] md:space-y-[0px] md:flex-row justify-between items-center md:space-x-[12px]'>
+                                <div className='bg-white h-[120px] rounded-[15px] w-full md:w-[50%] flex items-center border-solid border-[1px] border-[#E4E7EC] p-[16px]'>
+                                    <div className='flex flex-row justify-between w-full items-center'>
+                                        <div className='pl-[10px] border-l-[3px] border-solid border-umuravaBlueColor'>
+                                            <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Completed Challenge</p>
+                                            <div>
+                                                <h4 className='font-sans font-bold cursor-pointer select-none'>29,405</h4>
+                                            </div>
+                                        </div>
+                                        <div className='flex justify-center items-center w-[40px] h-[40px] rounded-full p-[6px] bg-[#D0E0FC]'>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='20' width='20' fill="#2B71F0">
+                                                <path d="M20 22H4C3.44772 22 3 21.5523 3 21V3C3 2.44772 3.44772 2 4 2H20C20.5523 2 21 2.44772 21 3V21C21 21.5523 20.5523 22 20 22ZM19 20V4H5V20H19ZM8 7H16V9H8V7ZM8 11H16V13H8V11ZM8 15H16V17H8V15Z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='bg-white h-[120px] rounded-[15px] w-full md:w-[50%] flex items-center border-solid border-[1px] border-[#E4E7EC] p-[16px]'>
+                                    <div className='flex flex-row justify-between w-full items-center'>
+                                        <div className='pl-[10px] border-l-[3px] border-solid border-umuravaBlueColor'>
+                                            <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Open Challenge</p>
+                                            <div>
+                                                <h4 className='font-sans font-bold cursor-pointer select-none'>29,405</h4>
+                                            </div>
+                                        </div>
+                                        <div className='flex justify-center items-center w-[40px] h-[40px] rounded-full p-[6px] bg-[#D0E0FC]'>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='20' width='20' fill="#2B71F0">
+                                                <path d="M20 22H4C3.44772 22 3 21.5523 3 21V3C3 2.44772 3.44772 2 4 2H20C20.5523 2 21 2.44772 21 3V21C21 21.5523 20.5523 22 20 22ZM19 20V4H5V20H19ZM8 7H16V9H8V7ZM8 11H16V13H8V11ZM8 15H16V17H8V15Z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className='bg-white h-[120px] rounded-[15px] w-full md:w-[50%] flex items-center border-solid border-[1px] border-[#E4E7EC] p-[16px]'>
+                                    <div className='flex flex-row justify-between w-full items-center'>
+                                        <div className='pl-[10px] border-l-[3px] border-solid border-umuravaBlueColor'>
+                                            <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Ongoing Challenge</p>
+                                            <div>
+                                                <h4 className='font-sans font-bold cursor-pointer select-none'>29,405</h4>
+                                            </div>
+                                        </div>
+                                        <div className='flex justify-center items-center w-[40px] h-[40px] rounded-full p-[6px] bg-[#D0E0FC]'>
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='20' width='20' fill="#2B71F0">
+                                                <path d="M20 22H4C3.44772 22 3 21.5523 3 21V3C3 2.44772 3.44772 2 4 2H20C20.5523 2 21 2.44772 21 3V21C21 21.5523 20.5523 22 20 22ZM19 20V4H5V20H19ZM8 7H16V9H8V7ZM8 11H16V13H8V11ZM8 15H16V17H8V15Z"></path>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         }
                         {/* statistics */}
                         <div className='mt-[40px]'>

@@ -40,7 +40,7 @@ const AdminNavbar = () => {
                             </svg>
                         </div>
                     </PopoverTrigger>
-                    <PopoverContent className='w-[100vw] pt-[0px] pr-[0px] pl-[0px] pb-[15px] md:w-[400px]'>
+                    <PopoverContent className='pt-[0px] pr-[0px] pl-[0px] pb-[15px] w-[400px]'>
                         <div className='pt-[10px] border-b border-solid border-[#E4E7EC] pr-[10px] pl-[10px] pb-[6px]'>
                             <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Notifications</p>
                         </div>
@@ -61,7 +61,7 @@ const AdminNavbar = () => {
                             <img src="/assets/images/default.png" className='w-full h-full object-cover object-center rounded-full' alt="User"/>
                         </div>
                     </PopoverTrigger>
-                    <PopoverContent className='w-[100vw] pt-[10px] pr-[0px] pl-[0px] pb-[15px] md:w-[400px]'>
+                    <PopoverContent className='pt-[10px] pr-[0px] pl-[0px] pb-[15px] w-[400px]'>
                         <div className='pt-[10px] border-b border-solid border-[#E4E7EC] pr-[10px] pl-[10px] pb-[6px]'>
                             <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Profile Details</p>
                         </div>

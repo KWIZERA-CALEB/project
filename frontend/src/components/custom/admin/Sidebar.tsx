@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation';
 import Link from 'next/link'
+import { Button } from "@/components/ui/button"
+
 import {
     Dialog,
     DialogContent,
@@ -12,7 +14,7 @@ import {
   } from "@/components/ui/dialog"
 
 const Sidebar = () => {
-    const pathname = usePathname();
+    const pathname = usePathname() || '';
     const [currentPath, setCurrentPath] = useState('');
 
     useEffect(() => {
@@ -93,14 +95,23 @@ const Sidebar = () => {
                                 <div><p className='font-sans text-white text-[14px]'>Community</p></div>
                             </div>
                         </DialogTrigger>
-                        <DialogContent>
-                            <DialogHeader>
-                            <DialogTitle>Are you absolutely sure?</DialogTitle>
-                            <DialogDescription>
-                                This action cannot be undone. This will permanently delete your account
-                                and remove your data from our servers.
-                            </DialogDescription>
-                            </DialogHeader>
+                        <DialogContent className='bg-white flex justify-center'>
+                            <div>
+                                <div className='flex justify-center'>
+                                    <img src='/assets/images/share-icon.png' className='w-[60px] cursor-pointer' alt='join whatsapp' />
+                                </div>
+                                <div className='mt-[20px]'>
+                                    <div>
+                                        <h4 className='font-bold text-center cursor-pointer text-[#101928] select-none'>Join our WhatsApp community</h4>
+                                        <p className='text-[#667185] text-center select-none cursor-pointer text-[14px]'>Get notified on the latest projects and hackathons</p>
+                                    </div>
+                                </div>
+                                <div className='mt-[20px] flex justify-center'>
+                                    <Button className='bg-umuravaBlueColor text-white hover:bg-umuravaBlueColor/[90%]'>
+                                        Join
+                                    </Button>
+                                </div>
+                            </div>
                         </DialogContent>
                     </Dialog>
                 </div>

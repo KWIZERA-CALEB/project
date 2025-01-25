@@ -1,54 +1,101 @@
+"use client";
+import Image from "next/image";
 import Link from "next/link";
+import clsx from "clsx";
+import { useState } from "react";
+import { usePathname } from "next/navigation";
 
-export default function Navbar() {
+const Navbar = () => {
+  const currentPath = usePathname();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  // Define navigation links directly in the component
+  const navLinks = [
+    { name: "Home", path: "#home" },
+    { name: "Challenge & Hackathons", path: "#challenges" },
+    { name: "For Educational Institutions", path: "#institutions" },
+    { name: "About Us", path: "#about" },
+    { name: "Contact Us", path: "#contact" },
+  ];
+
   return (
-    <nav className="bg-white fixed top-0 left-0 w-full z-50 mb-80 text-xs">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-        {/* Logo Section */}
-        <div className="flex items-center">
-          <img
-            src="/assets/images/umurava-logo.png" 
-            alt="Umurava Logo"
-            className="h-12 w-auto"
-          />
-          
-        </div>
-
-        {/* Navigation Links */}
-        <div className="flex space-x-8">
-          <Link href="#home" className="text-gray-700 hover:text-blue-600">
-            Home
-          </Link>
-          <Link
-            href="#challenges"
-            className="text-gray-700 hover:text-blue-600"
-          >
-            Challenge & Hackathons
-          </Link>
-          <Link
-            href="#institutions"
-            className="text-gray-700 hover:text-blue-600"
-          >
-            For Educational Institutions
-          </Link>
-          <Link href="#about" className="text-gray-700 hover:text-blue-600">
-            About Us
-          </Link>
-          <Link href="#contact" className="text-gray-700 hover:text-blue-600">
-            Contact Us
-          </Link>
-        </div>
-
-        {/* CTA Button */}
-        <div>
-          <Link
-            href="#join"
-            className="bg-blue-950 text-white px-5 py-3 rounded-sm shadow-md hover:bg-blue-900 transition"
-          >
-            Join the Program
-          </Link>
-        </div>
+    <nav className="flex items-center justify-between px-10 py-4 bg-white">
+      {/* Logo */}
+      <div className="flex items-center">
+        <Image
+          alt="logo"
+          src="/assets/images/umurava-logo.png"
+          width={150}
+          height={150}
+          className="rounded"
+        />
       </div>
+
+      {/* Links */}
+      <div className="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+        {navLinks.map((link) => (
+          <Link
+            key={link.path}
+            href={link.path}
+            className={clsx(
+              "hover:text-blue-500 transition",
+              currentPath === link.path && "text-blue-500 font-semibold"
+            )}
+          >
+            {link.name}
+          </Link>
+        ))}
+      </div>
+
+      {/* Call-to-Action Button for Desktop */}
+      <div className="hidden md:block">
+        <Link
+          href="#join"
+          className="px-4 py-2 bg-[#041738] text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition"
+        >
+          Join the Program
+        </Link>
+      </div>
+
+      {/* Hamburger Menu (visible on small screens) */}
+      <button
+        className="md:hidden text-blue-500 text-2xl focus:outline-none"
+        onClick={() => setIsMenuOpen(!isMenuOpen)}
+        aria-label="Toggle Menu"
+      >
+        ☰
+      </button>
+
+      {/* Mobile Links */}
+      {isMenuOpen && (
+        <div className="absolute top-16 left-0 w-full bg-white p-4 shadow-md text-sm font-medium text-gray-600 md:hidden">
+          {navLinks.map((link) => (
+            <Link
+              key={link.path}
+              href={link.path}
+              className={clsx(
+                "block py-2 hover:text-blue-500 transition",
+                currentPath === link.path && "text-blue-500 font-semibold"
+              )}
+              onClick={() => setIsMenuOpen(false)} // Close menu on click
+            >
+              {link.name}
+            </Link>
+          ))}
+
+          {/* Add the button inside the mobile menu */}
+          <div className="mt-4">
+            <Link
+              href="#join"
+              className="w-full text-center px-4 py-2 bg-[#041738] text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition block"
+            >
+              Join the Program
+            </Link>
+          </div>
+        </div>
+      )}
     </nav>
   );
-}
+};
+
+export default Navbar;

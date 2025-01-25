@@ -1,51 +1,113 @@
 import ChallengeModel from "../models/challenge.model.js";
 
-export const createNewChallenge = (req, res) => {
+// Create a new challenge
+export const createNewChallenge = async (req, res) => {
     try {
-
-    } catch(error) {
+        const newChallenge = new ChallengeModel(req.body);
+        const savedChallenge = await newChallenge.save();
+        return res.status(201).json({
+            message: "Challenge created successfully!",
+            data: savedChallenge,
+        });
+    } catch (error) {
         return res.status(500).json({
-            'message': error
-        })
+            message: "Error creating challenge",
+            error: error.message,
+        });
     }
-}
+};
 
-export const updateChallenge = (req, res) => {
+// Update an existing challenge
+export const updateChallenge = async (req, res) => {
+    const { id } = req.params;
+
     try {
+        const updatedChallenge = await ChallengeModel.findByIdAndUpdate(
+            id,
+            { $set: req.body },
+            { new: true, runValidators: true }
+        );
 
-    } catch(error) {
+        if (!updatedChallenge) {
+            return res.status(404).json({
+                message: "Challenge not found",
+            });
+        }
+
+        return res.status(200).json({
+            message: "Challenge updated successfully",
+            data: updatedChallenge,
+        });
+    } catch (error) {
         return res.status(500).json({
-            'message': error
-        })
+            message: "Error updating challenge",
+            error: error.message,
+        });
     }
-}
+};
 
-export const getSingleChallenge = (req, res) => {
+// Get a single challenge by ID
+export const getSingleChallenge = async (req, res) => {
+    const { id } = req.params;
+
     try {
+        const challenge = await ChallengeModel.findById(id);
 
-    } catch(error) {
+        if (!challenge) {
+            return res.status(404).json({
+                message: "Challenge not found",
+            });
+        }
+
+        return res.status(200).json({
+            message: "Challenge retrieved successfully",
+            data: challenge,
+        });
+    } catch (error) {
         return res.status(500).json({
-            'message': error
-        })
+            message: "Error retrieving challenge",
+            error: error.message,
+        });
     }
-}
+};
 
-export const getAllChallenges = (req, res) => {
+// Get all challenges
+export const getAllChallenges = async (req, res) => {
     try {
+        const challenges = await ChallengeModel.find();
 
-    } catch(error) {
+        return res.status(200).json({
+            message: "Challenges retrieved successfully",
+            data: challenges,
+        });
+    } catch (error) {
         return res.status(500).json({
-            'message': error
-        })
+            message: "Error retrieving challenges",
+            error: error.message,
+        });
     }
-}
+};
 
-export const deleteChallenge = (req, res) => {
+// Delete a challenge by ID
+export const deleteChallenge = async (req, res) => {
+    const { id } = req.params;
+
     try {
+        const deletedChallenge = await ChallengeModel.findByIdAndDelete(id);
 
-    } catch(error) {
+        if (!deletedChallenge) {
+            return res.status(404).json({
+                message: "Challenge not found",
+            });
+        }
+
+        return res.status(200).json({
+            message: "Challenge deleted successfully",
+        });
+    } catch (error) {
         return res.status(500).json({
-            'message': error
-        })
+            message: "Error deleting challenge",
+            error: error.message,
+        });
     }
-}
+};

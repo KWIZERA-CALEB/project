@@ -1,25 +1,25 @@
-import swaggerJSDoc from 'swagger-jsdoc'
+import swaggerJSDoc from 'swagger-jsdoc';
 
 const swaggerDefinition = {
     openapi: '3.0.0',
     info: {
         title: 'UMURAVA EDTECH API',
         version: '1.0.0',
-        description: 'This is Umurava edtech API documentation'
+        description: 'This is Umurava edtech API documentation',
     },
     servers: [
         {
-            url: 'http://localhost:5080',
-            description: 'Development server'
+            url: 'http://localhost:5080/api/v1',
+            description: 'Development server',
         },
-    ]
-}
+    ],
+};
 
 const options = {
     swaggerDefinition,
-    apis: ['./routes/*.js']
-}
+    apis: ['./routes/*.js'],
+};
 
-const swaggerSpec = swaggerJSDoc(options)
+const swaggerSpec = swaggerJSDoc(options);
 
-export default swaggerSpec
+export default swaggerSpec;

@@ -9,6 +9,7 @@ import MobileSidebar from '@/components/custom/admin/MobileSidebar'
 
 
 export default function AdminDashboard () {
+    const currentUser = 'admin'
     return (
         <>
             <div className='w-full h-[100vh] flex flex-row'>
@@ -21,6 +22,7 @@ export default function AdminDashboard () {
                             <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Build Work Experience through Work Challenges</p>
                         </div>
                         {/* statistics */}
+                        {currentUser === 'admin' ? 
                         <div className='w-full flex flex-col space-y-[6px] md:space-y-[0px] md:flex-row mt-[20px] justify-between items-center md:space-x-[12px]'>
                             <div className='bg-white h-[120px] rounded-[15px] w-full md:w-[50%] flex items-center border-solid border-[1px] relative border-[#E4E7EC] p-[16px]'>
                                 <div className='flex flex-row space-x-[15px] items-center'>
@@ -160,6 +162,9 @@ export default function AdminDashboard () {
                                 </div>
                             </div>
                         </div>
+                        :
+                        <p>Talent User</p>
+                        }
                         {/* statistics */}
                         <div className='mt-[40px]'>
                             <div className='flex flex-row mb-[12px] justify-between items-center'>

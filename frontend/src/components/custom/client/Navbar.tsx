@@ -7,7 +7,7 @@ export default function Navbar() {
         {/* Logo Section */}
         <div className="flex items-center">
           <img
-            src="/assets/images/Umurava logo.png" // Replace with the correct logo path
+            src="/assets/images/umurava-logo.png" // Replace with the correct logo path
             alt="Umurava Logo"
             className="h-12 w-auto" // Increased logo width
           />

@@ -29,16 +29,16 @@ const Sidebar = () => {
 
     const navItems = [
         {
-            navLink: '/talent/dashboard',
+            navLink: '/dashboard',
             navLabel: 'Dashboard',
-            navIcon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width='18' height='18' fill={currentPath === '/talent/dashboard' ? '#2B71F0' : '#fff'}>
+            navIcon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width='18' height='18' fill={currentPath === '/dashboard' ? '#2B71F0' : '#fff'}>
                         <path d="M19 21H5C4.44772 21 4 20.5523 4 20V11L1 11L11.3273 1.6115C11.7087 1.26475 12.2913 1.26475 12.6727 1.6115L23 11L20 11V20C20 20.5523 19.5523 21 19 21ZM6 19H18V9.15745L12 3.7029L6 9.15745V19Z"></path>
                     </svg>,
         },
         {
-            navLink: '/talent/challenges',
+            navLink: '/challenges',
             navLabel: 'Challenges & Hackathons',
-            navIcon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width='18' height='18' fill={currentPath === '/talent/challenges' ? '#2B71F0' : '#fff'}>
+            navIcon: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width='18' height='18' fill={currentPath === '/challenges' ? '#2B71F0' : '#fff'}>
                         <path d="M21 8V20.9932C21 21.5501 20.5552 22 20.0066 22H3.9934C3.44495 22 3 21.556 3 21.0082V2.9918C3 2.45531 3.4487 2 4.00221 2H14.9968L21 8ZM19 9H14V4H5V20H19V9ZM8 7H11V9H8V7ZM8 11H16V13H8V11ZM8 15H16V17H8V15Z"></path>
                     </svg>,
         },
@@ -82,8 +82,6 @@ const Sidebar = () => {
                             </div>
                         </Link>
                     ))}
-<<<<<<< HEAD
-=======
                     <Dialog>
                         <DialogTrigger>
                             <div className='flex flex-row pt-[6px] pb-[6px] pr-[5px] hover:bg-[#333]/[30%] rounded-[6px] ease-in-out pl-[5px] cursor-pointer items-center space-x-[10px]'>
@@ -105,7 +103,6 @@ const Sidebar = () => {
                             </DialogHeader>
                         </DialogContent>
                     </Dialog>
->>>>>>> master
                 </div>
             </div>
             <div>

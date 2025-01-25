@@ -11,6 +11,7 @@ import MobileSidebar from '@/components/custom/admin/MobileSidebar'
 
 const AdminEditChallenge = ({ params }) => {
     const { id } = params; 
+    const currentUser = 'admin'
     return (
         <>
             <div className='w-full h-[100vh] flex flex-row'>
@@ -25,14 +26,14 @@ const AdminEditChallenge = ({ params }) => {
                                         <path d="M22.0003 12.9999L22.0004 11L8.41421 11V5.58582L2 12L8.41421 18.4142L8.41421 13L22.0003 12.9999Z"></path>
                                     </svg>
                                 </div>
-                                <Link href='/talent/challenges'>
+                                <Link href='/challenges'>
                                     <div>
                                         <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Go Back</p>
                                     </div>
                                 </Link>
                             </div>
                             <div>
-                                <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'><Link href='/talent/challenges'>Challenges & Hackathons</Link> / <span className='text-umuravaBlueColor'>Design & Dashboard for SokoFund</span></p>
+                                <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'><Link href='/challenges'>Challenges & Hackathons</Link> / <span className='text-umuravaBlueColor'>Design & Dashboard for SokoFund</span></p>
                             </div>
                         </div>
 
@@ -138,14 +139,66 @@ const AdminEditChallenge = ({ params }) => {
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div className='mt-[10px]'>
-                                        <Button className='bg-umuravaBlueColor w-full text-white hover:bg-umuravaBlueColor/[90%] font-sans'>
-                                            Submit Your Work
-                                        </Button>
+                                    {currentUser === 'admin'
+                                        <div className='flex w-full flex-row space-x-[6px] mt-[10px] justify-between items-center'>
+                                            <Button className='bg-[#E5533C] w-[50%] text-white hover:bg-[#E5533C]/[90%] font-sans'>
+                                                Delete
+                                            </Button>
+                                            <Button className='bg-umuravaBlueColor w-[50%] text-white hover:bg-umuravaBlueColor/[90%] font-sans'>
+                                                <Link href='/challenges/edit'>
+                                                Edit
+                                                </Link>
+                                            </Button>
+                                        </div>
+                                        :
+                                        <div className='mt-[10px]'>
+                                            <Button className='bg-umuravaBlueColor w-full text-white hover:bg-umuravaBlueColor/[90%] font-sans'>
+                                                Submit Your Work
+                                            </Button>
+                                        </div>
+                                    }
+                                </div>
+                                {currentUser === 'admin' &&
+                                <div className='bg-white pb-[15px] border-solid border-[1px] border-[#E4E7EC] rounded-[12px] mt-[20px]'>
+                                    <div className='border-solid border-b-[1px] flex flex-row items-center space-x-[4px] pb-[15px] pt-[15px] pl-[24px] pr-[24px] border-[#E4E7EC]'>
+                                        <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Participants</p>
+                                        <div className='w-[40px] h-[20px] p-[2px] flex items-center justify-center cursor-pointer rounded-full bg-umuravaBlueColor text-white'>
+                                            <p className='font-sans font-bold text-[14px]'>200</p>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        {/* user */}
+                                        <div className='flex pr-[24px] border-solid border-b-[1px] pt-[15px] pl-[24px] pt-[15px] pb-[15px] flex-row space-x-[10px] cursor-pointer items-center'>
+                                            <div className='w-[40px] h-[40px] rounded-full border-solid border-white border-[2px]'>
+                                                <img src="/assets/images/default.png" className='w-full h-full object-cover object-center rounded-full' alt="User"/>
+                                            </div>
+                                            <div className='flex flex-col'>
+                                                <p className='font-sans font-md text-[14px]'>Hilare Sh</p>
+                                                <p className='font-sans text-[14px]'>hilare@design</p>
+                                            </div>
+                                        </div>
+                                        {/* user */}
+                                        {/* user */}
+                                        <div className='flex pr-[24px] border-solid border-b-[1px] pt-[15px] pl-[24px] pt-[15px] pb-[15px] flex-row space-x-[10px] cursor-pointer items-center'>
+                                            <div className='w-[40px] h-[40px] rounded-full border-solid border-white border-[2px]'>
+                                                <img src="/assets/images/default.png" className='w-full h-full object-cover object-center rounded-full' alt="User"/>
+                                            </div>
+                                            <div className='flex flex-col'>
+                                                <p className='font-sans font-md text-[14px]'>Hilare Sh</p>
+                                                <p className='font-sans text-[14px]'>hilare@design</p>
+                                            </div>
+                                        </div>
+                                        {/* user */}
+                                        {/* user */}
+                                        <div className='flex pr-[24px] pt-[15px] pl-[24px] pt-[15px] flex-row space-x-[10px] cursor-pointer items-center'>
+                                            <Button className='bg-umuravaBlueColor w-full text-white hover:bg-umuravaBlueColor/[90%] font-sans'>
+                                                View All
+                                            </Button>
+                                        </div>
+                                        {/* user */}
                                     </div>
                                 </div>
-                                
+                            }
                             </div>
                         </div>
                     </div>

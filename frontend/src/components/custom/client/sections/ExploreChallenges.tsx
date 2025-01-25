@@ -1,4 +1,6 @@
 import Image from "next/image";
+import ChallengeCard from '@/components/custom/admin/ChallengeCard'
+
 
 export default function ChallengesSection() {
   return (
@@ -26,40 +28,7 @@ export default function ChallengesSection() {
             image: "/assets/images/Ummurava logo.png", // Update with your actual image path
           })
           .map((challenge, index) => (
-            <div
-              key={index}
-              className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition"
-            >
-              {/* Image */}
-              <div className="relative h-40 bg-blue-500 flex items-center justify-center">
-                <Image
-                  src={challenge.image}
-                  alt={challenge.title}
-                  className="object-contain"
-                  fill
-                />
-                <span className="absolute top-2 right-2 text-xs text-green-600 font-medium bg-green-100 px-2 py-1 rounded-full">
-                  {challenge.status}
-                </span>
-              </div>
-              {/* Card Content */}
-              <div className="p-6">
-                {/* Challenge Title */}
-                <h3 className="text-black font-semibold text-lg mb-2">{challenge.title}</h3>
-                {/* Skills */}
-                <p className="text-sm text-gray-600 mb-4">
-                  <strong>Skills Needed:</strong> {challenge.skills.join(", ")}
-                </p>
-                {/* Timeline */}
-                <p className="text-sm text-gray-600 mb-4">
-                  <strong>Timeline:</strong> {challenge.timeline}
-                </p>
-                {/* Button */}
-                <button className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition">
-                  View Challenge
-                </button>
-              </div>
-            </div>
+            <ChallengeCard challengeLink='/challenges/577897' challengeTitle='Design a Dashboard for SokoFund' />
           ))}
       </div>
 

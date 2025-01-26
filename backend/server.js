@@ -4,6 +4,7 @@ import swaggerUi from 'swagger-ui-express';
 import challengeRoutes from './routes/challenge.route.js';
 import swaggerSpec from './swagger.js';
 import { connectDB } from './config/database.js';
+import cors from 'cors'
 
 dotenv.config();
 const app = express();
@@ -12,6 +13,16 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+
+const corsOptions = {
+    origin: [
+        'http://localhost:3000',             
+    ],
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    credentials: true,
+}
+
+app.use(cors(corsOptions))
 // Database Connection
 connectDB();
 

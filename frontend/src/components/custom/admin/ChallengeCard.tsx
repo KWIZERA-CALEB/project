@@ -1,3 +1,4 @@
+'use client'
 import { Button } from "@/components/ui/button"
 import React from 'react'
 import Link from 'next/link'
@@ -6,17 +7,26 @@ import Link from 'next/link'
 interface ChallengeCardProps {
     challengeTitle: string;
     challengeLink: string;
+    duration: string;
+    status: sting;
 }
 
 
-const ChallengeCard: React.FC<ChallengeCardProps> = ({ challengeTitle, challengeLink }) => {
+const ChallengeCard: React.FC<ChallengeCardProps> = ({ challengeTitle, challengeLink, duration, status }) => {
     return (
         <div className='bg-white rounded-[15px] border-solid border-[1px] border-[#E4E7EC]'>
             <div className='pb-[20px] pr-[17px] pl-[17px] pt-[20px]'>
                 <div className='w-full h-[180px] relative bg-umuravaBlueColor flex justify-center items-center rounded-[15px]'>
                     <img src='/assets/images/logo.png' className='w-[60px]' alt='Challenge Image' />
-                    <div className='pt-[4px] pb-[4px] pr-[22px] pl-[22px] rounded-full right-[6px] top-[6px] absolute bg-[#0F973D] text-white'>
-                        <p className='font-bold text-[14px]'>Open</p>
+                    <div 
+                        className={`pt-[4px] pb-[4px] pr-[22px] pl-[22px] text-white capitalize rounded-full right-[6px] top-[6px] absolute 
+                        ${status === 'open' ? 'bg-[#0F973D]' : 
+                          status === 'closed' ? 'bg-[#D9534F]' : 
+                          status === 'ongoing' ? 'bg-[#F0AD4E]' : 
+                          'bg-[#0F973D]'}`
+                      }
+                    >
+                        <p className='font-bold text-[14px]'>{status}</p>
                     </div>
                 </div>
                 <div className='mt-[25px]'>
@@ -36,14 +46,14 @@ const ChallengeCard: React.FC<ChallengeCardProps> = ({ challengeTitle, challenge
                         </div>
                         <div className='mt-[6px]'>
                             <p className='text-[#101928] font-bold text-[12px]'>Seniority Level: <span className='text-[#777] font-regular'>(Junior, Intermediate, Senior)</span></p>
-                            <p className='text-[#101928] font-bold text-[12px]'>Timeline: <span className='text-[#777] font-regular'>15 Days</span></p>
+                            <p className='text-[#101928] font-bold text-[12px]'>Timeline: <span className='text-[#777] font-regular'>{duration}</span></p>
                         </div>
                     </div>
                 </div>
             </div>
             <div className='w-full border-t border-solid border-[#E4E7EC]'></div>
             <div className='pb-[12px] pr-[17px] pl-[17px] pt-[12px]'>
-                <Link href={challengeLink}>
+                <Link href={`/challenges/${challengeLink}`}>
                     <Button className='bg-umuravaBlueColor hover:bg-umuravaBlueColor/[90%]'>View Challenge</Button>
                 </Link>
             </div>

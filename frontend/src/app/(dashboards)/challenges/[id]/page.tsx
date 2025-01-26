@@ -1,8 +1,15 @@
+'use client'
 import Sidebar from '@/components/custom/admin/Sidebar'
 import AdminNavbar from '@/components/custom/admin/AdminNavbar'
 import { Button } from "@/components/ui/button"
 import Link from 'next/link'
 import MobileSidebar from '@/components/custom/admin/MobileSidebar'
+
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { fetchChallengeDetails, deleteChallenge } from '@/redux/slices/challengesSlice';
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation';
+import { RootState } from '@/redux/slices/index'; 
 
 interface AdminEditChallengeParams {
     id: string;
@@ -16,6 +23,30 @@ interface AdminEditChallengeProps {
 const AdminEditChallenge: React.FC<AdminEditChallengeProps> = ({ params })  => {
     const { id } = params; 
     const currentUser = 'admin'
+    const dispatch = useAppDispatch();
+    const { challengeDetails, deleteChallenge: stateDeleteChallenge, loading, error } = useAppSelector((state: RootState) => state.api);
+    const router = useRouter();
+
+    const handleFetchChallenge = () => {
+        dispatch(fetchChallengeDetails({url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/challenge`, id}));
+    };
+
+    useEffect(() => {
+        handleFetchChallenge()
+    }, [dispatch, id]);
+
+    const handleDeleteChallenge = async () => {
+        const resultAction = await dispatch(
+          deleteChallenge({ url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/delete-challenge`, id })
+        );
+    
+        if (deleteChallenge.fulfilled.match(resultAction)) {
+          router.push('/challenges');
+        } else {
+          console.error('Failed to delete challenge:', resultAction.payload || resultAction.error);
+        }
+    };
+
     return (
         <>
             <div className='w-full h-[100vh] flex flex-row'>
@@ -37,7 +68,7 @@ const AdminEditChallenge: React.FC<AdminEditChallengeProps> = ({ params })  => {
                                 </Link>
                             </div>
                             <div>
-                                <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'><Link href='/challenges'>Challenges & Hackathons</Link> / <span className='text-umuravaBlueColor'>Design & Dashboard for SokoFund</span></p>
+                                <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'><Link href='/challenges'>Challenges & Hackathons</Link> / <span className='text-umuravaBlueColor'>{challengeDetails?.challengeTitle}</span></p>
                             </div>
                         </div>
 
@@ -105,7 +136,7 @@ const AdminEditChallenge: React.FC<AdminEditChallengeProps> = ({ params })  => {
                                                 </svg>
                                             </div>
                                             <div>
-                                                <h4 className='font-bold cursor-pointer select-none'>talent@umurava.africa</h4>
+                                                <h4 className='font-bold cursor-pointer select-none'>{challengeDetails?.contactEmail}</h4>
                                                 <p className='text-[#667185] select-none cursor-pointer text-[14px]'>Contact Email</p>
                                             </div>
                                         </div>
@@ -127,7 +158,7 @@ const AdminEditChallenge: React.FC<AdminEditChallengeProps> = ({ params })  => {
                                                 </svg>
                                             </div>
                                             <div>
-                                                <h4 className='font-bold cursor-pointer select-none'>7 Days</h4>
+                                                <h4 className='font-bold cursor-pointer select-none'>{challengeDetails?.challengeDuration}</h4>
                                                 <p className='text-[#667185] select-none cursor-pointer text-[14px]'>Duration</p>
                                             </div>
                                         </div>
@@ -138,18 +169,18 @@ const AdminEditChallenge: React.FC<AdminEditChallengeProps> = ({ params })  => {
                                                 </svg>
                                             </div>
                                             <div>
-                                                <h4 className='font-bold cursor-pointer select-none'>$150 - $400</h4>
+                                                <h4 className='font-bold cursor-pointer select-none'>{challengeDetails?.moneyPrize}</h4>
                                                 <p className='text-[#667185] select-none cursor-pointer text-[14px]'>Money Prize</p>
                                             </div>
                                         </div>
                                     </div>
                                     {currentUser === 'admin' ?
                                         <div className='flex w-full flex-row space-x-[6px] mt-[10px] justify-between items-center'>
-                                            <Button className='bg-[#E5533C] w-[50%] text-white hover:bg-[#E5533C]/[90%] font-sans'>
+                                            <Button disabled={loading} onClick={handleDeleteChallenge} className='bg-[#E5533C] w-[50%] text-white hover:bg-[#E5533C]/[90%] font-sans'>
                                                 Delete
                                             </Button>
                                             <Button className='bg-umuravaBlueColor w-[50%] text-white hover:bg-umuravaBlueColor/[90%] font-sans'>
-                                                <Link href='/challenges/edit'>
+                                                <Link href={`/challenges/edit/${id}`}>
                                                 Edit
                                                 </Link>
                                             </Button>

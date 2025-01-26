@@ -9,39 +9,71 @@ import MobileSidebar from '@/components/custom/admin/MobileSidebar'
 import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
-import { createChallenge } from '@/redux/slices/challengesSlice';
+import { fetchChallengeDetails, updateChallenge } from '@/redux/slices/challengesSlice';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react'
 import { Loader2 } from "lucide-react"
 import { ChallengeFormData } from '@/utils/types'
 
 
-const AdminCreateChallenge = () => {
+interface AdminEditChallengeParams {
+    id: string;
+}
+
+interface AdminEditChallengeProps {
+    params: AdminEditChallengeParams;
+}
+
+const AdminEditChallenge: React.FC<AdminEditChallengeProps> = ({ params }) => {
+    const { id } = params;
     const {
         register,
         handleSubmit,
         control,
+        setValue,
         formState: { errors },
     } = useForm<ChallengeFormData>();
 
     const router = useRouter()
 
     const dispatch = useAppDispatch();
-    const { loading, error } = useAppSelector((state) => state.api);
+    const { challengeDetails, loading } = useAppSelector((state) => state.api);
 
-    const handleCreateChallenge = async (data: ChallengeFormData) => {  
-        const resultAction = await dispatch(createChallenge(data));
+    const handleFetchChallenge = () => {
+        dispatch(fetchChallengeDetails({url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/challenge`, id}));
+    };
+
+    useEffect(() => {
+        handleFetchChallenge()
+    }, [dispatch, id]);
+
+    useEffect(() => {
+        if (challengeDetails) {
+            setValue("challengeTitle", challengeDetails.challengeTitle || '');
+            setValue("challengeDeadline", challengeDetails.challengeDeadline || '');
+            setValue("challengeDuration", challengeDetails.challengeDuration || '');
+            setValue("moneyPrize", challengeDetails.moneyPrize || '');
+            setValue("contactEmail", challengeDetails.contactEmail || '');
+            setValue("projectDescription", challengeDetails.projectDescription || '');
+            setValue("projectBrief", challengeDetails.projectBrief || '');
+            setValue("projectDescriptionTasks", challengeDetails.projectDescriptionTasks || '');
+        }
+    }, [challengeDetails, setValue]);
+
+    const handleUpdateChallenge = async (data: ChallengeFormData ) => {    
+        const resultAction = await dispatch(updateChallenge({ id, payload: data }));
     
-        if (createChallenge.fulfilled.match(resultAction)) {
-            console.log("Challenge created successfully:", resultAction.payload);
-            router.push('/challenges');
+        if (updateChallenge.fulfilled.match(resultAction)) {
+            console.log("Challenge updated successfully:", resultAction.payload);
+            router.push(`/challenges/${id}`);
         } else {
             console.error('Failed to create challenge:', resultAction.payload || resultAction.error);
         }
     };
     
 
-    const onSubmit = (data: ChallengeFormData) => {
-        handleCreateChallenge(data)
+    const onSubmit = (data: ChallengeFormData ) => {
+        handleUpdateChallenge(data)
     };
     return (
         <>
@@ -64,15 +96,15 @@ const AdminCreateChallenge = () => {
                                 </Link>
                             </div>
                             <div>
-                                <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'><Link href='/challenges'>Challenges & Hackathons</Link> / <span className='text-umuravaBlueColor'>Create New Challenge</span></p>
+                                <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'><Link href='/challenges'>Challenges & Hackathons</Link> / <span className='text-umuravaBlueColor'>Edit Challenge</span></p>
                             </div>
                         </div>
                         {/* create form */}
                         <div className='w-full mt-[20px] flex justify-center'>
-                            <form onSubmit={handleSubmit(onSubmit)}>
+                        <form onSubmit={handleSubmit(onSubmit)}>
                                 <div className='bg-white w-[600px] rounded-[15px] p-[15px] border-solid border-[1px] border-[#E4E7EC]'>
                                     <div>
-                                        <h4 className='font-sans font-bold cursor-pointer select-none text-center'>Create New Challenge</h4>
+                                        <h4 className='font-sans font-bold cursor-pointer select-none text-center'>Edit Challenge</h4>
                                         <p className='text-[#667185] font-sans select-none cursor-pointer text-center text-[14px]'>Fill out these fields to build your broadcast</p>
                                     </div>
                                     <div className='mt-[15px]'>
@@ -195,7 +227,7 @@ const AdminCreateChallenge = () => {
                                                         <p>Please wait</p>
                                                     </>
                                                 ) : (
-                                                    'Create Challenge'
+                                                    'Update Challenge'
                                                 )}
                                             </Button>
                                         </div>
@@ -212,4 +244,4 @@ const AdminCreateChallenge = () => {
     )
 }
 
-export default AdminCreateChallenge
+export default AdminEditChallenge

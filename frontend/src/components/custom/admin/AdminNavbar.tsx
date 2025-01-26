@@ -1,28 +1,64 @@
+'use client'
 import { Input } from "@/components/ui/input"
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
+import { useState, useEffect } from 'react'
+import Link from 'next/link'
+import { Challenge } from "@/utils/types"
+
+
+import { useAppSelector } from '@/redux/hooks';
 
 const AdminNavbar = () => {
+    const [inputValue, setInputValue] = useState('')
+    const [isPopoverOpen, setIsPopoverOpen] = useState(false)
+    const { data = [] } = useAppSelector((state) => state.api);
+
+    // const searchResults = data.filter(challenge => challenge.challengeTitle === inputValue);
+
+    const searchResults = data.filter((challenge: Challenge) => 
+        challenge.challengeTitle && challenge.challengeTitle.toLowerCase().includes(inputValue.toLowerCase())
+    );
+    
+ 
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setInputValue(e.target.value)
+    }
+
+    useEffect(() => {
+        if (inputValue.length > 0) {
+            setIsPopoverOpen(true)
+        } else {
+            setIsPopoverOpen(false)
+        }
+    }, [inputValue])
+
     return (
         <div className='h-[50px] pr-[25px] fixed top-0 left-0 md:left-[270px] right-0 z-50 pl-[25px] flex flex-row justify-between items-center w-full md:w-[calc(100vw-270px)] bg-white'>
             <div className='relative'>
-                <Popover>
+                <Popover open={isPopoverOpen}>
                     <PopoverTrigger>
                         <Input 
                             type="email" 
                             placeholder="Search here..." 
-                            className='md:w-[400px] flex-1 pl-[30px] bg-[#F9FAFB] placeholder-gray-500' 
+                            className='md:w-[400px] flex-1 pl-[30px] bg-[#F9FAFB] placeholder-gray-500'
+                            value={inputValue}
+                            onChange={handleInputChange}
                         />
                     </PopoverTrigger>
                     <PopoverContent className='w-[100vw] pt-[0px] pr-[0px] pl-[0px] pb-[15px] md:w-[400px]'>
                         <div className='pt-[10px] border-b border-solid border-[#E4E7EC] pr-[10px] pl-[10px] pb-[6px]'>
-                            <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Search Results</p>
+                            <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Search Results ({searchResults.length || 0})</p>
                         </div>
-                        <div className='pt-[10px] border-b border-solid border-[#E4E7EC] pr-[10px] pl-[10px] pb-[6px]'>
-                            <p className='text-[#667185] font-sans select-none cursor-pointer text-umuravaBlueColor text-[14px]'>Design a dashboard for Sokofund</p>
-                        </div>
+                        {searchResults.map((challenge: Challenge, index: number) => (
+                            <div key={index} className='pt-[10px] border-b border-solid border-[#E4E7EC] pr-[10px] pl-[10px] pb-[6px]'>
+                                <p className='text-[#667185] font-sans select-none cursor-pointer text-umuravaBlueColor text-[14px]'><Link href={`/challenges/${challenge._id}`}>{challenge.challengeTitle}</Link></p>
+                            </div>
+                        ))}
+                        {searchResults.length === 0 &&
                         <div className='pt-[10px] pr-[10px] pl-[10px] pb-[6px]'>
                             <p className='text-[#667185] font-sans select-none cursor-pointer text-center text-[14px]'>No Results</p>
                         </div>
+                        }
                     </PopoverContent>
                 </Popover>
                 <div className='absolute left-[10px] top-[50%] transform -translate-y-[50%]'>

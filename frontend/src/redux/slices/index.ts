@@ -1,6 +1,8 @@
 import { combineReducers } from 'redux';
-import apiReducer from './apiSlice';
+import challengesReducer from './challengesSlice';
 
 export const rootReducer = combineReducers({
-  api: apiReducer,
+  api: challengesReducer,
 });
+
+export type RootState = ReturnType<typeof rootReducer>;

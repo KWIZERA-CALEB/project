@@ -11,11 +11,11 @@ const Navbar = () => {
 
   // Define navigation links directly in the component
   const navLinks = [
-    { name: "Home", path: "#home" },
-    { name: "Challenge & Hackathons", path: "#challenges" },
-    { name: "For Educational Institutions", path: "#institutions" },
-    { name: "About Us", path: "#about" },
-    { name: "Contact Us", path: "#contact" },
+    { name: "Home", path: "/" },
+    { name: "Challenge & Hackathons", path: "/challenges_hackathons" },
+    { name: "For Educational Institutions", path: "/institutions" },
+    { name: "About Us", path: "/about" },
+    { name: "Contact Us", path: "/contact" },
   ];
 
   return (

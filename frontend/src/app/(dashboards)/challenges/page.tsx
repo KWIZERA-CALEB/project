@@ -7,9 +7,10 @@ import Link from 'next/link'
 import ChallengeCard from '@/components/custom/admin/ChallengeCard'
 import MobileSidebar from '@/components/custom/admin/MobileSidebar'
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { fetchChallenges } from '@/redux/slices/challengesSlice';
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useCallback } from 'react'
+import { Challenge } from '@/utils/types';
 
 
 
@@ -17,24 +18,25 @@ import { useEffect, useMemo, useState } from 'react'
 export default function AdminChallenges () {
     const currentUser = 'admin'
     
-    const dispatch = useDispatch();
-    const { data = [], loading, error } = useSelector((state) => state.api);
+    const dispatch = useAppDispatch();
+    const { data = [], loading } = useAppSelector((state: { api: { data: Challenge[]; loading: boolean; error: any } }) => state.api);
     const [selectedFilter, setSelectedFilter] = useState('all')
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 6;
 
-    const handleFetchChallenges = () => {
-        dispatch(fetchChallenges(`${process.env.NEXT_PUBLIC_API_BASE_URL}/challenges`));
-    };
+    const handleFetchChallenges = useCallback(() => {
+        const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
+        dispatch(fetchChallenges(`${apiBaseUrl}/challenges`));
+    }, [dispatch])
 
     useEffect(() => {
         handleFetchChallenges()
-    }, [dispatch]);
+    }, [handleFetchChallenges]);
 
     const challengeCounts = useMemo(() => {
         const counts = { open: 0, closed: 0, ongoing: 0 };
         
-        data.forEach((challenge) => {
+        data.forEach((challenge: Challenge) => {
             if (challenge.status === 'open') counts.open++;
             if (challenge.status === 'closed') counts.closed++;
             if (challenge.status === 'ongoing') counts.ongoing++;
@@ -45,7 +47,7 @@ export default function AdminChallenges () {
 
     const filteredData = selectedFilter === 'all' 
         ? data 
-        : data.filter(challenge => challenge.status === selectedFilter);
+        : data.filter((challenge: Challenge) => challenge.status === selectedFilter);
 
 
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -64,7 +66,7 @@ export default function AdminChallenges () {
         }
     };
 
-    const handleFilterChange = (status) => {
+    const handleFilterChange = (status: 'all' | 'open' | 'closed' | 'ongoing') => {
         setSelectedFilter(status);
         setCurrentPage(1);
     };
@@ -238,3 +240,4 @@ export default function AdminChallenges () {
         </>
     )
 }
+

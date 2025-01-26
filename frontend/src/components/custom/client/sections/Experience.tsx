@@ -10,7 +10,7 @@ export default function Experience() {
         </h1>
         <p className="text-sm text-gray-600 mt-5">
           Join Skills Challenges Program to accelerate your career growth and
-          become <br /> part of Africa's largest workforce of digital professionals.
+          become <br /> part of Africa&apos;s largest workforce of digital professionals.
         </p>
       </div>
 

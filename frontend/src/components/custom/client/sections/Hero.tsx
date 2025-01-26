@@ -3,27 +3,29 @@ import { Button } from "@/components/ui/button";
 
 export default function Hero() {
   return (
-    <section className="flex flex-col lg:flex-row items-center justify-between max-w-7xl mx-auto px-6 py-12 pt-20 mt-20">
+    <section className="flex flex-col lg:flex-row items-center justify-between max-w-7xl mx-auto px-4 sm:px-6 md:px-8 py-12 pt-20 mt-20">
       {/* Text Content */}
-      <div className="max-w-lg">
-        <h1 className="text-4xl lg:text-4xl font-bold text-blue-600 leading-tight mb-6">
-          Build Work Experience  through Skills Challenges Program
+      <div className="w-full lg:max-w-lg text-center lg:text-left">
+        <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-blue-600 leading-tight mb-6">
+          Build Work Experience through Skills Challenges Program
         </h1>
-        <p className="text-lg text-gray-700 mb-8">
+        <p className="text-md md:text-lg text-gray-700 mb-8">
           Enhance your Employability and Accelerate your Career Growth by working on
           Hands-on projects & hackathons from various businesses & organizations.
         </p>
 
-        <Button className="bg-blue-600 text-white px-10 py-6 rounded-sm shadow-md hover:bg-blue-700 transition">
-          Get Started
-        </Button>
+        <div className="flex justify-center lg:justify-start">
+          <Button className="bg-blue-600 text-white px-8 py-4 md:px-10 md:py-6 rounded-sm shadow-md hover:bg-blue-700 transition">
+            Get Started
+          </Button>
+        </div>
       </div>
 
       {/* Image Content */}
-      <div className="relative mt-10 lg:mt-0 flex justify-center lg:justify-end">
-        <div className="grid grid-cols-2">
+      <div className="relative mt-10 lg:mt-0 flex justify-center lg:justify-end w-full lg:w-auto">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
           {/* First Image */}
-          <div className="w-[320px] h-[320px] flex items-center justify-center rounded-xl">
+          <div className="w-[200px] h-[200px] sm:w-[250px] sm:h-[250px] lg:w-[320px] lg:h-[320px] flex items-center justify-center rounded-xl">
             <Image
               src="/assets/images/image 2.png"
               alt="Team Collaboration"
@@ -33,7 +35,7 @@ export default function Hero() {
             />
           </div>
           {/* Second Image */}
-          <div className="w-[320px] h-[380px] flex items-center justify-center rounded-xl ">
+          <div className="w-[200px] h-[250px] sm:w-[250px] sm:h-[300px] lg:w-[320px] lg:h-[380px] flex items-center justify-center rounded-xl">
             <Image
               src="/assets/images/image 1.png"
               alt="Smiling Professional"

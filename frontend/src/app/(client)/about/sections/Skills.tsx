@@ -1,3 +1,4 @@
+
 export default function Skills() {
     return (
       <section className="min-h-screen bg-gray-50 w-full p-10 lg:p-20">

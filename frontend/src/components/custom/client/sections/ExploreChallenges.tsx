@@ -53,6 +53,8 @@ export default function ChallengesSection() {
             key={index}
             challengeTitle={challenge.title}
             challengeLink={challenge.link}
+            duration='10 Days'
+            status='closed'
           />
         ))}
       </div>

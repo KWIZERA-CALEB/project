@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import ProviderWrapper from '@/components/custom/ProviderWrapper';
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,9 +22,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      
-      <body className={poppins.className}>{children}</body>
-    </html>
+      <html lang="en" suppressHydrationWarning>
+        <ProviderWrapper>
+          <body className={poppins.className}>{children}</body>
+        </ProviderWrapper>
+      </html>
   );
 }

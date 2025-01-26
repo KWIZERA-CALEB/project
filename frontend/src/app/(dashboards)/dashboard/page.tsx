@@ -241,10 +241,10 @@ export default function AdminDashboard () {
                                 </Link>
                             </div>
                             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
-                                <ChallengeCard challengeLink='/challenges/577897' challengeTitle='Design a Dashboard for SokoFund' />
-                                <ChallengeCard challengeLink='/challenges/879797' challengeTitle='Design a Dashboard for SokoFund' />
-                                <ChallengeCard challengeLink='/challenges/778787' challengeTitle='Design a Dashboard for SokoFund' />
-                                <ChallengeCard challengeLink='/challenges/76565' challengeTitle='Design a Dashboard for SokoFund' />
+                                <ChallengeCard challengeLink='/challenges/577897' status='closed' duration='10 Days' challengeTitle='Design a Dashboard for SokoFund' />
+                                <ChallengeCard challengeLink='/challenges/879797' status='closed' duration='10 Days' challengeTitle='Design a Dashboard for SokoFund' />
+                                <ChallengeCard challengeLink='/challenges/778787' status='closed' duration='10 Days' challengeTitle='Design a Dashboard for SokoFund' />
+                                <ChallengeCard challengeLink='/challenges/76565' status='closed' duration='10 Days' challengeTitle='Design a Dashboard for SokoFund' />
                             </div>
                         </div>
                     </div>

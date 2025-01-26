@@ -11,7 +11,7 @@ import { Controller } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { fetchChallengeDetails, updateChallenge } from '@/redux/slices/challengesSlice';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import { Loader2 } from "lucide-react"
 import { ChallengeFormData } from '@/utils/types'
 
@@ -39,13 +39,13 @@ const AdminEditChallenge: React.FC<AdminEditChallengeProps> = ({ params }) => {
     const dispatch = useAppDispatch();
     const { challengeDetails, loading } = useAppSelector((state) => state.api);
 
-    const handleFetchChallenge = () => {
+    const handleFetchChallenge = useCallback(() => {
         dispatch(fetchChallengeDetails({url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/challenge`, id}));
-    };
+    }, [dispatch, id])
 
     useEffect(() => {
         handleFetchChallenge()
-    }, [dispatch, id]);
+    }, [handleFetchChallenge]);
 
     useEffect(() => {
         if (challengeDetails) {

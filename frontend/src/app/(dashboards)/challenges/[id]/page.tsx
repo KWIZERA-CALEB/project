@@ -7,7 +7,7 @@ import MobileSidebar from '@/components/custom/admin/MobileSidebar'
 
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { fetchChallengeDetails, deleteChallenge } from '@/redux/slices/challengesSlice';
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation';
 import { RootState } from '@/redux/slices/index'; 
 
@@ -20,20 +20,20 @@ interface AdminEditChallengeProps {
 }
 
 
-const AdminEditChallenge: React.FC<AdminEditChallengeProps> = ({ params })  => {
+const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
     const { id } = params; 
     const currentUser = 'admin'
     const dispatch = useAppDispatch();
-    const { challengeDetails, deleteChallenge: stateDeleteChallenge, loading, error } = useAppSelector((state: RootState) => state.api);
+    const { challengeDetails, loading } = useAppSelector((state: RootState) => state.api);
     const router = useRouter();
 
-    const handleFetchChallenge = () => {
+    const handleFetchChallenge = useCallback(() => {
         dispatch(fetchChallengeDetails({url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/challenge`, id}));
-    };
+    }, [dispatch, id])
 
     useEffect(() => {
         handleFetchChallenge()
-    }, [dispatch, id]);
+    }, [handleFetchChallenge]);
 
     const handleDeleteChallenge = async () => {
         const resultAction = await dispatch(
@@ -244,4 +244,4 @@ const AdminEditChallenge: React.FC<AdminEditChallengeProps> = ({ params })  => {
     )
 }
 
-export default AdminEditChallenge
+export default AdminChallengePage

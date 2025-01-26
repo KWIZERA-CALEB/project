@@ -5,9 +5,6 @@ import Link from 'next/link'
 import {
     Dialog,
     DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
@@ -68,7 +65,7 @@ const MobileSidebar = () => {
                 <DialogContent className='bg-white flex justify-center'>
                     <div>
                         <div className='flex justify-center'>
-                            <img src='/assets/images/share-icon.png' className='w-[60px] cursor-pointer' alt='join whatsapp' />
+                            <img src='/assets/images/share-icon.png' className='cursor-pointer w-[60px]' alt='join whatsapp' />
                         </div>
                         <div className='mt-[20px]'>
                             <div>

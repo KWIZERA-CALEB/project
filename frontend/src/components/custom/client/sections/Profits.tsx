@@ -11,7 +11,7 @@ const Profits = () => {
             What else can I gain from <br/> participating in Skills Challenges?
           </h2>
           <p className="text-sm sm:text-base text-gray-600">
-            Join Skills Challenges Program to accelerate your career growth and become <br/> part of Africa’s largest workforce of digital professionals.
+            Join Skills Challenges Program to accelerate your career growth and become <br/> part of Africa&apos;s largest workforce of digital professionals.
           </p>
         </div>
 

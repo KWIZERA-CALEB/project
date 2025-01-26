@@ -1,5 +1,6 @@
 import React from 'react';
 
+
 const BannerSection = () => {
   return (
     <section className="py-16 px-6 sm:px-12 lg:px-24 bg-gray-50">

@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { fetchChallenges } from '@/redux/slices/challengesSlice';
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useCallback } from 'react'
 import { Challenge } from '@/utils/types';
 import {
     DropdownMenu,
@@ -49,15 +49,15 @@ export default function AdminDashboard () {
     const [selectedFilter, setSelectedFilter] = useState('week');
 
     const dispatch = useAppDispatch();
-    const { data = [], loading, error } = useAppSelector((state) => state.api);
+    const { data = [], loading } = useAppSelector((state) => state.api);
 
-    const handleFetchChallenges = () => {
+    const handleFetchChallenges = useCallback(() => {
         dispatch(fetchChallenges(`${process.env.NEXT_PUBLIC_API_BASE_URL}/challenges`));
-    };
+    }, [dispatch])
 
     useEffect(() => {
         handleFetchChallenges()
-    }, [dispatch]);
+    }, [handleFetchChallenges]);
 
     const challengeCounts = useMemo(() => {
         const counts = { open: 0, closed: 0, ongoing: 0 };

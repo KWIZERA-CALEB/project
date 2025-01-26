@@ -8,7 +8,7 @@ interface ChallengeCardProps {
     challengeTitle: string;
     challengeLink: string;
     duration: string;
-    status: sting;
+    status: string;
 }
 
 

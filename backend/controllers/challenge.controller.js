@@ -88,7 +88,7 @@ export const getAllChallenges = async (req, res) => {
             }
         }
 
-        const challenges = await ChallengeModel.find(filter);
+        const challenges = await ChallengeModel.find(filter).sort({ createdAt: -1 });
 
         return res.status(200).json({
             message: "Challenges retrieved successfully",

@@ -4,8 +4,15 @@ import path from 'path';
 const nextConfig = {
   reactStrictMode: true,
   webpack(config) {
-    // Allow imports from the `src` directory
+    // Add src directory to resolve modules
     config.resolve.modules.push(path.resolve('./src'));
+
+    // Ensure backward compatibility for other modules (if required)
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      '@': path.resolve(__dirname, 'src'), // Optional: Short alias '@'
+    };
+
     return config;
   },
 };

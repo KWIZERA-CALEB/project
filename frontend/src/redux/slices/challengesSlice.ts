@@ -33,16 +33,40 @@ export const fetchChallengeDetails = createAsyncThunk(
 
 export const createChallenge = createAsyncThunk(
   'challenges/createChallenge',
-  async ({ url, challengeData }, { rejectWithValue }) => {
+  async (payload, { rejectWithValue }) => {
     try {
-      const response = await axios.post(url, challengeData);
-      console.log("Create Challenge Response:", response);
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/create-challenge`,
+        payload,
+        { headers: { "Content-Type": "application/json" } }
+      );
+      console.log("Create Challenge Response:", response.data);
       return response.data;
     } catch (error) {
+      console.error("Create Challenge Error:", error.response?.data || error.message);
       return rejectWithValue(error.response?.data || error.message);
     }
   }
 );
+
+export const updateChallenge = createAsyncThunk(
+  'challenges/updateChallenge',
+  async ({id, payload}, { rejectWithValue }) => {
+    try {
+      const response = await axios.put(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/update-challenge/${id}`,
+        payload,
+        { headers: { "Content-Type": "application/json" } }
+      );
+      console.log("Create Challenge Response:", response.data);
+      return response.data;
+    } catch (error) {
+      console.error("Create Challenge Error:", error.response?.data || error.message);
+      return rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
 
 export const deleteChallenge = createAsyncThunk(
   'challenges/deleteChallenge',
@@ -102,6 +126,19 @@ const challengesSlice = createSlice({
         state.data = state.data.filter((challenge) => challenge.id !== action.payload);
       })
       .addCase(deleteChallenge.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+      })
+
+      // update challenge
+      .addCase(updateChallenge.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(updateChallenge.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(updateChallenge.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       })

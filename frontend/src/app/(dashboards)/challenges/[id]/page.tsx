@@ -44,7 +44,7 @@ const AdminEditChallenge: React.FC<AdminEditChallengeProps> = ({ params })  => {
         } else {
           console.error('Failed to delete challenge:', resultAction.payload || resultAction.error);
         }
-      };
+    };
 
     return (
         <>
@@ -175,11 +175,11 @@ const AdminEditChallenge: React.FC<AdminEditChallengeProps> = ({ params })  => {
                                     </div>
                                     {currentUser === 'admin' ?
                                         <div className='flex w-full flex-row space-x-[6px] mt-[10px] justify-between items-center'>
-                                            <Button onClick={handleDeleteChallenge} className='bg-[#E5533C] w-[50%] text-white hover:bg-[#E5533C]/[90%] font-sans'>
+                                            <Button disabled={loading} onClick={handleDeleteChallenge} className='bg-[#E5533C] w-[50%] text-white hover:bg-[#E5533C]/[90%] font-sans'>
                                                 Delete
                                             </Button>
                                             <Button className='bg-umuravaBlueColor w-[50%] text-white hover:bg-umuravaBlueColor/[90%] font-sans'>
-                                                <Link href='/challenges/edit'>
+                                                <Link href={`/challenges/edit/${id}`}>
                                                 Edit
                                                 </Link>
                                             </Button>

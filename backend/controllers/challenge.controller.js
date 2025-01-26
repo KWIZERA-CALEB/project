@@ -71,7 +71,7 @@ export const getSingleChallenge = async (req, res) => {
     }
 };
 
-// Get all challenges
+
 // Get all challenges or filter by status
 export const getAllChallenges = async (req, res) => {
     try {
@@ -88,7 +88,7 @@ export const getAllChallenges = async (req, res) => {
             }
         }
 
-        const challenges = await ChallengeModel.find(filter);
+        const challenges = await ChallengeModel.find(filter).sort({ createdAt: -1 });
 
         return res.status(200).json({
             message: "Challenges retrieved successfully",

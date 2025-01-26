@@ -15,9 +15,10 @@ const AdminNavbar = () => {
 
     // const searchResults = data.filter(challenge => challenge.challengeTitle === inputValue);
 
-    const searchResults = data.filter(challenge =>
-        challenge.challengeTitle.toLowerCase().includes(inputValue.toLowerCase())
+    const searchResults = data.filter(challenge => 
+        challenge.challengeTitle && challenge.challengeTitle.toLowerCase().includes(inputValue.toLowerCase())
     );
+    
  
     const handleInputChange = (e) => {
         setInputValue(e.target.value)

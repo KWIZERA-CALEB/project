@@ -13,7 +13,7 @@ const Navbar = () => {
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Challenge & Hackathons", path: "/challenges_hackathons" },
-    { name: "For Educational Institutions", path: "/institutions" },
+    { name: "For Educational Institutions", path: "/for_learning_institutions" },
     { name: "About Us", path: "/about" },
     { name: "Contact Us", path: "/contact" },
   ];

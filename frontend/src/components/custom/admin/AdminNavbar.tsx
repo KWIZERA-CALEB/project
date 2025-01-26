@@ -3,24 +3,24 @@ import { Input } from "@/components/ui/input"
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover"
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import { Challenge } from "@/utils/types"
 
 
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchChallenges } from '@/redux/slices/challengesSlice';
+import { useAppSelector } from '@/redux/hooks';
 
 const AdminNavbar = () => {
     const [inputValue, setInputValue] = useState('')
     const [isPopoverOpen, setIsPopoverOpen] = useState(false)
-    const { data = [], loading, error } = useSelector((state) => state.api);
+    const { data = [] } = useAppSelector((state) => state.api);
 
     // const searchResults = data.filter(challenge => challenge.challengeTitle === inputValue);
 
-    const searchResults = data.filter(challenge => 
+    const searchResults = data.filter((challenge: Challenge) => 
         challenge.challengeTitle && challenge.challengeTitle.toLowerCase().includes(inputValue.toLowerCase())
     );
     
  
-    const handleInputChange = (e) => {
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setInputValue(e.target.value)
     }
 
@@ -49,7 +49,7 @@ const AdminNavbar = () => {
                         <div className='pt-[10px] border-b border-solid border-[#E4E7EC] pr-[10px] pl-[10px] pb-[6px]'>
                             <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Search Results ({searchResults.length || 0})</p>
                         </div>
-                        {searchResults.map((challenge, index) => (
+                        {searchResults.map((challenge: Challenge, index: number) => (
                             <div key={index} className='pt-[10px] border-b border-solid border-[#E4E7EC] pr-[10px] pl-[10px] pb-[6px]'>
                                 <p className='text-[#667185] font-sans select-none cursor-pointer text-umuravaBlueColor text-[14px]'><Link href={`/challenges/${challenge._id}`}>{challenge.challengeTitle}</Link></p>
                             </div>

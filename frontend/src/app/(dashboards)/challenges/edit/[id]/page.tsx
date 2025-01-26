@@ -8,11 +8,13 @@ import Link from 'next/link'
 import MobileSidebar from '@/components/custom/admin/MobileSidebar'
 import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { fetchChallengeDetails, updateChallenge } from '@/redux/slices/challengesSlice';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react'
 import { Loader2 } from "lucide-react"
+import { ChallengeFormData } from '@/utils/types'
+
 
 interface AdminEditChallengeParams {
     id: string;
@@ -30,12 +32,12 @@ const AdminEditChallenge: React.FC<AdminEditChallengeProps> = ({ params }) => {
         control,
         setValue,
         formState: { errors },
-    } = useForm();
+    } = useForm<ChallengeFormData>();
 
     const router = useRouter()
 
-    const dispatch = useDispatch();
-    const { fetchChallengeDetails: stateFetchChallengeDetails, challengeDetails, loading, error } = useSelector((state) => state.api);
+    const dispatch = useAppDispatch();
+    const { challengeDetails, loading } = useAppSelector((state) => state.api);
 
     const handleFetchChallenge = () => {
         dispatch(fetchChallengeDetails({url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/challenge`, id}));
@@ -58,9 +60,7 @@ const AdminEditChallenge: React.FC<AdminEditChallengeProps> = ({ params }) => {
         }
     }, [challengeDetails, setValue]);
 
-    const handleUpdateChallenge = async (data) => {
-        console.log("Data sent to API:", data);
-    
+    const handleUpdateChallenge = async (data: ChallengeFormData ) => {    
         const resultAction = await dispatch(updateChallenge({ id, payload: data }));
     
         if (updateChallenge.fulfilled.match(resultAction)) {
@@ -72,8 +72,7 @@ const AdminEditChallenge: React.FC<AdminEditChallengeProps> = ({ params }) => {
     };
     
 
-    const onSubmit = (data) => {
-        console.log("Form Data:", data);
+    const onSubmit = (data: ChallengeFormData ) => {
         handleUpdateChallenge(data)
     };
     return (

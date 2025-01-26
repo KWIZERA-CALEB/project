@@ -1,3 +1,4 @@
+'use client'
 import Sidebar from '@/components/custom/admin/Sidebar'
 import AdminNavbar from '@/components/custom/admin/AdminNavbar'
 import Link from 'next/link'
@@ -5,11 +6,132 @@ import ChallengeCard from '@/components/custom/admin/ChallengeCard'
 import MobileSidebar from '@/components/custom/admin/MobileSidebar'
 import { Button } from "@/components/ui/button"
 
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+import { fetchChallenges } from '@/redux/slices/challengesSlice';
+import { useEffect, useMemo, useState } from 'react'
+import { Challenge } from '@/utils/types';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuGroup,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
+const getWeekRange = () => {
+    const currentDate = new Date();
+    const startOfWeek = new Date(currentDate.setDate(currentDate.getDate() - currentDate.getDay()));
+    startOfWeek.setHours(0, 0, 0, 0);
+    const endOfWeek = new Date(startOfWeek);
+    endOfWeek.setDate(startOfWeek.getDate() + 6);
+    endOfWeek.setHours(23, 59, 59, 999);
+    return { start: startOfWeek, end: endOfWeek };
+};
 
+const getMonthRange = () => {
+    const currentDate = new Date();
+    const startOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth(), 1);
+    startOfMonth.setHours(0, 0, 0, 0);
+    const endOfMonth = new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0);
+    endOfMonth.setHours(23, 59, 59, 999);
+    return { start: startOfMonth, end: endOfMonth };
+};
+
+const filterChallengesByDateAndStatus = (challenges: Challenge[], dateRange: { start: Date, end: Date }, status: 'open' | 'closed' | 'ongoing') => {
+    return challenges.filter((challenge) => {
+        const challengeDate = new Date(challenge.createdAt);
+        return challengeDate >= dateRange.start && challengeDate <= dateRange.end && challenge.status === status;
+    });
+};
 
 export default function AdminDashboard () {
-    const currentUser = 'admin'
+    const currentUser = 'client'
+    const [selectedFilter, setSelectedFilter] = useState('week');
+
+    const dispatch = useAppDispatch();
+    const { data = [], loading, error } = useAppSelector((state) => state.api);
+
+    const handleFetchChallenges = () => {
+        dispatch(fetchChallenges(`${process.env.NEXT_PUBLIC_API_BASE_URL}/challenges`));
+    };
+
+    useEffect(() => {
+        handleFetchChallenges()
+    }, [dispatch]);
+
+    const challengeCounts = useMemo(() => {
+        const counts = { open: 0, closed: 0, ongoing: 0 };
+        
+        data.forEach((challenge: Challenge) => {
+            if (challenge.status === 'open') counts.open++;
+            if (challenge.status === 'closed') counts.closed++;
+            if (challenge.status === 'ongoing') counts.ongoing++;
+        });
+        
+        return counts;
+    }, [data]);
+
+    const sortedChallenges = useMemo(() => {
+        const sorted = [...data].sort((a: Challenge, b: Challenge) => {
+            //return new Date(b.createdAt) - new Date(a.createdAt);
+            return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        });
+
+        return sorted.slice(0, 3);
+    }, [data]);
+
+    const dateRange = selectedFilter === 'week' ? getWeekRange() : getMonthRange();
+
+    const filteredClosedChallenges = filterChallengesByDateAndStatus(data, dateRange, 'closed');
+    const filteredOpenChallenges = filterChallengesByDateAndStatus(data, dateRange, 'open');
+    const filteredOngoingChallenges = filterChallengesByDateAndStatus(data, dateRange, 'ongoing');
+
+    const dateRangeWeek = getWeekRange();
+    const dateRangeMonth = getMonthRange();
+
+    // for closed
+    const filteredClosedChallengesWeek = filterChallengesByDateAndStatus(data, dateRangeWeek, 'closed');
+    const filteredClosedChallengesMonth = filterChallengesByDateAndStatus(data, dateRangeMonth, 'closed');
+    const weekCountClosed = filteredClosedChallengesWeek.length;
+    const monthCountClosed = filteredClosedChallengesMonth.length;
+
+    const percentageChangeClosed = useMemo(() => {
+        if (monthCountClosed === 0) {
+            return weekCountClosed > 0 ? 100 : 0;
+        }
+        const change = ((weekCountClosed - monthCountClosed) / monthCountClosed) * 100;
+        return Math.round(change);
+    }, [weekCountClosed, monthCountClosed]);
+
+    // for open
+    const filteredOpenChallengesWeek = filterChallengesByDateAndStatus(data, dateRangeWeek, 'open');
+    const filteredOpenChallengesMonth = filterChallengesByDateAndStatus(data, dateRangeMonth, 'open');
+    const weekCountOpen = filteredOpenChallengesWeek.length;
+    const monthCountOpen = filteredOpenChallengesMonth.length;
+
+    const percentageChangeOpen = useMemo(() => {
+        if (monthCountOpen === 0) {
+            return weekCountOpen > 0 ? 100 : 0;
+        }
+        const change = ((weekCountOpen - monthCountOpen) / monthCountOpen) * 100;
+        return Math.round(change);
+    }, [weekCountOpen, monthCountOpen]);
+
+    // for ongoing
+    const filteredOngoingChallengesWeek = filterChallengesByDateAndStatus(data, dateRangeWeek, 'ongoing');
+    const filteredOngoingChallengesMonth = filterChallengesByDateAndStatus(data, dateRangeMonth, 'ongoing');
+    const weekCountOngoing = filteredOngoingChallengesWeek.length;
+    const monthCountOngoing = filteredOngoingChallengesMonth.length;
+
+    const percentageChangeOngoing = useMemo(() => {
+        if (monthCountOngoing === 0) {
+            return weekCountOngoing > 0 ? 100 : 0;
+        }
+        const change = ((weekCountOngoing - monthCountOngoing) / monthCountOngoing) * 100;
+        return Math.round(change);
+    }, [weekCountOngoing, monthCountOngoing]);
+    
+
     return (
         <>
             <div className='w-full h-[100vh] flex flex-row'>
@@ -33,9 +155,9 @@ export default function AdminDashboard () {
                                             </svg>
                                         </div>
                                         <div>
-                                            <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Total Challenge</p>
+                                            <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Total Challenges</p>
                                             <div className='flex flex-row items-center space-x-[10px]'>
-                                                <h4 className='font-sans font-bold cursor-pointer select-none'>29,405</h4>
+                                                <h4 className='font-sans font-bold cursor-pointer select-none'>{data.length}</h4>
                                                 <div className='bg-[#E7F6EC] flex flex-row items-center space-x-[2px] p-[4px] rounded-full'>
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='12' width='12' fill="#2B71F0">
                                                         <path d="M11.0001 22.0003L13 22.0004L13 8.41421L18.4142 8.41421L12 2L5.58575 8.41421L11 8.41421L11.0001 22.0003Z"></path>
@@ -45,12 +167,26 @@ export default function AdminDashboard () {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className='flex flex-row items-center absolute top-[10px] right-[10px] cursor-pointer space-x-[4px]'>
-                                        <p className='font-sans text-[#777] font-bold text-[12px]'>This week</p>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='18' width='18' fill="#777">
-                                            <path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path>
-                                        </svg>
-                                    </div>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <div className='flex flex-row items-center absolute top-[10px] right-[10px] cursor-pointer space-x-[4px]'>
+                                                <p className='font-sans text-[#777] font-bold text-[12px]'>{selectedFilter === 'week' ? 'This week' : 'This month'}</p>
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='18' width='18' fill="#777">
+                                                    <path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path>
+                                                </svg>
+                                            </div>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent className="w-56" align="end">
+                                            <DropdownMenuGroup>
+                                                <DropdownMenuItem onClick={() => setSelectedFilter('week')}>
+                                                    This week
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onClick={() => setSelectedFilter('month')}>
+                                                    This month
+                                                </DropdownMenuItem>
+                                            </DropdownMenuGroup>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
                                 </div>
                                 <div className='bg-white h-[120px] rounded-[15px] w-full md:w-[50%] flex items-center border-solid border-[1px] relative border-[#E4E7EC] p-[16px]'>
                                     <div className='flex flex-row space-x-[15px] items-center'>
@@ -62,7 +198,7 @@ export default function AdminDashboard () {
                                         <div>
                                             <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Total Participants</p>
                                             <div className='flex flex-row items-center space-x-[10px]'>
-                                                <h4 className='font-sans font-bold cursor-pointer select-none'>29,405</h4>
+                                                <h4 className='font-sans font-bold cursor-pointer select-none'>0</h4>
                                                 <div className='bg-[#E7F6EC] flex flex-row items-center space-x-[2px] p-[4px] rounded-full'>
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='12' width='12' fill="#2B71F0">
                                                         <path d="M11.0001 22.0003L13 22.0004L13 8.41421L18.4142 8.41421L12 2L5.58575 8.41421L11 8.41421L11.0001 22.0003Z"></path>
@@ -72,12 +208,26 @@ export default function AdminDashboard () {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className='flex flex-row items-center absolute top-[10px] right-[10px] cursor-pointer space-x-[4px]'>
-                                        <p className='font-sans text-[#777] font-bold text-[12px]'>This week</p>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='18' width='18' fill="#777">
-                                            <path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path>
-                                        </svg>
-                                    </div>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <div className='flex flex-row items-center absolute top-[10px] right-[10px] cursor-pointer space-x-[4px]'>
+                                                <p className='font-sans text-[#777] font-bold text-[12px]'>{selectedFilter === 'week' ? 'This week' : 'This month'}</p>
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='18' width='18' fill="#777">
+                                                    <path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path>
+                                                </svg>
+                                            </div>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent className="w-56" align="end">
+                                            <DropdownMenuGroup>
+                                                <DropdownMenuItem onClick={() => setSelectedFilter('week')}>
+                                                    This week
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onClick={() => setSelectedFilter('month')}>
+                                                    This month
+                                                </DropdownMenuItem>
+                                            </DropdownMenuGroup>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
                                 </div>
                             </div>
                             <div className='md:mt-[12px] mt-[6px] w-full flex flex-col space-y-[6px] md:space-y-[0px] md:flex-row justify-between items-center md:space-x-[12px]'>
@@ -91,22 +241,38 @@ export default function AdminDashboard () {
                                         <div>
                                             <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Completed Challenge</p>
                                             <div className='flex flex-row items-center space-x-[10px]'>
-                                                <h4 className='font-sans font-bold cursor-pointer select-none'>29,405</h4>
-                                                <div className='bg-[#E7F6EC] flex flex-row items-center space-x-[2px] p-[4px] rounded-full'>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='12' width='12' fill="#2B71F0">
-                                                        <path d="M11.0001 22.0003L13 22.0004L13 8.41421L18.4142 8.41421L12 2L5.58575 8.41421L11 8.41421L11.0001 22.0003Z"></path>
+                                                <h4 className='font-sans font-bold cursor-pointer select-none'>{filteredClosedChallenges.length}</h4>
+                                                <div className={`font-sans font-bold text-[12px] ${percentageChangeClosed < 0 ? 'bg-red-500 text-white' : 'bg-[#E7F6EC] text-umuravaBlueColor'} flex items-center space-x-[2px] p-[4px] rounded-full`}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="12" width="12" fill={percentageChangeClosed < 0 ? '#FFF' : '#2B71F0'}>
+                                                        <path d={percentageChangeClosed < 0 ? "M12 2L5.586 8.414l1.414 1.414L11 5.828V22h2V5.828l4.001 4.001 1.414-1.414L12 2z" : "M11.0001 22.0003L13 22.0004L13 8.41421L18.4142 8.41421L12 2L5.58575 8.41421L11 8.41421L11.0001 22.0003Z"} />
                                                     </svg>
-                                                    <p className='font-sans text-umuravaBlueColor font-bold text-[12px]'>15%</p>
+                                                    <p>
+                                                        {percentageChangeClosed > 0 ? '+' : ''}{percentageChangeClosed}%
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className='flex flex-row items-center absolute top-[10px] right-[10px] cursor-pointer space-x-[4px]'>
-                                        <p className='font-sans text-[#777] font-bold text-[12px]'>This week</p>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='18' width='18' fill="#777">
-                                            <path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path>
-                                        </svg>
-                                    </div>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <div className='flex flex-row items-center absolute top-[10px] right-[10px] cursor-pointer space-x-[4px]'>
+                                                <p className='font-sans text-[#777] font-bold text-[12px]'>{selectedFilter === 'week' ? 'This week' : 'This month'}</p>
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='18' width='18' fill="#777">
+                                                    <path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path>
+                                                </svg>
+                                            </div>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent className="w-56" align="end">
+                                            <DropdownMenuGroup>
+                                                <DropdownMenuItem onClick={() => setSelectedFilter('week')}>
+                                                    This week
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onClick={() => setSelectedFilter('month')}>
+                                                    This month
+                                                </DropdownMenuItem>
+                                            </DropdownMenuGroup>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
                                 </div>
                                 <div className='bg-white h-[120px] rounded-[15px] w-full md:w-[50%] flex items-center border-solid border-[1px] relative border-[#E4E7EC] p-[16px]'>
                                     <div className='flex flex-row space-x-[15px] items-center'>
@@ -118,22 +284,38 @@ export default function AdminDashboard () {
                                         <div>
                                             <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Open Challenge</p>
                                             <div className='flex flex-row items-center space-x-[10px]'>
-                                                <h4 className='font-sans font-bold cursor-pointer select-none'>29,405</h4>
-                                                <div className='bg-[#E7F6EC] flex flex-row items-center space-x-[2px] p-[4px] rounded-full'>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='12' width='12' fill="#2B71F0">
-                                                        <path d="M11.0001 22.0003L13 22.0004L13 8.41421L18.4142 8.41421L12 2L5.58575 8.41421L11 8.41421L11.0001 22.0003Z"></path>
+                                                <h4 className='font-sans font-bold cursor-pointer select-none'>{filteredOpenChallenges.length}</h4>
+                                                <div className={`font-sans font-bold text-[12px] ${percentageChangeOpen < 0 ? 'bg-red-500 text-white' : 'bg-[#E7F6EC] text-umuravaBlueColor'} flex items-center space-x-[2px] p-[4px] rounded-full`}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="12" width="12" fill={percentageChangeOpen < 0 ? '#FFF' : '#2B71F0'}>
+                                                        <path d={percentageChangeOpen < 0 ? "M12 2L5.586 8.414l1.414 1.414L11 5.828V22h2V5.828l4.001 4.001 1.414-1.414L12 2z" : "M11.0001 22.0003L13 22.0004L13 8.41421L18.4142 8.41421L12 2L5.58575 8.41421L11 8.41421L11.0001 22.0003Z"} />
                                                     </svg>
-                                                    <p className='font-sans text-umuravaBlueColor font-bold text-[12px]'>15%</p>
+                                                    <p>
+                                                        {percentageChangeOpen > 0 ? '+' : ''}{percentageChangeOpen}%
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className='flex flex-row items-center absolute top-[10px] right-[10px] cursor-pointer space-x-[4px]'>
-                                        <p className='font-sans text-[#777] font-bold text-[12px]'>This week</p>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='18' width='18' fill="#777">
-                                            <path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path>
-                                        </svg>
-                                    </div>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <div className='flex flex-row items-center absolute top-[10px] right-[10px] cursor-pointer space-x-[4px]'>
+                                                <p className='font-sans text-[#777] font-bold text-[12px]'>{selectedFilter === 'week' ? 'This week' : 'This month'}</p>
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='18' width='18' fill="#777">
+                                                    <path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path>
+                                                </svg>
+                                            </div>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent className="w-56" align="end">
+                                            <DropdownMenuGroup>
+                                                <DropdownMenuItem onClick={() => setSelectedFilter('week')}>
+                                                    This week
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onClick={() => setSelectedFilter('month')}>
+                                                    This month
+                                                </DropdownMenuItem>
+                                            </DropdownMenuGroup>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
                                 </div>
                                 <div className='bg-white h-[120px] rounded-[15px] w-full md:w-[50%] flex items-center border-solid border-[1px] relative border-[#E4E7EC] p-[16px]'>
                                     <div className='flex flex-row space-x-[15px] items-center'>
@@ -145,22 +327,38 @@ export default function AdminDashboard () {
                                         <div>
                                             <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Ongoing Challenge</p>
                                             <div className='flex flex-row items-center space-x-[10px]'>
-                                                <h4 className='font-sans font-bold cursor-pointer select-none'>29,405</h4>
-                                                <div className='bg-[#E7F6EC] flex flex-row items-center space-x-[2px] p-[4px] rounded-full'>
-                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='12' width='12' fill="#2B71F0">
-                                                        <path d="M11.0001 22.0003L13 22.0004L13 8.41421L18.4142 8.41421L12 2L5.58575 8.41421L11 8.41421L11.0001 22.0003Z"></path>
+                                                <h4 className='font-sans font-bold cursor-pointer select-none'>{filteredOngoingChallenges.length}</h4>
+                                                <div className={`font-sans font-bold text-[12px] ${percentageChangeOngoing < 0 ? 'bg-red-500 text-white' : 'bg-[#E7F6EC] text-umuravaBlueColor'} flex items-center space-x-[2px] p-[4px] rounded-full`}>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height="12" width="12" fill={percentageChangeOngoing < 0 ? '#FFF' : '#2B71F0'}>
+                                                        <path d={percentageChangeOngoing < 0 ? "M12 2L5.586 8.414l1.414 1.414L11 5.828V22h2V5.828l4.001 4.001 1.414-1.414L12 2z" : "M11.0001 22.0003L13 22.0004L13 8.41421L18.4142 8.41421L12 2L5.58575 8.41421L11 8.41421L11.0001 22.0003Z"} />
                                                     </svg>
-                                                    <p className='font-sans text-umuravaBlueColor font-bold text-[12px]'>15%</p>
+                                                    <p>
+                                                        {percentageChangeOngoing > 0 ? '+' : ''}{percentageChangeOngoing}%
+                                                    </p>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div className='flex flex-row items-center absolute top-[10px] right-[10px] cursor-pointer space-x-[4px]'>
-                                        <p className='font-sans text-[#777] font-bold text-[12px]'>This month</p>
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='18' width='18' fill="#777">
-                                            <path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path>
-                                        </svg>
-                                    </div>
+                                    <DropdownMenu>
+                                        <DropdownMenuTrigger asChild>
+                                            <div className='flex flex-row items-center absolute top-[10px] right-[10px] cursor-pointer space-x-[4px]'>
+                                                <p className='font-sans text-[#777] font-bold text-[12px]'>{selectedFilter === 'week' ? 'This week' : 'This month'}</p>
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='18' width='18' fill="#777">
+                                                    <path d="M11.9999 13.1714L16.9497 8.22168L18.3639 9.63589L11.9999 15.9999L5.63599 9.63589L7.0502 8.22168L11.9999 13.1714Z"></path>
+                                                </svg>
+                                            </div>
+                                        </DropdownMenuTrigger>
+                                        <DropdownMenuContent className="w-56" align="end">
+                                            <DropdownMenuGroup>
+                                                <DropdownMenuItem onClick={() => setSelectedFilter('week')}>
+                                                    This week
+                                                </DropdownMenuItem>
+                                                <DropdownMenuItem onClick={() => setSelectedFilter('month')}>
+                                                    This month
+                                                </DropdownMenuItem>
+                                            </DropdownMenuGroup>
+                                        </DropdownMenuContent>
+                                    </DropdownMenu>
                                 </div>
                             </div>
                         </>
@@ -182,7 +380,7 @@ export default function AdminDashboard () {
                                         <div className='pl-[10px] border-l-[3px] border-solid border-umuravaBlueColor'>
                                             <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Completed Challenge</p>
                                             <div>
-                                                <h4 className='font-sans font-bold cursor-pointer select-none'>29,405</h4>
+                                                <h4 className='font-sans font-bold cursor-pointer select-none'>{challengeCounts.closed}</h4>
                                             </div>
                                         </div>
                                         <div className='flex justify-center items-center w-[40px] h-[40px] rounded-full p-[6px] bg-[#D0E0FC]'>
@@ -197,7 +395,7 @@ export default function AdminDashboard () {
                                         <div className='pl-[10px] border-l-[3px] border-solid border-umuravaBlueColor'>
                                             <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Open Challenge</p>
                                             <div>
-                                                <h4 className='font-sans font-bold cursor-pointer select-none'>29,405</h4>
+                                                <h4 className='font-sans font-bold cursor-pointer select-none'>{challengeCounts.open}</h4>
                                             </div>
                                         </div>
                                         <div className='flex justify-center items-center w-[40px] h-[40px] rounded-full p-[6px] bg-[#D0E0FC]'>
@@ -212,7 +410,7 @@ export default function AdminDashboard () {
                                         <div className='pl-[10px] border-l-[3px] border-solid border-umuravaBlueColor'>
                                             <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Ongoing Challenge</p>
                                             <div>
-                                                <h4 className='font-sans font-bold cursor-pointer select-none'>29,405</h4>
+                                                <h4 className='font-sans font-bold cursor-pointer select-none'>{challengeCounts.ongoing}</h4>
                                             </div>
                                         </div>
                                         <div className='flex justify-center items-center w-[40px] h-[40px] rounded-full p-[6px] bg-[#D0E0FC]'>
@@ -240,12 +438,28 @@ export default function AdminDashboard () {
                                     </div>
                                 </Link>
                             </div>
-                            <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
-                                <ChallengeCard challengeLink='/challenges/577897' status='closed' duration='10 Days' challengeTitle='Design a Dashboard for SokoFund' />
-                                <ChallengeCard challengeLink='/challenges/879797' status='closed' duration='10 Days' challengeTitle='Design a Dashboard for SokoFund' />
-                                <ChallengeCard challengeLink='/challenges/778787' status='closed' duration='10 Days' challengeTitle='Design a Dashboard for SokoFund' />
-                                <ChallengeCard challengeLink='/challenges/76565' status='closed' duration='10 Days' challengeTitle='Design a Dashboard for SokoFund' />
-                            </div>
+                            {loading ? 
+                                <div className='w-full h-[200px] flex items-center justify-center'>
+                                    <div className='loader'></div>
+                                </div>
+                            :
+                                sortedChallenges.length === 0 ? 
+                                    <div className='w-full h-[200px] flex items-center justify-center'>
+                                        <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>No challenges available</p>
+                                    </div>
+                                :
+                                    <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
+                                        {Array.isArray(sortedChallenges) && sortedChallenges.map((challenge) => (
+                                            <ChallengeCard 
+                                                key={challenge._id} 
+                                                challengeLink={challenge._id} 
+                                                duration={challenge.challengeDuration} 
+                                                challengeTitle={challenge.challengeTitle}
+                                                status={challenge.status} 
+                                            />
+                                        ))}
+                                    </div>
+                            }
                         </div>
                     </div>
                 </div>

@@ -8,10 +8,11 @@ import Link from 'next/link'
 import MobileSidebar from '@/components/custom/admin/MobileSidebar'
 import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
-import { useDispatch, useSelector } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { createChallenge } from '@/redux/slices/challengesSlice';
 import { useRouter } from 'next/navigation';
 import { Loader2 } from "lucide-react"
+import { ChallengeFormData } from '@/utils/types'
 
 
 const AdminCreateChallenge = () => {
@@ -20,16 +21,14 @@ const AdminCreateChallenge = () => {
         handleSubmit,
         control,
         formState: { errors },
-    } = useForm();
+    } = useForm<ChallengeFormData>();
 
     const router = useRouter()
 
-    const dispatch = useDispatch();
-    const { loading, error } = useSelector((state) => state.api);
+    const dispatch = useAppDispatch();
+    const { loading, error } = useAppSelector((state) => state.api);
 
-    const handleCreateChallenge = async (data) => {
-        console.log("Data sent to API:", data);
-    
+    const handleCreateChallenge = async (data: ChallengeFormData) => {  
         const resultAction = await dispatch(createChallenge(data));
     
         if (createChallenge.fulfilled.match(resultAction)) {
@@ -41,8 +40,7 @@ const AdminCreateChallenge = () => {
     };
     
 
-    const onSubmit = (data) => {
-        console.log("Form Data:", data);
+    const onSubmit = (data: ChallengeFormData) => {
         handleCreateChallenge(data)
     };
     return (

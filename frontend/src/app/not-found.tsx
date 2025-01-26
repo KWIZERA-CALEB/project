@@ -21,7 +21,7 @@ const NotFoundPage = () => {
             Oops! Page Not Found
           </h4>
           <p className="text-[#667185] text-[16px]">
-            The page you are looking for doesn’t exist or has been moved. Don’t worry, we’ll help you find your way.
+            The page you are looking for doesn&apos;t exist or has been moved. Don&apos;t worry, we&apos;ll help you find your way.
           </p>
         </div>
 

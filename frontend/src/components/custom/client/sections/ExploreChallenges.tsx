@@ -1,9 +1,8 @@
 'use client'
-import Image from "next/image";
 import ChallengeCard from '@/components/custom/admin/ChallengeCard';
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { fetchChallenges } from '@/redux/slices/challengesSlice';
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useCallback } from 'react'
 import { Challenge } from '@/utils/types';
 
 export default function ChallengesSection() {
@@ -11,13 +10,13 @@ export default function ChallengesSection() {
   const dispatch = useAppDispatch();
   const { data = [], loading, error } = useAppSelector((state) => state.api);
 
-  const handleFetchChallenges = () => {
-      dispatch(fetchChallenges(`${process.env.NEXT_PUBLIC_API_BASE_URL}/challenges`));
-  };
+  const handleFetchChallenges = useCallback(() => {
+    dispatch(fetchChallenges(`${process.env.NEXT_PUBLIC_API_BASE_URL}/challenges`));
+  }, [dispatch])
 
   useEffect(() => {
       handleFetchChallenges()
-  }, [dispatch]);
+  }, [handleFetchChallenges]);
 
   const sortedChallenges = useMemo(() => {
     const sorted = [...data].sort((a: Challenge, b: Challenge) => {
@@ -37,7 +36,7 @@ export default function ChallengesSection() {
         </h1>
         <p className="text-sm text-gray-600 mt-3">
           Join Skills Challenges Program to accelerate your career growth and become <br />
-          part of Africa's largest workforce of digital professionals.
+          part of Africa&apos;s largest workforce of digital professionals.
         </p>
       </div>
 

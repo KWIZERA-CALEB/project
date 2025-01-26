@@ -9,7 +9,7 @@ import MobileSidebar from '@/components/custom/admin/MobileSidebar'
 
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { fetchChallenges } from '@/redux/slices/challengesSlice';
-import { useEffect, useMemo, useState } from 'react'
+import { useEffect, useMemo, useState, useCallback } from 'react'
 import { Challenge } from '@/utils/types';
 
 
@@ -24,14 +24,14 @@ export default function AdminChallenges () {
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 6;
 
-    const handleFetchChallenges = () => {
+    const handleFetchChallenges = useCallback(() => {
         const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
         dispatch(fetchChallenges(`${apiBaseUrl}/challenges`));
-    };
+    }, [dispatch])
 
     useEffect(() => {
         handleFetchChallenges()
-    }, [dispatch]);
+    }, [handleFetchChallenges]);
 
     const challengeCounts = useMemo(() => {
         const counts = { open: 0, closed: 0, ongoing: 0 };
@@ -240,3 +240,4 @@ export default function AdminChallenges () {
         </>
     )
 }
+

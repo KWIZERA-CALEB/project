@@ -5,21 +5,21 @@ import Footer from '@/components/custom/client/Footer';
 import ChallengeCard from "@/components/custom/admin/ChallengeCard";
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { fetchChallenges } from '@/redux/slices/challengesSlice';
-import { useEffect } from 'react'
+import { useEffect, useCallback } from 'react'
 import { Challenge } from '@/utils/types';
 
 const ChallengesPage = () => {
   const dispatch = useAppDispatch();
   const { data = [], loading } = useAppSelector((state: { api: { data: Challenge[]; loading: boolean; error: any } }) => state.api);
 
-  const handleFetchChallenges = () => {
+  const handleFetchChallenges = useCallback(() => {
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
     dispatch(fetchChallenges(`${apiBaseUrl}/challenges`));
-  };
+  }, [dispatch]);
 
   useEffect(() => {
       handleFetchChallenges()
-  }, [dispatch]);
+  }, [handleFetchChallenges]);
 
   return (
     <div className="bg-gray-50 min-h-screen flex flex-col">

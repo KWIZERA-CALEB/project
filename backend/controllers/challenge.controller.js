@@ -71,7 +71,7 @@ export const getSingleChallenge = async (req, res) => {
     }
 };
 
-// Get all challenges
+
 // Get all challenges or filter by status
 export const getAllChallenges = async (req, res) => {
     try {

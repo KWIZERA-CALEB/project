@@ -18,7 +18,7 @@ const UsersInLove = () => {
           <div className="flex gap-8 items-center px-4">
             {/* Video Card 1 */}
             <div className="min-w-[280px] sm:min-w-[320px]  border border-gray-200 bg-white rounded-lg shadow-lg p-4 flex flex-col items-center">
-              <div className="w-full h-48 bg-blue-500 rounded-lg flex items-center justify-center mb-4">
+              <div className="w-full h-48 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
                 <div className="w-16 h-16 bg-blue-200 rounded-full flex items-center justify-center">
                   <Play size={32} color="white" /> {/* Lucide Play Icon inside gray circle */}
                 </div>
@@ -40,7 +40,7 @@ const UsersInLove = () => {
 
             {/* Video Card 2 */}
             <div className="min-w-[280px] sm:min-w-[320px] bg-white rounded-lg border border-gray-200 shadow-lg p-4 flex flex-col items-center">
-              <div className="w-full h-48 bg-blue-500 rounded-lg flex items-center justify-center mb-4">
+              <div className="w-full h-48 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
                 <div className="w-16 h-16 bg-blue-200 rounded-full flex items-center justify-center">
                   <Play size={32} color="white" /> {/* Lucide Play Icon inside gray circle */}
                 </div>
@@ -62,7 +62,7 @@ const UsersInLove = () => {
 
             {/* Video Card 3 */}
             <div className="min-w-[280px] sm:min-w-[320px] bg-white border border-gray-200 rounded-lg shadow-lg p-4 flex flex-col items-center">
-              <div className="w-full h-48 bg-blue-500 rounded-lg flex items-center justify-center mb-4">
+              <div className="w-full h-48 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
                 <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
                   <Play size={32} color="white" /> {/* Lucide Play Icon inside gray circle */}
                 </div>
@@ -88,7 +88,7 @@ const UsersInLove = () => {
 
         {/* Pagination Dots */}
         <div className="mt-8 flex justify-center items-center space-x-2">
-          <span className="w-2 h-2 bg-blue-500 rounded-full"></span>
+          <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
           <span className="w-2 h-2 bg-gray-300 rounded-full"></span>
           <span className="w-2 h-2 bg-gray-300 rounded-full"></span>
         </div>

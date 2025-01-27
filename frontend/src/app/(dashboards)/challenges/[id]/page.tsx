@@ -9,7 +9,8 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { fetchChallengeDetails, deleteChallenge } from '@/redux/slices/challengesSlice';
 import { useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation';
-import { RootState } from '@/redux/slices/index'; 
+import { RootState } from '@/redux/slices/index';
+import RegisterAndSubmitWork from '@/components/custom/admin/RegisterAndSubmitWork' 
 
 interface AdminEditChallengeParams {
     id: string;
@@ -22,7 +23,7 @@ interface AdminEditChallengeProps {
 
 const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
     const { id } = params; 
-    const currentUser = 'admin'
+    const currentUser = 'client'
     const dispatch = useAppDispatch();
     const { challengeDetails, loading } = useAppSelector((state: RootState) => state.api);
     const router = useRouter();
@@ -186,11 +187,7 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
                                             </Button>
                                         </div>
                                         :
-                                        <div className='mt-[10px]'>
-                                            <Button className='bg-umuravaBlueColor w-full text-white hover:bg-umuravaBlueColor/[90%] font-sans'>
-                                                Submit Your Work
-                                            </Button>
-                                        </div>
+                                        <RegisterAndSubmitWork />
                                     }
                                 </div>
                                 {currentUser === 'admin' &&

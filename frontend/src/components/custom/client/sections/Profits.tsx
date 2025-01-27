@@ -21,7 +21,7 @@ const Profits = () => {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
             {/* Card 1 */}
             <div className="flex flex-col ">
-              <div className="w-10 h-10 bg-blue-500 text-white rounded-lg flex items-center justify-center mb-3">
+              <div className="w-10 h-10 bg-blue-600 text-white rounded-lg flex items-center justify-center mb-3">
                 <Check size={20} />
               </div>
               <h3 className="text-base font-semibold text-gray-900 mb-1">
@@ -33,7 +33,7 @@ const Profits = () => {
             </div>
             {/* Card 2 */}
             <div className="flex flex-col ">
-              <div className="w-10 h-10 bg-blue-500 text-white rounded-lg flex items-center justify-center mb-3">
+              <div className="w-10 h-10 bg-blue-600 text-white rounded-lg flex items-center justify-center mb-3">
                 <Award size={20} />
               </div>
               <h3 className="text-base font-semibold text-gray-900 mb-1">
@@ -45,7 +45,7 @@ const Profits = () => {
             </div>
             {/* Card 3 */}
             <div className="flex flex-col ">
-              <div className="w-10 h-10 bg-blue-500 text-white rounded-lg flex items-center justify-center mb-3">
+              <div className="w-10 h-10 bg-blue-600 text-white rounded-lg flex items-center justify-center mb-3">
                 <UserCheck size={20} />
               </div>
               <h3 className="text-base font-semibold text-gray-900 mb-1">
@@ -57,7 +57,7 @@ const Profits = () => {
             </div>
             {/* Card 4 */}
             <div className="flex flex-col">
-              <div className="w-10 h-10 bg-blue-500 text-white rounded-lg flex items-center justify-center mb-3">
+              <div className="w-10 h-10 bg-blue-600 text-white rounded-lg flex items-center justify-center mb-3">
                 <BookOpen size={20} />
               </div>
               <h3 className="text-base font-semibold text-gray-900 mb-1">

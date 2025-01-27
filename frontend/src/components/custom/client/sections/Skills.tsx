@@ -28,7 +28,7 @@ export default function SkillsShowcase() {
         ].map((skill, index) => (
           <button
             key={index}
-            className="px-6 py-3 bg-gray-200 hover:bg-blue-500 hover:text-white rounded-lg text-sm font-medium transition"
+            className="px-6 py-3 bg-gray-200 hover:bg-blue-600 hover:text-white rounded-lg text-sm font-medium transition"
           >
             {skill}
           </button>
@@ -40,7 +40,7 @@ export default function SkillsShowcase() {
         {/* Icon and Text */}
         <div className="flex-1 lg:pr-8 mb-6 lg:mb-0">
           <div className="bg-blue-100 w-10 h-10 flex justify-center items-center rounded-full mb-4">
-            <span className="text-blue-500 text-lg font-bold">sf</span>
+            <span className="text-blue-600 text-lg font-bold">sf</span>
           </div>
           <h2 className="text-black text-lg font-semibold mb-2">
             The Embedded Finance Platform and Payroll Management Software
@@ -50,7 +50,7 @@ export default function SkillsShowcase() {
           </p>
           <a
             href="#"
-            className="text-blue-500 font-medium text-sm transition hover:underline"
+            className="text-blue-600 font-medium text-sm transition hover:underline"
           >
             Learn more &rarr;
           </a>
@@ -75,7 +75,7 @@ export default function SkillsShowcase() {
             <div
               key={index}
               className={`w-2.5 h-2.5 rounded-full ${
-                index === 0 ? "bg-blue-500" : "bg-gray-300"
+                index === 0 ? "bg-blue-600" : "bg-gray-300"
               }`}
             ></div>
           ))}

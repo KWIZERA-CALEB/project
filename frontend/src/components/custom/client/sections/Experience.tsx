@@ -15,10 +15,10 @@ export default function Experience() {
       </div>
 
       {/* Big Blue Section */}
-      <div className="bg-blue-500 w-full rounded-lg p-10 mb-10">
+      <div className="bg-blue-600 w-full rounded-lg p-10 mb-10">
         {/* Small White Div */}
         <div className="bg-white w-16 h-16 flex justify-center items-center rounded-lg shadow-lg mb-6">
-          <Banknote className="text-blue-500 w-6 h-6" />
+          <Banknote className="text-blue-600 w-6 h-6" />
         </div>
         {/* Content */}
         <div>
@@ -37,10 +37,10 @@ export default function Experience() {
       {/* Two Smaller Divs in Row */}
       <div className="flex flex-col lg:flex-row gap-6">
         {/* First Small Div */}
-        <div className="flex-1 bg-blue-500 rounded-lg p-10">
+        <div className="flex-1 bg-blue-600 rounded-lg p-10">
           {/* Small White Div */}
           <div className="bg-white w-16 h-16 flex justify-center items-center rounded-lg shadow-lg mb-6">
-            <Banknote className="text-blue-500 w-6 h-6" />
+            <Banknote className="text-blue-600 w-6 h-6" />
           </div>
           {/* Content */}
           <div>
@@ -55,10 +55,10 @@ export default function Experience() {
         </div>
 
         {/* Second Small Div */}
-        <div className="flex-1 bg-blue-500 rounded-lg p-10">
+        <div className="flex-1 bg-blue-600 rounded-lg p-10">
           {/* Small White Div */}
           <div className="bg-white w-16 h-16 flex justify-center items-center rounded-lg shadow-lg mb-6">
-            <Banknote className="text-blue-500 w-6 h-6" />
+            <Banknote className="text-blue-600 w-6 h-6" />
           </div>
           {/* Content */}
           <div>

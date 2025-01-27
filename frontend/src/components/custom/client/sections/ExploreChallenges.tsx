@@ -65,7 +65,7 @@ export default function ChallengesSection() {
       }
 
       <div className="flex justify-center mt-12">
-        <button className="px-6 border border-blue-500 py-3 bg-white font-medium rounded-md hover:bg-gray-300 text-blue-500 transition">
+        <button className="px-6 border border-blue-600 py-3 bg-white font-medium rounded-md hover:bg-gray-300 text-blue-500 transition">
           View More
         </button>
       </div>

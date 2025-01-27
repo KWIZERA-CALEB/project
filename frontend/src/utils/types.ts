@@ -23,4 +23,14 @@ export interface ChallengeFormData {
     projectBrief: string;
     projectDescriptionTasks: string;
 }
-  
+
+export interface RegisterForChallengeFormData {
+    teamLeaderFullName: string;
+    teamLeaderEmail: string;
+    teamLeaderPhoneNumber: number;
+    otherMemberFullName: string;
+    otherMemberEmail: string;
+    otherMemberPhoneNumber: number;
+    email: string;
+    phoneNumber: number;
+}

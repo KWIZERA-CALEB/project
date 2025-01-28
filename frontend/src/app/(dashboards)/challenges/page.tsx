@@ -11,15 +11,19 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { fetchChallenges } from '@/redux/slices/challengesSlice';
 import { useEffect, useMemo, useState, useCallback } from 'react'
 import { Challenge } from '@/utils/types';
+import { useAuth } from '@/hooks/useAuth'
+import { useRouter } from 'next/navigation'
 
 
 
 
 export default function AdminChallenges () {
-    const currentUser = 'admin'
+    const { isAuthenticated, isAdmin } = useAuth();
+    const router = useRouter()
     
     const dispatch = useAppDispatch();
-    const { data = [], loading } = useAppSelector((state: { api: { data: Challenge[]; loading: boolean; error: any } }) => state.api);
+    const { data = [], loading } = useAppSelector((state: { api: { data: Challenge[]; loading: boolean; error: any } }) => state.challenges);
+
     const [selectedFilter, setSelectedFilter] = useState('all')
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 6;
@@ -32,6 +36,16 @@ export default function AdminChallenges () {
     useEffect(() => {
         handleFetchChallenges()
     }, [handleFetchChallenges]);
+
+    const handleCheckAuth = useCallback(() => {
+        if (!isAuthenticated) {
+            router.push('/');
+        }
+    }, [isAuthenticated, router])
+
+    useEffect(() => {
+        handleCheckAuth()
+    }, [handleCheckAuth])
 
     const challengeCounts = useMemo(() => {
         const counts = { open: 0, closed: 0, ongoing: 0 };
@@ -84,7 +98,7 @@ export default function AdminChallenges () {
                         </div>
                         <div className='mt-[40px]'>
                             {/* filters */}
-                            {currentUser === 'admin' ?
+                            {isAdmin ?
                                 (<div className='flex flex-row flex-wrap space-x-[1px] mb-[10px]'>
                                     <Button onClick={() => handleFilterChange('all')} className={selectedFilter === 'all' ? 'bg-[#D0E0FC] text-black hover:bg-[#D0E0FC] border-solid border-[1px] border-[#FCD2C2] flex flex-row items-center justify-between' : 'bg-[#F0F2F5] text-[#667185] hover:bg-[#F0F2F5] border-solid border-[1px] border-[#D0D5DD] flex flex-row items-center justify-between'}>
                                         <div>
@@ -145,48 +159,48 @@ export default function AdminChallenges () {
                                 </div>)
                                 :
                                 (<div className='flex flex-row flex-wrap space-x-[1px] mb-[10px]'>
-                                    <Button className='bg-[#D0E0FC] text-black hover:bg-[#D0E0FC] border-solid border-[1px] border-[#FCD2C2] flex flex-row items-center justify-between'>
+                                    <Button onClick={() => handleFilterChange('all')} className={selectedFilter === 'all' ? 'bg-[#D0E0FC] text-black hover:bg-[#D0E0FC] border-solid border-[1px] border-[#FCD2C2] flex flex-row items-center justify-between' : 'bg-[#F0F2F5] text-[#667185] hover:bg-[#F0F2F5] border-solid border-[1px] border-[#D0D5DD] flex flex-row items-center justify-between'}>
                                         <div>
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width='18' height='18' fill='#2B71F0'>
                                                 <path d="M21 8V20.9932C21 21.5501 20.5552 22 20.0066 22H3.9934C3.44495 22 3 21.556 3 21.0082V2.9918C3 2.45531 3.4487 2 4.00221 2H14.9968L21 8ZM19 9H14V4H5V20H19V9ZM8 7H11V9H8V7ZM8 11H16V13H8V11ZM8 15H16V17H8V15Z"></path>
                                             </svg>
                                         </div>
                                         <div>All Challenge</div>
-                                        <div className='bg-umuravaBlueColor rounded-full w-[20px] h-[20px] flex justify-center items-center text-white'>
-                                            <p>0</p>
+                                        <div className={selectedFilter === 'all' ? 'bg-umuravaBlueColor rounded-full w-[20px] h-[20px] flex justify-center items-center text-white' : 'bg-[#E4E7EC] rounded-full w-[20px] h-[20px] flex justify-center items-center text-black'}>
+                                            <p>{data.length}</p>
                                         </div>
                                     </Button>
-                                    <Button className='bg-[#F0F2F5] text-[#667185] hover:bg-[#F0F2F5] border-solid border-[1px] border-[#D0D5DD] flex flex-row items-center justify-between'>
+                                    <Button onClick={() => handleFilterChange('closed')} className={selectedFilter === 'closed' ? 'bg-[#D0E0FC] text-black hover:bg-[#D0E0FC] border-solid border-[1px] border-[#FCD2C2] flex flex-row items-center justify-between' : 'bg-[#F0F2F5] text-[#667185] hover:bg-[#F0F2F5] border-solid border-[1px] border-[#D0D5DD] flex flex-row items-center justify-between'}>
                                         <div>
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width='18' height='18' fill='#667185'>
                                                 <path d="M21 8V20.9932C21 21.5501 20.5552 22 20.0066 22H3.9934C3.44495 22 3 21.556 3 21.0082V2.9918C3 2.45531 3.4487 2 4.00221 2H14.9968L21 8ZM19 9H14V4H5V20H19V9ZM8 7H11V9H8V7ZM8 11H16V13H8V11ZM8 15H16V17H8V15Z"></path>
                                             </svg>
                                         </div>
                                         <div>Completed Challenge</div>
-                                        <div className='bg-[#E4E7EC] rounded-full w-[20px] h-[20px] flex justify-center items-center text-black'>
-                                            <p>0</p>
+                                        <div className={selectedFilter === 'closed' ? 'bg-umuravaBlueColor rounded-full w-[20px] h-[20px] flex justify-center items-center text-white' : 'bg-[#E4E7EC] rounded-full w-[20px] h-[20px] flex justify-center items-center text-black'}>
+                                            <p>{challengeCounts.closed}</p>
                                         </div>
                                     </Button>
-                                    <Button className='bg-[#F0F2F5] text-[#667185] hover:bg-[#F0F2F5] border-solid border-[1px] border-[#D0D5DD] flex flex-row items-center justify-between'>
+                                    <Button onClick={() => handleFilterChange('open')} className={selectedFilter === 'open' ? 'bg-[#D0E0FC] text-black hover:bg-[#D0E0FC] border-solid border-[1px] border-[#FCD2C2] flex flex-row items-center justify-between' : 'bg-[#F0F2F5] text-[#667185] hover:bg-[#F0F2F5] border-solid border-[1px] border-[#D0D5DD] flex flex-row items-center justify-between'}>
                                         <div>
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width='18' height='18' fill='#667185'>
                                                 <path d="M21 8V20.9932C21 21.5501 20.5552 22 20.0066 22H3.9934C3.44495 22 3 21.556 3 21.0082V2.9918C3 2.45531 3.4487 2 4.00221 2H14.9968L21 8ZM19 9H14V4H5V20H19V9ZM8 7H11V9H8V7ZM8 11H16V13H8V11ZM8 15H16V17H8V15Z"></path>
                                             </svg>
                                         </div>
                                         <div>Open Challenge</div>
-                                        <div className='bg-[#E4E7EC] rounded-full w-[20px] h-[20px] flex justify-center items-center text-black'>
-                                            <p>0</p>
+                                        <div className={selectedFilter === 'open' ? 'bg-umuravaBlueColor rounded-full w-[20px] h-[20px] flex justify-center items-center text-white' : 'bg-[#E4E7EC] rounded-full w-[20px] h-[20px] flex justify-center items-center text-black'}>
+                                            <p>{challengeCounts.open}</p>
                                         </div>
                                     </Button>
-                                    <Button className='bg-[#F0F2F5] text-[#667185] hover:bg-[#F0F2F5] border-solid border-[1px] border-[#D0D5DD] flex flex-row items-center justify-between'>
+                                    <Button onClick={() => handleFilterChange('ongoing')} className={selectedFilter === 'ongoing' ? 'bg-[#D0E0FC] text-black hover:bg-[#D0E0FC] border-solid border-[1px] border-[#FCD2C2] flex flex-row items-center justify-between' : 'bg-[#F0F2F5] text-[#667185] hover:bg-[#F0F2F5] border-solid border-[1px] border-[#D0D5DD] flex flex-row items-center justify-between'}>
                                         <div>
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width='18' height='18' fill='#667185'>
                                                 <path d="M21 8V20.9932C21 21.5501 20.5552 22 20.0066 22H3.9934C3.44495 22 3 21.556 3 21.0082V2.9918C3 2.45531 3.4487 2 4.00221 2H14.9968L21 8ZM19 9H14V4H5V20H19V9ZM8 7H11V9H8V7ZM8 11H16V13H8V11ZM8 15H16V17H8V15Z"></path>
                                             </svg>
                                         </div>
                                         <div>Ongoing Challenge</div>
-                                        <div className='bg-[#E4E7EC] rounded-full w-[20px] h-[20px] flex justify-center items-center text-black'>
-                                            <p>0</p>
+                                        <div className={selectedFilter === 'ongoing' ? 'bg-umuravaBlueColor rounded-full w-[20px] h-[20px] flex justify-center items-center text-white' : 'bg-[#E4E7EC] rounded-full w-[20px] h-[20px] flex justify-center items-center text-black'}>
+                                            <p>{challengeCounts.ongoing}</p>
                                         </div>
                                     </Button>
                                 </div>)

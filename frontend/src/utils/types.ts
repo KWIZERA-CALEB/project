@@ -30,7 +30,17 @@ export interface RegisterForChallengeFormData {
     teamLeaderPhoneNumber: number;
     otherMemberFullName: string;
     otherMemberEmail: string;
-    otherMemberPhoneNumber: number;
+    otherMemberPhoneNumber: number | null;
     email: string;
     phoneNumber: number;
+}
+
+export interface TeamMember {
+    otherMemberFullName: string;
+    otherMemberEmail: string;
+    otherMemberPhoneNumber: number | null;
+}
+
+export interface Participants {
+    
 }

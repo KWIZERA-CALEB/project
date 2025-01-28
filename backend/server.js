@@ -2,6 +2,7 @@ import express from 'express';
 import dotenv from 'dotenv';
 import swaggerUi from 'swagger-ui-express';
 import challengeRoutes from './routes/challenge.route.js';
+import participantsRoutes from './routes/participants.route.js';
 import swaggerSpec from './swagger.js';
 import { connectDB } from './config/database.js';
 import cors from 'cors'
@@ -28,6 +29,7 @@ connectDB();
 
 // Routes
 app.use('/api/', challengeRoutes);
+app.use('/api/', participantsRoutes);
 
 // Swagger Documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));

@@ -13,7 +13,8 @@ import { createChallenge } from '@/redux/slices/challengesSlice';
 import { useRouter } from 'next/navigation';
 import { Loader2 } from "lucide-react"
 import { ChallengeFormData } from '@/utils/types'
-
+import { useCallback, useEffect } from 'react'
+import { useAuth } from '@/hooks/useAuth'
 
 const AdminCreateChallenge = () => {
     const {
@@ -26,7 +27,21 @@ const AdminCreateChallenge = () => {
     const router = useRouter()
 
     const dispatch = useAppDispatch();
-    const { loading, error } = useAppSelector((state) => state.api);
+    const { loading, error } = useAppSelector((state) => state.challenges);
+    const { isAuthenticated, isAdmin } = useAuth();
+
+
+    const handleCheckAuth = useCallback(() => {
+        if (!isAuthenticated) {
+            router.push('/');
+        } else if (!isAdmin) {
+            router.push('/challenges')
+        }
+    }, [isAuthenticated, isAdmin, router])
+
+    useEffect(() => {
+        handleCheckAuth()
+    }, [handleCheckAuth])
 
     const handleCreateChallenge = async (data: ChallengeFormData) => {  
         const resultAction = await dispatch(createChallenge(data));

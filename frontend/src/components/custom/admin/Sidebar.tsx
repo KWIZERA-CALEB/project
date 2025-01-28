@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation';
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
+import { useAppSelector, useAppDispatch } from '@/redux/hooks';
+
 
 import {
     Dialog,
@@ -16,6 +18,8 @@ import {
 const Sidebar = () => {
     const pathname = usePathname() || '';
     const [currentPath, setCurrentPath] = useState('');
+    const { user } = useAppSelector((state) => state.user);
+    
 
     useEffect(() => {
         if (pathname) {
@@ -133,8 +137,8 @@ const Sidebar = () => {
                             <img src="/assets/images/default.png" className='w-full h-full object-cover object-center rounded-full' alt="User"/>
                         </div>
                         <div className='flex flex-col'>
-                            <p className='font-sans text-white text-[14px]'>Hilare Sh</p>
-                            <p className='font-sans text-white text-[14px]'>hilare@design</p>
+                            <p className='font-sans text-white text-[14px]'>{user?.fullName}</p>
+                            <p className='font-sans text-white text-[14px]'>{user?.email}</p>
                         </div>
                     </div>
                     <div className='cursor-pointer'>

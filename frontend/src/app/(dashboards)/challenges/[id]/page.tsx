@@ -4,13 +4,23 @@ import AdminNavbar from '@/components/custom/admin/AdminNavbar'
 import { Button } from "@/components/ui/button"
 import Link from 'next/link'
 import MobileSidebar from '@/components/custom/admin/MobileSidebar'
-
+import { useAuth } from '@/hooks/useAuth'
 import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { fetchChallengeDetails, deleteChallenge } from '@/redux/slices/challengesSlice';
-import { useEffect, useCallback } from 'react'
+import { fetchParticipants } from '@/redux/slices/participantsSlice';
+import { useEffect, useCallback, useMemo } from 'react'
 import { useRouter } from 'next/navigation';
 import { RootState } from '@/redux/slices/index';
 import RegisterAndSubmitWork from '@/components/custom/admin/RegisterAndSubmitWork' 
+import {
+    Dialog,
+    DialogContent,
+    DialogDescription,
+    DialogHeader,
+    DialogTitle,
+    DialogTrigger,
+} from "@/components/ui/dialog"
+import { BarsLoading } from '@/components/skeletons/Skeletons'
 
 interface AdminEditChallengeParams {
     id: string;
@@ -23,10 +33,22 @@ interface AdminEditChallengeProps {
 
 const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
     const { id } = params; 
-    const currentUser = 'client'
+    const { isAuthenticated, isAdmin } = useAuth();
     const dispatch = useAppDispatch();
-    const { challengeDetails, loading } = useAppSelector((state: RootState) => state.api);
+    const { challengeDetails, loading } = useAppSelector((state: RootState) => state. challenges);
+    const { data = [] } = useAppSelector((state: { api: { data: Participants[]; loading: boolean; error: any } }) => state.participants);
+
     const router = useRouter();
+
+    const handleCheckAuth = useCallback(() => {
+        if (!isAuthenticated) {
+            router.push('/');
+        }
+    }, [isAuthenticated, router])
+
+    useEffect(() => {
+        handleCheckAuth()
+    }, [handleCheckAuth])
 
     const handleFetchChallenge = useCallback(() => {
         dispatch(fetchChallengeDetails({url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/challenge`, id}));
@@ -35,6 +57,16 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
     useEffect(() => {
         handleFetchChallenge()
     }, [handleFetchChallenge]);
+
+
+    const handleFetchParticipants = useCallback(() => {
+        const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
+        dispatch(fetchParticipants(`${apiBaseUrl}/participants/challenge/${id}`));
+    }, [dispatch])
+
+    useEffect(() => {
+        handleFetchParticipants()
+    }, [handleFetchParticipants])
 
     const handleDeleteChallenge = async () => {
         const resultAction = await dispatch(
@@ -47,6 +79,14 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
           console.error('Failed to delete challenge:', resultAction.payload || resultAction.error);
         }
     };
+
+    const sortedParticipants = useMemo(() => {
+        const sorted = [...data].sort((a, b) => {
+            return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
+        });
+
+        return sorted.slice(0, 3);
+    }, [data]);
 
     return (
         <>
@@ -68,6 +108,7 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
                                     </div>
                                 </Link>
                             </div>
+                            <div className={loading && 'bg-[#F9FAFB] h-[10px] w-[200px] animate-pulse cursor-pointer'}>&nbsp;</div>
                             <div>
                                 <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'><Link href='/challenges'>Challenges & Hackathons</Link> / <span className='text-umuravaBlueColor'>{challengeDetails?.challengeTitle}</span></p>
                             </div>
@@ -79,47 +120,43 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
                                     <div className='w-full h-[250px] bg-umuravaBlueColor flex justify-center items-center rounded-[10px]'>
                                         <img src='/assets/images/logo.png' className='w-[60px]' alt='Challenge Image' />
                                     </div>
-                                    <div className='mt-[30px]'>
-                                        <h4 className='font-bold cursor-pointer select-none text-start'>Project Brief : Payroll and HR Management System</h4>
-                                        <p className='text-[#667185] mt-[6px] select-none cursor-pointer text-start text-[14px]'>
-                                        A Fintech company that is developing a Digital Financial Platform designed for businesses and their workforce in Africa is partnering with Umurava to run a Skills Challenge for Product Design. This Fintech Company offers Payroll Management System to Employers and Embedded Financial services and products to Employees and Gig Workers across Africa.
-                                        </p>
-                                        <h4 className='font-bold mt-[6px] cursor-pointer select-none text-start'>Tasks:</h4>
+                                    {loading ? 
+                                        <BarsLoading />
+                                        : 
+                                        <div className='mt-[30px]'>
+                                            <h4 className='font-bold cursor-pointer select-none text-start'>Project Brief : {challengeDetails?.challengeTitle}</h4>
+                                            <p className='text-[#667185] mt-[6px] select-none cursor-pointer text-start text-[14px]'>{challengeDetails?.projectBrief}</p>
+                                            <h4 className='font-bold mt-[6px] cursor-pointer select-none text-start'>Tasks:</h4>
 
-                                        <div>
-                                            <h4 className='font-bold mt-[6px] cursor-pointer select-none text-start'>Product Requirements:</h4>
-                                            <div className='mt-[6px]'>
-                                                <p className='text-[#667185] mt-[6px] select-none cursor-pointer text-start text-[14px]'>
-                                                A Fintech company that is developing a Digital Financial Platform designed for businesses and their workforce in Africa is partnering with Umurava to run a Skills Challenge for Product Design. This Fintech Company offers Payroll Management System to Employers and Embedded Financial services and products to Employees and Gig Workers across Africa.
-                                                </p>
+                                            <div>
+                                                <h4 className='font-bold mt-[6px] cursor-pointer select-none text-start'>Product Requirements:</h4>
+                                                <div className='mt-[6px]'>
+                                                    <p className='text-[#667185] mt-[6px] select-none cursor-pointer text-start text-[14px]'>{challengeDetails?.projectDescriptionTasks}</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div>
-                                            <h4 className='font-bold mt-[6px] cursor-pointer select-none text-start'>Product Design:</h4>
-                                            <div className='mt-[6px]'>
-                                                <p className='text-[#667185] mt-[6px] select-none cursor-pointer text-start text-[14px]'>
-                                                A Fintech company that is developing a Digital Financial Platform designed for businesses and their workforce in Africa is partnering with Umurava to run a Skills Challenge for Product Design. This Fintech Company offers Payroll Management System to Employers and Embedded Financial services and products to Employees and Gig Workers across Africa.
-                                                </p>
+                                            <div>
+                                                <h4 className='font-bold mt-[6px] cursor-pointer select-none text-start'>Product Design:</h4>
+                                                <div className='mt-[6px]'>
+                                                    <p className='text-[#667185] mt-[6px] select-none cursor-pointer text-start text-[14px]'>{challengeDetails?.projectDescription}</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div>
-                                            <h4 className='font-bold mt-[6px] cursor-pointer select-none text-start'>Deliverables:</h4>
-                                            <div className='mt-[6px]'>
-                                                <p className='text-[#667185] mt-[6px] select-none cursor-pointer text-start text-[14px]'>
-                                                A Fintech company that is developing a Digital Financial Platform designed for businesses and their workforce in Africa is partnering with Umurava to run a Skills Challenge for Product Design. This Fintech Company offers Payroll Management System to Employers and Embedded Financial services and products to Employees and Gig Workers across Africa.
-                                                </p>
+                                            <div>
+                                                <h4 className='font-bold mt-[6px] cursor-pointer select-none text-start'>Deliverables:</h4>
+                                                <div className='mt-[6px]'>
+                                                    <p className='text-[#667185] mt-[6px] select-none cursor-pointer text-start text-[14px]'>{challengeDetails?.projectDescriptionTasks}</p>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div>
-                                            <h4 className='font-bold mt-[6px] cursor-pointer select-none text-start'>NOTE:</h4>
-                                            <div className='mt-[6px]'>
-                                                <p className='text-[#667185] mt-[6px] select-none cursor-pointer text-start text-[14px]'>
-                                                A Fintech company that is developing a Digital Financial Platform designed for businesses and their workforce in Africa.
-                                                </p>
+                                            <div>
+                                                <h4 className='font-bold mt-[6px] cursor-pointer select-none text-start'>NOTE:</h4>
+                                                <div className='mt-[6px]'>
+                                                    <p className='text-[#667185] mt-[6px] select-none cursor-pointer text-start text-[14px]'>
+                                                    A Fintech company that is developing a Digital Financial Platform designed for businesses and their workforce in Africa.
+                                                    </p>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                    </div>
+                                        </div>
+                                    }
                                 </div>
                             </div>
                             <div className='w-full md:w-[40%]'>
@@ -129,53 +166,58 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
                                     You are free to schedule the clarification call with the team via this
                                     </p>
 
-                                    <div className='flex flex-col space-y-[10px] mt-[20px] mb-[20px]'>
-                                        <div className='flex items-center flex-row space-x-[6px]'>
-                                            <div className='flex justify-center items-center w-[40px] h-[40px] rounded-full p-[6px] bg-[#D0E0FC]'>
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='20' width='20' fill="#2B71F0">
-                                                    <path d="M20 22H4C3.44772 22 3 21.5523 3 21V3C3 2.44772 3.44772 2 4 2H20C20.5523 2 21 2.44772 21 3V21C21 21.5523 20.5523 22 20 22ZM19 20V4H5V20H19ZM8 7H16V9H8V7ZM8 11H16V13H8V11ZM8 15H16V17H8V15Z"></path>
-                                                </svg>
+                                    {loading ? 
+                                        <BarsLoading />
+                                    :
+                                    
+                                        <div className='flex flex-col space-y-[10px] mt-[20px] mb-[20px]'>
+                                            <div className='flex items-center flex-row space-x-[6px]'>
+                                                <div className='flex justify-center items-center w-[40px] h-[40px] rounded-full p-[6px] bg-[#D0E0FC]'>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='20' width='20' fill="#2B71F0">
+                                                        <path d="M20 22H4C3.44772 22 3 21.5523 3 21V3C3 2.44772 3.44772 2 4 2H20C20.5523 2 21 2.44772 21 3V21C21 21.5523 20.5523 22 20 22ZM19 20V4H5V20H19ZM8 7H16V9H8V7ZM8 11H16V13H8V11ZM8 15H16V17H8V15Z"></path>
+                                                    </svg>
+                                                </div>
+                                                <div>
+                                                    <h4 className='font-bold cursor-pointer select-none'>{challengeDetails?.contactEmail}</h4>
+                                                    <p className='text-[#667185] select-none cursor-pointer text-[14px]'>Contact Email</p>
+                                                </div>
                                             </div>
-                                            <div>
-                                                <h4 className='font-bold cursor-pointer select-none'>{challengeDetails?.contactEmail}</h4>
-                                                <p className='text-[#667185] select-none cursor-pointer text-[14px]'>Contact Email</p>
+                                            <div className='flex items-center flex-row space-x-[6px]'>
+                                                <div className='flex justify-center items-center w-[40px] h-[40px] rounded-full p-[6px] bg-[#D0E0FC]'>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='20' width='20' fill="#2B71F0">
+                                                        <path d="M20 22H4C3.44772 22 3 21.5523 3 21V3C3 2.44772 3.44772 2 4 2H20C20.5523 2 21 2.44772 21 3V21C21 21.5523 20.5523 22 20 22ZM19 20V4H5V20H19ZM8 7H16V9H8V7ZM8 11H16V13H8V11ZM8 15H16V17H8V15Z"></path>
+                                                    </svg>
+                                                </div>
+                                                <div>
+                                                    <h4 className='font-bold cursor-pointer select-none'>Web Design</h4>
+                                                    <p className='text-[#667185] select-none cursor-pointer text-[14px]'>Challenge Category</p>
+                                                </div>
+                                            </div>
+                                            <div className='flex items-center flex-row space-x-[6px]'>
+                                                <div className='flex justify-center items-center w-[40px] h-[40px] rounded-full p-[6px] bg-[#D0E0FC]'>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='20' width='20' fill="#2B71F0">
+                                                        <path d="M20 22H4C3.44772 22 3 21.5523 3 21V3C3 2.44772 3.44772 2 4 2H20C20.5523 2 21 2.44772 21 3V21C21 21.5523 20.5523 22 20 22ZM19 20V4H5V20H19ZM8 7H16V9H8V7ZM8 11H16V13H8V11ZM8 15H16V17H8V15Z"></path>
+                                                    </svg>
+                                                </div>
+                                                <div>
+                                                    <h4 className='font-bold cursor-pointer select-none'>{challengeDetails?.challengeDuration}</h4>
+                                                    <p className='text-[#667185] select-none cursor-pointer text-[14px]'>Duration</p>
+                                                </div>
+                                            </div>
+                                            <div className='flex items-center flex-row space-x-[6px]'>
+                                                <div className='flex justify-center items-center w-[40px] h-[40px] rounded-full p-[6px] bg-[#D0E0FC]'>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='20' width='20' fill="#2B71F0">
+                                                        <path d="M20 22H4C3.44772 22 3 21.5523 3 21V3C3 2.44772 3.44772 2 4 2H20C20.5523 2 21 2.44772 21 3V21C21 21.5523 20.5523 22 20 22ZM19 20V4H5V20H19ZM8 7H16V9H8V7ZM8 11H16V13H8V11ZM8 15H16V17H8V15Z"></path>
+                                                    </svg>
+                                                </div>
+                                                <div>
+                                                    <h4 className='font-bold cursor-pointer select-none'>{challengeDetails?.moneyPrize}</h4>
+                                                    <p className='text-[#667185] select-none cursor-pointer text-[14px]'>Money Prize</p>
+                                                </div>
                                             </div>
                                         </div>
-                                        <div className='flex items-center flex-row space-x-[6px]'>
-                                            <div className='flex justify-center items-center w-[40px] h-[40px] rounded-full p-[6px] bg-[#D0E0FC]'>
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='20' width='20' fill="#2B71F0">
-                                                    <path d="M20 22H4C3.44772 22 3 21.5523 3 21V3C3 2.44772 3.44772 2 4 2H20C20.5523 2 21 2.44772 21 3V21C21 21.5523 20.5523 22 20 22ZM19 20V4H5V20H19ZM8 7H16V9H8V7ZM8 11H16V13H8V11ZM8 15H16V17H8V15Z"></path>
-                                                </svg>
-                                            </div>
-                                            <div>
-                                                <h4 className='font-bold cursor-pointer select-none'>Web Design</h4>
-                                                <p className='text-[#667185] select-none cursor-pointer text-[14px]'>Challenge Category</p>
-                                            </div>
-                                        </div>
-                                        <div className='flex items-center flex-row space-x-[6px]'>
-                                            <div className='flex justify-center items-center w-[40px] h-[40px] rounded-full p-[6px] bg-[#D0E0FC]'>
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='20' width='20' fill="#2B71F0">
-                                                    <path d="M20 22H4C3.44772 22 3 21.5523 3 21V3C3 2.44772 3.44772 2 4 2H20C20.5523 2 21 2.44772 21 3V21C21 21.5523 20.5523 22 20 22ZM19 20V4H5V20H19ZM8 7H16V9H8V7ZM8 11H16V13H8V11ZM8 15H16V17H8V15Z"></path>
-                                                </svg>
-                                            </div>
-                                            <div>
-                                                <h4 className='font-bold cursor-pointer select-none'>{challengeDetails?.challengeDuration}</h4>
-                                                <p className='text-[#667185] select-none cursor-pointer text-[14px]'>Duration</p>
-                                            </div>
-                                        </div>
-                                        <div className='flex items-center flex-row space-x-[6px]'>
-                                            <div className='flex justify-center items-center w-[40px] h-[40px] rounded-full p-[6px] bg-[#D0E0FC]'>
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='20' width='20' fill="#2B71F0">
-                                                    <path d="M20 22H4C3.44772 22 3 21.5523 3 21V3C3 2.44772 3.44772 2 4 2H20C20.5523 2 21 2.44772 21 3V21C21 21.5523 20.5523 22 20 22ZM19 20V4H5V20H19ZM8 7H16V9H8V7ZM8 11H16V13H8V11ZM8 15H16V17H8V15Z"></path>
-                                                </svg>
-                                            </div>
-                                            <div>
-                                                <h4 className='font-bold cursor-pointer select-none'>{challengeDetails?.moneyPrize}</h4>
-                                                <p className='text-[#667185] select-none cursor-pointer text-[14px]'>Money Prize</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {currentUser === 'admin' ?
+                                    }
+                                    {isAdmin ?
                                         <div className='flex w-full flex-row space-x-[6px] mt-[10px] justify-between items-center'>
                                             <Button disabled={loading} onClick={handleDeleteChallenge} className='bg-[#E5533C] w-[50%] text-white hover:bg-[#E5533C]/[90%] font-sans'>
                                                 Delete
@@ -190,42 +232,89 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
                                         <RegisterAndSubmitWork />
                                     }
                                 </div>
-                                {currentUser === 'admin' &&
+                                {isAdmin &&
                                 <div className='bg-white pb-[15px] border-solid border-[1px] border-[#E4E7EC] rounded-[12px] mt-[20px]'>
                                     <div className='border-solid border-b-[1px] flex flex-row items-center space-x-[4px] pb-[15px] pt-[15px] pl-[24px] pr-[24px] border-[#E4E7EC]'>
                                         <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Participants</p>
                                         <div className='w-[40px] h-[20px] p-[2px] flex items-center justify-center cursor-pointer rounded-full bg-umuravaBlueColor text-white'>
-                                            <p className='font-sans font-bold text-[14px]'>200</p>
+                                            <p className='font-sans font-bold text-[14px]'>{data.length}</p>
                                         </div>
                                     </div>
                                     <div>
-                                        {/* user */}
-                                        <div className='flex pr-[24px] border-solid border-b-[1px] pt-[15px] pl-[24px] pt-[15px] pb-[15px] flex-row space-x-[10px] cursor-pointer items-center'>
-                                            <div className='w-[40px] h-[40px] rounded-full border-solid border-white border-[2px]'>
-                                                <img src="/assets/images/default.png" className='w-full h-full object-cover object-center rounded-full' alt="User"/>
-                                            </div>
-                                            <div className='flex flex-col'>
-                                                <p className='font-sans font-md text-[14px]'>Hilare Sh</p>
-                                                <p className='font-sans text-[14px]'>hilare@design</p>
-                                            </div>
-                                        </div>
-                                        {/* user */}
-                                        {/* user */}
-                                        <div className='flex pr-[24px] border-solid border-b-[1px] pt-[15px] pl-[24px] pt-[15px] pb-[15px] flex-row space-x-[10px] cursor-pointer items-center'>
-                                            <div className='w-[40px] h-[40px] rounded-full border-solid border-white border-[2px]'>
-                                                <img src="/assets/images/default.png" className='w-full h-full object-cover object-center rounded-full' alt="User"/>
-                                            </div>
-                                            <div className='flex flex-col'>
-                                                <p className='font-sans font-md text-[14px]'>Hilare Sh</p>
-                                                <p className='font-sans text-[14px]'>hilare@design</p>
-                                            </div>
-                                        </div>
-                                        {/* user */}
-                                        {/* user */}
+                                        {data.length === 0 ? (
+                                            <p className="text-[#667185] text-center mt-[10px] font-sans select-none cursor-pointer text-[14px]">
+                                                No Participants
+                                            </p>
+                                        ) : (
+                                            sortedParticipants.map((member, index) => (
+                                                <div
+                                                    key={index}
+                                                    className="flex pr-[24px] border-solid border-b-[1px] pt-[15px] pl-[24px] pb-[15px] flex-row space-x-[10px] cursor-pointer items-center"
+                                                >
+                                                    <div className="w-[40px] h-[40px] rounded-full border-solid border-white border-[2px]">
+                                                        <img
+                                                            src="/assets/images/default.png"
+                                                            className="w-full h-full object-cover object-center rounded-full"
+                                                            alt="User"
+                                                        />
+                                                    </div>
+                                                    <div className="flex flex-col">
+                                                        <p className="font-sans font-md text-[14px]">
+                                                            {member?.teamLeader?.fullName}
+                                                        </p>
+                                                        <p className="font-sans text-[14px]">
+                                                            {member?.teamLeader?.email}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            ))
+                                        )}
+
+                                        
                                         <div className='flex pr-[24px] pt-[15px] pl-[24px] pt-[15px] flex-row space-x-[10px] cursor-pointer items-center'>
-                                            <Button className='bg-umuravaBlueColor w-full text-white hover:bg-umuravaBlueColor/[90%] font-sans'>
-                                                View All
-                                            </Button>
+                                            <Dialog>
+                                                <DialogTrigger className='w-full'>
+                                                    <Button disabled={data.length === 0} className='bg-umuravaBlueColor w-full text-white hover:bg-umuravaBlueColor/[90%] font-sans'>
+                                                    View All
+                                                    </Button>
+                                                </DialogTrigger>
+                                                <DialogContent className='bg-white md:w-[600px] h-[600px] overflow-y-scroll'>
+                                                    <div className='w-full h-full'>
+                                                        <div className='p-[6px] border-b border-solid border-[#E4E7EC]'>
+                                                            <p className='text-[#667185] font-sans select-none cursor-pointer text-start text-[14px]'>Participants in this challenge: {data.length}</p>
+                                                        </div>
+                                                        <div className='p-[6px] mt-[15px]'>
+
+                                                        {data.length === 0 ? (
+                                                            <p className="text-[#667185] text-center mt-[10px] font-sans select-none cursor-pointer text-[14px]">
+                                                                No Participants
+                                                            </p>
+                                                        ) : (
+                                                            data.map((member, index) => (
+                                                                <div key={index} className='flex pr-[24px] bg-[#E4E7EC] border-solid border-b-[1px] pt-[15px] pl-[24px] pt-[15px] pb-[15px] flex-row space-x-[10px] cursor-pointer items-center'>
+                                                                    <div className='w-[10px] h-[60px] bg-umuravaBlueColor'></div>
+                                                                    <div className='flex flex-col'>
+                                                                        <p className='font-sans font-md text-[14px]'>{member?.teamLeader?.fullName} (Team leader)</p>
+                                                                        <p className='font-sans text-[14px]'>{member?.teamLeader?.email}</p>
+                                                                        {member.submittedWork.length === 0 ? 
+                                                                            (
+                                                                                <p className='font-sans text-[14px]'>Submitted work: <span className='text-umuravaBlueColor'>Not Provided</span> | <span className='text-umuravaBlueColor'>Not Provided</span></p>
+                                                                            )
+                                                                            :
+                                                                            (
+                                                                                member.submittedWork.map((work, index) => (
+                                                                                    <p key={index} className='font-sans text-[14px]'>Submitted work: <span className='text-umuravaBlueColor'>{work.liveProjectLink}</span> | <span className='text-umuravaBlueColor'>{work.resourcesLink}</span></p>
+                                                                                ))
+                                                                            )
+                                                                        }
+                                                                    </div>
+                                                                </div>
+                                                            ))
+                                                        )}
+                                                        </div>
+                                                    </div>
+                                                </DialogContent>
+                                            </Dialog>
                                         </div>
                                         {/* user */}
                                     </div>

@@ -3,21 +3,25 @@ import dotenv from 'dotenv';
 import swaggerUi from 'swagger-ui-express';
 import challengeRoutes from './routes/challenge.route.js';
 import participantsRoutes from './routes/participants.route.js';
+import authRoutes from './routes/auth.route.js';
 import swaggerSpec from './swagger.js';
 import { connectDB } from './config/database.js';
+import cookieParser from "cookie-parser";
 import cors from 'cors'
 
 dotenv.config();
 const app = express();
 
 // Middleware
+app.use(cookieParser());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 
 const corsOptions = {
     origin: [
-        'http://localhost:3000',             
+        'http://localhost:3000', 
+        'https://umurava-app.vercel.app',            
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
@@ -30,6 +34,7 @@ connectDB();
 // Routes
 app.use('/api/', challengeRoutes);
 app.use('/api/', participantsRoutes);
+app.use('/api/', authRoutes);
 
 // Swagger Documentation
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));

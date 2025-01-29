@@ -21,6 +21,8 @@ import {
     DialogTrigger,
 } from "@/components/ui/dialog"
 import { BarsLoading } from '@/components/skeletons/Skeletons'
+import { Participants } from '@/utils/types'
+
 
 interface AdminEditChallengeParams {
     id: string;
@@ -36,7 +38,10 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
     const { isAuthenticated, isAdmin } = useAuth();
     const dispatch = useAppDispatch();
     const { challengeDetails, loading } = useAppSelector((state: RootState) => state. challenges);
-    const { data = [] } = useAppSelector((state: { api: { data: Participants[]; loading: boolean; error: any } }) => state.participants);
+    //const { data = [] } = useAppSelector((state: RootState) => state.participants);
+    const { data = [] } = useAppSelector((state: RootState) => ({
+        data: state.participants.data || []
+    }));
 
     const router = useRouter();
 
@@ -62,7 +67,7 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
     const handleFetchParticipants = useCallback(() => {
         const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
         dispatch(fetchParticipants(`${apiBaseUrl}/participants/challenge/${id}`));
-    }, [dispatch])
+    }, [dispatch, id])
 
     useEffect(() => {
         handleFetchParticipants()
@@ -81,6 +86,8 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
     };
 
     const sortedParticipants = useMemo(() => {
+        if (!data.length) return [];
+        
         const sorted = [...data].sort((a, b) => {
             return new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime();
         });
@@ -108,7 +115,7 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
                                     </div>
                                 </Link>
                             </div>
-                            <div className={loading && 'bg-[#F9FAFB] h-[10px] w-[200px] animate-pulse cursor-pointer'}>&nbsp;</div>
+                            <div className={loading ? 'bg-[#F9FAFB] h-[10px] w-[200px] animate-pulse cursor-pointer' : undefined}>&nbsp;</div>
                             <div>
                                 <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'><Link href='/challenges'>Challenges & Hackathons</Link> / <span className='text-umuravaBlueColor'>{challengeDetails?.challengeTitle}</span></p>
                             </div>
@@ -229,7 +236,7 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
                                             </Button>
                                         </div>
                                         :
-                                        <RegisterAndSubmitWork />
+                                        (challengeDetails?._id && <RegisterAndSubmitWork challengeId={challengeDetails._id} />)
                                     }
                                 </div>
                                 {isAdmin &&
@@ -290,7 +297,7 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
                                                                 No Participants
                                                             </p>
                                                         ) : (
-                                                            data.map((member, index) => (
+                                                            data.map((member, index: number) => (
                                                                 <div key={index} className='flex pr-[24px] bg-[#E4E7EC] border-solid border-b-[1px] pt-[15px] pl-[24px] pt-[15px] pb-[15px] flex-row space-x-[10px] cursor-pointer items-center'>
                                                                     <div className='w-[10px] h-[60px] bg-umuravaBlueColor'></div>
                                                                     <div className='flex flex-col'>
@@ -302,7 +309,7 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
                                                                             )
                                                                             :
                                                                             (
-                                                                                member.submittedWork.map((work, index) => (
+                                                                                member.submittedWork.map((work, index: number) => (
                                                                                     <p key={index} className='font-sans text-[14px]'>Submitted work: <span className='text-umuravaBlueColor'>{work.liveProjectLink}</span> | <span className='text-umuravaBlueColor'>{work.resourcesLink}</span></p>
                                                                                 ))
                                                                             )

@@ -45,7 +45,7 @@ const participantsSlice = createSlice({
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchParticipants.fulfilled, (state, action: PayloadAction<Challenge[]>) => {
+      .addCase(fetchParticipants.fulfilled, (state, action: PayloadAction<Participants[]>) => {
         state.loading = false;
         state.data = action.payload;
       })

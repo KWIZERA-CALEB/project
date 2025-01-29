@@ -13,6 +13,7 @@ import { useEffect, useMemo, useState, useCallback } from 'react'
 import { Challenge } from '@/utils/types';
 import { useAuth } from '@/hooks/useAuth'
 import { useRouter } from 'next/navigation'
+import withAuth from '@/hoc/withAuth';
 
 
 
@@ -22,7 +23,7 @@ export default function AdminChallenges () {
     const router = useRouter()
     
     const dispatch = useAppDispatch();
-    const { data = [], loading } = useAppSelector((state: { api: { data: Challenge[]; loading: boolean; error: any } }) => state.challenges);
+    const { data = [], loading } = useAppSelector((state: { challenges: { data: Challenge[]; loading: boolean; error: any } }) => state.challenges);
 
     const [selectedFilter, setSelectedFilter] = useState('all')
     const [currentPage, setCurrentPage] = useState(1);

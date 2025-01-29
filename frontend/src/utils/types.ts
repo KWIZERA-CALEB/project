@@ -41,6 +41,29 @@ export interface TeamMember {
     otherMemberPhoneNumber: number | null;
 }
 
-export interface Participants {
-    
+export interface LoginFormData {
+    email: string;
+    password: string;
 }
+
+export interface Participants {
+    _id: string;
+    challengeId: string;
+    teamLeader: {
+      fullName: string;
+      email: string;
+      phoneNumber: string;
+    };
+    otherTeamMembers: {
+      fullName: string;
+      email: string;
+      phoneNumber: string;
+    }[];
+    submittedWork: {
+      liveProjectLink: string;
+      resourcesLink: string;
+    }[];
+    createdAt: string;
+    updatedAt: string;
+  }
+  

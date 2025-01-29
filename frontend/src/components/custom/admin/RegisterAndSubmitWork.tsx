@@ -15,7 +15,7 @@ import axios from 'axios'
 import { useAppSelector } from '@/redux/hooks'
 
 interface ChallengeForSubmittingWorkProps {
-    challengeId: string;
+    challengeId: string | undefined;
 }
 
 const RegisterAndSubmitWork: React.FC<ChallengeForSubmittingWorkProps> = ({ challengeId }) => {

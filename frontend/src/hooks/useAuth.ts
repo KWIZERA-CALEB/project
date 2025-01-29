@@ -1,7 +1,7 @@
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
 import { useRouter } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { fetchLoggedInUser, logoutUser } from '@/redux/slices/userSlice';
 
 export const useAuth = () => {

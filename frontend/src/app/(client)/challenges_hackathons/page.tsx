@@ -10,7 +10,7 @@ import { Challenge } from '@/utils/types';
 
 const ChallengesPage = () => {
   const dispatch = useAppDispatch();
-  const { data = [], loading } = useAppSelector((state: { api: { data: Challenge[]; loading: boolean; error: any } }) => state.challenges);
+  const { data = [], loading } = useAppSelector((state: { challenges: { data: Challenge[]; loading: boolean; error: any } }) => state.challenges);
   
   const handleFetchChallenges = useCallback(() => {
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';

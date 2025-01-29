@@ -20,7 +20,8 @@ app.use(express.urlencoded({ extended: true }));
 
 const corsOptions = {
     origin: [
-        'http://localhost:3000',             
+        'http://localhost:3000', 
+        'https://umurava-app.vercel.app',            
     ],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,

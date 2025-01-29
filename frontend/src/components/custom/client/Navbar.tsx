@@ -4,6 +4,7 @@ import Link from "next/link";
 import clsx from "clsx";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
+import { Button } from "@/components/ui/button"
 
 const Navbar = () => {
   const currentPath = usePathname();
@@ -19,7 +20,7 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="flex items-center justify-between px-10 py-4 bg-white">
+    <nav className="flex items-center justify-between h-[80px] md:pl-[50px] pr-[20px] pl-[20px] md:pr-[50px] pt-[10px] pb-[10px] bg-red-500">
       {/* Logo */}
       <div className="flex items-center">
         <Image
@@ -32,13 +33,13 @@ const Navbar = () => {
       </div>
 
       {/* Links */}
-      <div className="hidden md:flex items-center space-x-8 text-sm font-medium text-gray-600">
+      <div className="hidden md:flex items-center space-x-[15px] lg:space-x-8 text-sm font-medium text-gray-600">
         {navLinks.map((link) => (
           <Link
             key={link.path}
             href={link.path}
             className={clsx(
-              "hover:text-blue-500 transition",
+              "hover:text-blue-500 text-[14px] transition font-semibold ease-in-out",
               currentPath === link.path && "text-blue-500 font-semibold"
             )}
           >
@@ -49,12 +50,13 @@ const Navbar = () => {
 
       {/* Call-to-Action Button for Desktop */}
       <div className="hidden md:block">
-        <Link
-          href="#join"
-          className="px-4 py-2 bg-[#041738] text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition"
-        >
+        <Button
+          className="bg-[#041738] text-white text-[14px] font-semibold hover:bg-blue-700 transition ease-in-out"
+        > 
+          <Link href="/login">
           Join the Program
-        </Link>
+          </Link>
+        </Button>
       </div>
 
       {/* Hamburger Menu (visible on small screens) */}
@@ -68,14 +70,14 @@ const Navbar = () => {
 
       {/* Mobile Links */}
       {isMenuOpen && (
-        <div className="absolute top-16 left-0 w-full bg-white p-4 shadow-md text-sm font-medium text-gray-600 md:hidden">
+        <div className="absolute top-16 z-50 left-0 w-full bg-white p-4 shadow-md text-sm font-medium text-gray-600 md:hidden">
           {navLinks.map((link) => (
             <Link
               key={link.path}
               href={link.path}
               className={clsx(
-                "block py-2 hover:text-blue-500 transition",
-                currentPath === link.path && "text-blue-500 font-semibold"
+                "block py-2 hover:text-blue-500 text-[14px] transition text-[#777] ease-in-out",
+                currentPath === link.path && "text-blue-500"
               )}
               onClick={() => setIsMenuOpen(false)} // Close menu on click
             >
@@ -83,15 +85,16 @@ const Navbar = () => {
             </Link>
           ))}
 
-          {/* Add the button inside the mobile menu */}
           <div className="mt-4">
-            <Link
-              href="#join"
-              className="w-full text-center px-4 py-2 bg-[#041738] text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition block"
-            >
-              Join the Program
-            </Link>
+                <Button
+                className="bg-[#041738] w-full text-white text-[14px] font-semibold hover:bg-blue-700 transition ease-in-out"
+              > 
+                <Link href="/login">
+                Join the Program
+                </Link>
+              </Button>
           </div>
+
         </div>
       )}
     </nav>

@@ -10,6 +10,8 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { fetchChallenges } from '@/redux/slices/challengesSlice';
 import { useEffect, useMemo, useState, useCallback } from 'react'
 import { Challenge } from '@/utils/types';
+import { useAuth } from '@/hooks/useAuth'
+import { useRouter } from 'next/navigation'
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -17,6 +19,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import withAuth from '@/hoc/withAuth'
 
 const getWeekRange = () => {
     const currentDate = new Date();
@@ -44,12 +47,13 @@ const filterChallengesByDateAndStatus = (challenges: Challenge[], dateRange: { s
     });
 };
 
-export default function AdminDashboard () {
-    const currentUser = 'client'
+const AdminDashboard = () => {
+    const { isAuthenticated, isAdmin } = useAuth();
     const [selectedFilter, setSelectedFilter] = useState('week');
+    const router = useRouter()
 
     const dispatch = useAppDispatch();
-    const { data = [], loading } = useAppSelector((state) => state.api);
+    const { data = [], loading } = useAppSelector((state) => state.challenges);
 
     const handleFetchChallenges = useCallback(() => {
         dispatch(fetchChallenges(`${process.env.NEXT_PUBLIC_API_BASE_URL}/challenges`));
@@ -58,6 +62,16 @@ export default function AdminDashboard () {
     useEffect(() => {
         handleFetchChallenges()
     }, [handleFetchChallenges]);
+
+    const handleCheckAuth = useCallback(() => {
+        if (!isAuthenticated) {
+            router.push('/');
+        }
+    }, [isAuthenticated, router])
+
+    useEffect(() => {
+        handleCheckAuth()
+    }, [handleCheckAuth])
 
     const challengeCounts = useMemo(() => {
         const counts = { open: 0, closed: 0, ongoing: 0 };
@@ -144,7 +158,7 @@ export default function AdminDashboard () {
                             <p className='text-[#667185] select-none cursor-pointer text-[14px]'>Build Work Experience through Work Challenges</p>
                         </div>
                         {/* statistics */}
-                        {currentUser === 'client' ? 
+                        {isAdmin ? 
                         <>
                             <div className='w-full flex flex-col space-y-[6px] md:space-y-[0px] md:flex-row mt-[20px] justify-between items-center md:space-x-[12px]'>
                                 <div className='bg-white h-[120px] rounded-[15px] w-full md:w-[50%] flex items-center border-solid border-[1px] relative border-[#E4E7EC] p-[16px]'>
@@ -468,3 +482,5 @@ export default function AdminDashboard () {
         </>
     )
 }
+
+export default withAuth(AdminDashboard)

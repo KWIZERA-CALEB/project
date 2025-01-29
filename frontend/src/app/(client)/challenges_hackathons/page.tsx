@@ -10,8 +10,8 @@ import { Challenge } from '@/utils/types';
 
 const ChallengesPage = () => {
   const dispatch = useAppDispatch();
-  const { data = [], loading } = useAppSelector((state: { api: { data: Challenge[]; loading: boolean; error: any } }) => state.api);
-
+  const { data = [], loading } = useAppSelector((state: { challenges: { data: Challenge[]; loading: boolean; error: any } }) => state.challenges);
+  
   const handleFetchChallenges = useCallback(() => {
     const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
     dispatch(fetchChallenges(`${apiBaseUrl}/challenges`));
@@ -22,11 +22,10 @@ const ChallengesPage = () => {
   }, [handleFetchChallenges]);
 
   return (
-    <div className="bg-gray-50 min-h-screen flex flex-col">
+    <>
       <Navbar />
-
-      <main className="container mx-auto px-4 py-16 flex-grow">
-        <h1 className="text-4xl font-bold text-center mb-12">Challenges & Hackathons</h1>
+      <main className='pr-[20px] pl-[20px] pt-[20px] pb-[20px]'>
+        <h1 className="text-[20px] font-bold text-[#101928] text-center font-[600] cursor-pointer select-none">Challenges & Hackathons</h1>
         {loading ? 
           <div className='w-full h-[200px] flex items-center justify-center'>
               <div className='loader'></div>
@@ -37,7 +36,7 @@ const ChallengesPage = () => {
                   <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>No challenges available</p>
               </div>
           :
-              <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4'>
+              <div className='grid grid-cols-1 mt-[15px] sm:grid-cols-2 md:grid-cols-3 gap-4'>
                   {Array.isArray(data) && data.map((challenge) => (
                       <ChallengeCard 
                           key={challenge._id} 
@@ -50,9 +49,8 @@ const ChallengesPage = () => {
               </div>
         }
       </main>
-
       <Footer />
-    </div>
+    </>
   );
 };
 

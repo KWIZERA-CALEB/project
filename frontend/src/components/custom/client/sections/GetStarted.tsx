@@ -1,86 +1,90 @@
-import React from "react";
+import { Button } from "../../../ui/button"
+
 
 const GetStarted = () => {
   return (
-    <section className="bg-gray-50 py-16">
-      <div className="container mx-auto px-4 text-center">
-        <h2 className="text-3xl font-bold mb-12">How to Get Started</h2>
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-8">
-          {/* Left Column: Step 1 and Step 2 */}
-          <div className="lg:col-span-3 space-y-6">
-            {/* Step 1 */}
-            <div className="bg-white shadow-md rounded-2xl p-4 relative flex flex-col items-end">
-              <div className="text-left pt-5">
-                <p className="text-blue-600 font-bold mb-2">Step 1</p>
-                <h3 className="text-xl font-semibold mb-2">Sign up on Umurava Platform</h3>
-                <p className="text-gray-600 text-sm pr-80 mr-10">
-                Submit your completed project for evaluation
-                </p>
+    <section className="bg-[#F9FAFB] w-full pr-[50px] pl-[50px] py-16">
+        <h2 className="text-3xl font-bold text-center mb-12">How to Get Started</h2>
+        {/* guideline */}
+        <div className='w-full flex space-x-[23px] justify-center'>
+
+          <div className='flex flex-col space-y-[23px]'>
+
+            <div className='bg-white relative overflow-hidden w-[470px] h-[364px] rounded-[12px] pt-[40px] pb-[40px] pr-[25px] pl-[25px]'>
+              <div>
+                <Button className='font-sans bg-umuravaBlueColor text-white hover:bg-umuravaBlueColor/[90%]'>Step 1</Button>
+                <div className='mt-[15px]'>
+                  <div className='flex flex-col space-y-[6px]'>
+                    <h4 className='font-bold cursor-pointer select-none'>Sign up on Umurava Platform</h4>
+                    <p className='text-[#667185] text-start select-none cursor-pointer text-[14px]'>Submit your completed project for evaluation</p>
+                  </div>
+                </div>
               </div>
-              <div className="right-0 mt-4">
-                <img
-                  src="/assets/images/step1.png"
-                  alt="Step 2 Image"
-                  className="rounded-lg shadow-lg w-32 h-32 object-cover"
-                />
+              <div className='absolute bottom-0 right-0'>
+                <img src='/assets/images/signup-screen.png' className='w-[200px]' alt='Signup screen' />
+              </div>
+            </div>
+            <div className='bg-white relative overflow-hidden w-[470px] h-[364px] rounded-[12px] pt-[40px] pb-[40px] pr-[25px] pl-[25px]'>
+              <div>
+                <Button className='font-sans bg-umuravaBlueColor text-white hover:bg-umuravaBlueColor/[90%]'>Step 2</Button>
+                <div className='mt-[15px]'>
+                  <div className='flex flex-col space-y-[6px]'>
+                    <h4 className='font-bold cursor-pointer select-none'>Browse Open Challenges</h4>
+                    <p className='text-[#667185] text-start select-none cursor-pointer text-[14px]'>Explore the range of challenges and hackathons and choose one that aligns with your interests and career goals</p>
+                  </div>
+                </div>
+              </div>
+              <div className='absolute bottom-0 right-0'>
+                <img src='/assets/images/challenges-screen.png' className='w-[200px]' alt='Challenges screen' />
               </div>
             </div>
 
-            {/* Step 2 */}
-            <div className="bg-white shadow-md rounded-2xl p-4 relative flex flex-col items-end">
-              <div className="text-left px-10 pt-5">
-                <p className="text-blue-600 font-bold mb-2">Step 2</p>
-                <h3 className="text-xl font-semibold mb-2">Browse Open Challenges</h3>
-                <p className="text-gray-600 text-sm">
-                  Explore the range of challenges and hackathons and choose one that aligns with your
-                  interests and career goals.
-                </p>
-              </div>
-              <div className="right-0 mt-4">
-                <img
-                  src="/assets/images/step2.png"
-                  alt="Step 2 Image"
-                  className="rounded-lg shadow-lg w-32 h-32 object-cover"
-                />
-              </div>
-            </div>
           </div>
 
-          {/* Right Column: Steps 3, 4, and 5 */}
-          <div className="lg:col-span-2 space-y-8">
-            {/* Step 3 */}
-            <div className="bg-white shadow-md rounded-2xl p-6">
-              <div className="text-left pt-5">
-                <p className="text-blue-600 font-bold mb-4">Step 3</p>
-                <h3 className="text-xl font-semibold mb-4">Register and Participate</h3>
-                <p className="text-gray-600">
-                  Sign up for the challenge and start working on the project.
-                </p>
+          <div className='flex flex-col space-y-[23px]'>
+            {/* card */}
+            <div className='bg-white overflow-hidden w-[470px] h-[235px] rounded-[12px] pt-[40px] pb-[40px] pr-[25px] pl-[25px]'>
+              <div>
+                <Button className='font-sans bg-umuravaBlueColor text-white hover:bg-umuravaBlueColor/[90%]'>Step 3</Button>
+                <div className='mt-[15px]'>
+                  <div className='flex flex-col space-y-[6px]'>
+                    <h4 className='font-bold cursor-pointer select-none'>Register and Participate</h4>
+                    <p className='text-[#667185] text-start select-none cursor-pointer text-[14px]'>Sign up for the challenge and start working on the project.</p>
+                  </div>
+                </div>
               </div>
             </div>
-
-            {/* Step 4 */}
-            <div className="bg-white shadow-md rounded-2xl p-6">
-              <div className="text-left pt-5">
-                <p className="text-blue-600 font-bold mb-4">Step 4</p>
-                <h3 className="text-xl font-semibold mb-4">Submit your work</h3>
-                <p className="text-gray-600">Submit your completed project for evaluation.</p>
+            {/* card */}
+            {/* card */}
+            <div className='bg-white overflow-hidden w-[470px] h-[235px] rounded-[12px] pt-[40px] pb-[40px] pr-[25px] pl-[25px]'>
+              <div>
+                <Button className='font-sans bg-umuravaBlueColor text-white hover:bg-umuravaBlueColor/[90%]'>Step 3</Button>
+                <div className='mt-[15px]'>
+                  <div className='flex flex-col space-y-[6px]'>
+                    <h4 className='font-bold cursor-pointer select-none'>Submit your work</h4>
+                    <p className='text-[#667185] text-start select-none cursor-pointer text-[14px]'>Submit your completed project for evaluation</p>
+                  </div>
+                </div>
               </div>
             </div>
-
-            {/* Step 5 */}
-            <div className="bg-white shadow-md rounded-2xl p-6">
-              <div className="text-left pt-5">
-                <p className="text-blue-600 font-bold mb-4">Step 5</p>
-                <h3 className="text-xl font-semibold mb-4">Receive Feedback and Recognition</h3>
-                <p className="text-gray-600">
-                  Get feedback on your work and celebrate your achievements.
-                </p>
+            {/* card */}
+            {/* card */}
+            <div className='bg-white overflow-hidden w-[470px] h-[235px] rounded-[12px] pt-[40px] pb-[40px] pr-[25px] pl-[25px]'>
+              <div>
+                <Button className='font-sans bg-umuravaBlueColor text-white hover:bg-umuravaBlueColor/[90%]'>Step 3</Button>
+                <div className='mt-[15px]'>
+                  <div className='flex flex-col space-y-[6px]'>
+                    <h4 className='font-bold cursor-pointer select-none'>Receive Feedback and Recognition</h4>
+                    <p className='text-[#667185] text-start select-none cursor-pointer text-[14px]'>Get feedback on your work and celebrate your achievements</p>
+                  </div>
+                </div>
               </div>
             </div>
+            {/* card */}
           </div>
+
         </div>
-      </div>
+        {/* guideline */}
     </section>
   );
 };

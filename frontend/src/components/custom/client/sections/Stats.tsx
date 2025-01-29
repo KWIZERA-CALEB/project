@@ -3,9 +3,9 @@
 
 export default function Stats() {
   return (
-    <section className="py-8 bg-white flex justify-center relative overflow-hidden">
+    <section className="py-8 bg-white flex flex pr-[20px] pl-[20px] md:pr-[0px] md:pl-[0px] justify-center relative overflow-hidden">
       {/* Stats Section */}
-      <div className="bg-blue-600 text-white rounded-xl relative my-5 shadow-lg px-8 lg:px-16 py-10 w-full max-w-6xl flex justify-between items-center space-x-4">
+      <div className="bg-blue-600 text-white rounded-xl relative my-5 shadow-lg px-8 lg:px-16 py-10 w-full max-w-6xl flex md:flex-row flex-col justify-between items-center space-x-4">
       <img
             alt="ellipse"
             src="/assets/images/bendup.png"

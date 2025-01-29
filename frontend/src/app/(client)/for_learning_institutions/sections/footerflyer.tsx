@@ -21,7 +21,7 @@ const BannerSection = () => {
             </h2>
             <div className="flex justify-center lg:justify-center">
               <button className="bg-white text-blue-500 font-semibold py-3 px-8 text-xs rounded-lg hover:bg-gray-100 transition duration-200">
-                Let's Partner
+                Let&apos;s Partner
               </button>
             </div>
           </div>

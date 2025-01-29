@@ -14,6 +14,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useCallback } from 'react'
 import { Loader2 } from "lucide-react"
 import { ChallengeFormData } from '@/utils/types'
+import { useAuth } from '@/hooks/useAuth'
 
 
 interface AdminEditChallengeParams {
@@ -37,7 +38,8 @@ const AdminEditChallenge: React.FC<AdminEditChallengeProps> = ({ params }) => {
     const router = useRouter()
 
     const dispatch = useAppDispatch();
-    const { challengeDetails, loading } = useAppSelector((state) => state.api);
+    const { challengeDetails, loading } = useAppSelector((state) => state.challenges);
+    const { isAuthenticated, isAdmin } = useAuth()
 
     const handleFetchChallenge = useCallback(() => {
         dispatch(fetchChallengeDetails({url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/challenge`, id}));
@@ -46,6 +48,18 @@ const AdminEditChallenge: React.FC<AdminEditChallengeProps> = ({ params }) => {
     useEffect(() => {
         handleFetchChallenge()
     }, [handleFetchChallenge]);
+
+    const handleCheckAuth = useCallback(() => {
+        if (!isAuthenticated) {
+            router.push('/');
+        } else if (!isAdmin) {
+            router.push('/challenges')
+        }
+    }, [isAuthenticated, isAdmin, router])
+
+    useEffect(() => {
+        handleCheckAuth()
+    }, [handleCheckAuth])
 
     useEffect(() => {
         if (challengeDetails) {

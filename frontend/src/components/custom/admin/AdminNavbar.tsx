@@ -6,12 +6,14 @@ import Link from 'next/link'
 import { Challenge } from "@/utils/types"
 
 
-import { useAppSelector } from '@/redux/hooks';
+import { useAppSelector, useAppDispatch } from '@/redux/hooks';
 
 const AdminNavbar = () => {
     const [inputValue, setInputValue] = useState('')
     const [isPopoverOpen, setIsPopoverOpen] = useState(false)
-    const { data = [] } = useAppSelector((state) => state.api);
+    const { data = [] } = useAppSelector((state) => state.challenges);
+    const { user } = useAppSelector((state) => state.user);
+
 
     // const searchResults = data.filter(challenge => challenge.challengeTitle === inputValue);
 
@@ -107,8 +109,8 @@ const AdminNavbar = () => {
                                     <img src="/assets/images/default.png" className='w-full h-full object-cover object-center rounded-full' alt="User"/>
                                 </div>
                                 <div className='flex flex-col'>
-                                    <p className='font-sans text-[14px]'>Hilare Sh</p>
-                                    <p className='font-sans text-[14px]'>hilare@design</p>
+                                    <p className='font-sans text-[14px]'>{user?.fullName}</p>
+                                    <p className='font-sans text-[14px]'>{user?.email}</p>
                                 </div>
                             </div>
                             <div className='cursor-pointer'>

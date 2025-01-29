@@ -110,7 +110,7 @@ export const deleteChallenge = createAsyncThunk(
 );
 
 const challengesSlice = createSlice({
-  name: 'api',
+  name: 'challenges',
   initialState,
   reducers: {},
   extraReducers: (builder) => {

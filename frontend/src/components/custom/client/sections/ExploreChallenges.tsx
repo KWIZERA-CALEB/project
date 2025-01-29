@@ -4,11 +4,12 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 import { fetchChallenges } from '@/redux/slices/challengesSlice';
 import { useEffect, useMemo, useCallback } from 'react'
 import { Challenge } from '@/utils/types';
+import Link from 'next/link'
 
 export default function ChallengesSection() {
 
   const dispatch = useAppDispatch();
-  const { data = [], loading, error } = useAppSelector((state) => state.api);
+  const { data = [], loading, error } = useAppSelector((state) => state.challenges);
 
   const handleFetchChallenges = useCallback(() => {
     dispatch(fetchChallenges(`${process.env.NEXT_PUBLIC_API_BASE_URL}/challenges`));
@@ -65,9 +66,11 @@ export default function ChallengesSection() {
       }
 
       <div className="flex justify-center mt-12">
-        <button className="px-6 border border-blue-600 py-3 bg-white font-medium rounded-md hover:bg-gray-300 text-blue-500 transition">
-          View More
-        </button>
+        <Link href='/challenges_hackathons'>
+          <button className="px-6 border border-blue-600 py-3 bg-white font-medium rounded-md text-blue-500">
+            View More
+          </button>
+        </Link>
       </div>
     </section>
   );

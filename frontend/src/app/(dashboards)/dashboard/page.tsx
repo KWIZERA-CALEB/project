@@ -19,6 +19,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
+import withAuth from '@/hoc/withAuth'
 
 const getWeekRange = () => {
     const currentDate = new Date();
@@ -46,7 +47,7 @@ const filterChallengesByDateAndStatus = (challenges: Challenge[], dateRange: { s
     });
 };
 
-export default function AdminDashboard () {
+const AdminDashboard = () => {
     const { isAuthenticated, isAdmin } = useAuth();
     const [selectedFilter, setSelectedFilter] = useState('week');
     const router = useRouter()
@@ -481,3 +482,5 @@ export default function AdminDashboard () {
         </>
     )
 }
+
+export default withAuth(AdminDashboard)

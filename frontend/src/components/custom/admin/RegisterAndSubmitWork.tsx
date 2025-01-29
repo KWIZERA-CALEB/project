@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useForm } from 'react-hook-form'
 import { RegisterForChallengeFormData, TeamMember } from "@/utils/types"
-import { useState } from 'react'
+import React, { useState } from 'react'
 import {
     Dialog,
     DialogContent,
@@ -11,9 +11,14 @@ import {
     DialogTitle,
     DialogTrigger,
   } from "@/components/ui/dialog"
+import axios from 'axios'
+import { useAppSelector } from '@/redux/hooks'
 
+interface ChallengeForSubmittingWorkProps {
+    challengeId: string;
+}
 
-const RegisterAndSubmitWork = () => {
+const RegisterAndSubmitWork: React.FC<ChallengeForSubmittingWorkProps> = ({ challengeId }) => {
     const isRegistered = true
     const maxNumberOFMembersPerTeam = 3
     const minNumberOFMembersPerTeam = 1
@@ -26,6 +31,8 @@ const RegisterAndSubmitWork = () => {
         formState: { errors },
     } = useForm<RegisterForChallengeFormData>()
     const [registeredTeamMembers, setRegisteredTeamMembers] = useState<TeamMember[]>([])
+    const { user } = useAppSelector((state) => state.user);
+
 
     const handleAddMemberToTeam = (data: RegisterForChallengeFormData) => {
         setRegisteredTeamMembers((prevMembers) => [
@@ -43,9 +50,9 @@ const RegisterAndSubmitWork = () => {
         setValue("otherMemberPhoneNumber", null);
     };
 
-    const onSubmit = (data: RegisterForChallengeFormData) => {
+    const onSubmit = async (data: RegisterForChallengeFormData) => {
         const payload = {
-            challengeId: data.challengeId,
+            challengeId: challengeId,
             teamLeader: {
                 fullName: data.teamLeaderFullName,
                 email: data.teamLeaderEmail,
@@ -58,6 +65,15 @@ const RegisterAndSubmitWork = () => {
             })),
         };
 
+        try {
+            const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
+            const response = await axios.post(`${apiBaseUrl}/register-for-challenge`, payload);
+            alert('Registered successfully!');
+        } catch (error) {
+            console.error('Error:', error);
+            alert('An error occurred while registering.');
+        }
+
         console.log(payload)
     };
 
@@ -67,7 +83,7 @@ const RegisterAndSubmitWork = () => {
         );
     };
 
-    const handleSubmittingWork = (e: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmittingWork = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
 
         const form = e.target as HTMLFormElement;
@@ -81,11 +97,23 @@ const RegisterAndSubmitWork = () => {
         }
 
         const payload = {
+            challengeId: challengeId,
+            resourcesLink,
             liveProjectLink,
-            resourcesLink
+            teamLeaderEmail: user?.email,
         };
 
-        console.log('Submitted work', payload);
+        console.log(payload)
+    
+        try {
+            const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
+            const response = await axios.post(`${apiBaseUrl}/submit-work`, payload);
+            alert('Work submitted successfully!');
+            console.log('Submitted work:', response.data);
+        } catch (error) {
+            console.error('Error submitting work:', error);
+            alert('An error occurred while submitting work.');
+        }
     }
 
     return (

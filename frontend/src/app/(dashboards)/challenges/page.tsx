@@ -13,6 +13,7 @@ import { useEffect, useMemo, useState, useCallback } from 'react'
 import { Challenge } from '@/utils/types';
 import { useAuth } from '@/hooks/useAuth'
 import { useRouter } from 'next/navigation'
+import withAuth from '@/hoc/withAuth';
 
 
 

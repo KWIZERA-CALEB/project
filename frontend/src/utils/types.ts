@@ -41,6 +41,11 @@ export interface TeamMember {
     otherMemberPhoneNumber: number | null;
 }
 
+export interface LoginFormData {
+    email: string;
+    password: string;
+}
+
 export interface Participants {
     
 }

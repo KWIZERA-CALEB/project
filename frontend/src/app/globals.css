@@ -45,6 +45,10 @@ body {
   100%{transform: rotate(.5turn)}
 }
 
+.swiper-pagination {
+  margin-top: 50px;
+}
+
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;

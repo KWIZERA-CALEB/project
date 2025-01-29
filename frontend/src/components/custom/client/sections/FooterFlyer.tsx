@@ -2,9 +2,9 @@ import React from 'react';
 
 const BannerSection = () => {
   return (
-    <section className="py-16 px-6 sm:px-12 lg:px-24 bg-gray-50">
-      <div className="max-w-7xl mx-auto">
-        <div className="bg-blue-600 rounded-lg shadow-lg  sm:p-8 md:p-10  flex flex-col lg:flex-row items-center max-w-5xl mx-auto relative">
+    <section className="w-full bg-white pt-[50px] pb-[50px] pr-[60px] pl-[60px]">
+      <div className="w-full">
+        <div className="bg-umuravaBlueColor rounded-[26px] pt-[50px] pb-[50px] pr-[70px] pl-[70px]  flex flex-col items-center md:flex-row relative">
         <img
             alt="ellipse"
             src="/assets/images/bendup.png"

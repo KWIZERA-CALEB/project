@@ -229,7 +229,7 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
                                             </Button>
                                         </div>
                                         :
-                                        <RegisterAndSubmitWork />
+                                        <RegisterAndSubmitWork challengeId={challengeDetails?._id} />
                                     }
                                 </div>
                                 {isAdmin &&

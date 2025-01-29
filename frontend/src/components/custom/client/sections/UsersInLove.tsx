@@ -1,5 +1,10 @@
-import React from 'react';
+'use client'
 import { Play } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import 'swiper/css';
+import 'swiper/css/pagination';
+import { Pagination } from 'swiper/modules';
 
 const UsersInLove = () => {
   return (
@@ -15,83 +20,146 @@ const UsersInLove = () => {
 
         {/* Horizontal Scrollable Video Testimonial Cards */}
         <div className="overflow-x-auto">
-          <div className="flex gap-8 items-center px-4">
-            {/* Video Card 1 */}
-            <div className="min-w-[280px] sm:min-w-[320px]  border border-gray-200 bg-white rounded-lg shadow-lg p-4 flex flex-col items-center">
-              <div className="w-full h-48 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
-                <div className="w-16 h-16 bg-blue-200 rounded-full flex items-center justify-center">
-                  <Play size={32} color="white" /> {/* Lucide Play Icon inside gray circle */}
-                </div>
-              </div>
-              <div className="flex ">
-                <div className="w-12 h-12 rounded-full bg-gray-300 overflow-hidden mr-4">
-                  <img
-                    src="/assets/demo/blue.png" // Add your image path here
-                    alt="Manzi Jack"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div>
-                  <p className="font-bold text-gray-800">Manzi Jack</p>
-                  <p className="text-sm text-gray-600">Product Designer, Kigali</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Video Card 2 */}
-            <div className="min-w-[280px] sm:min-w-[320px] bg-white rounded-lg border border-gray-200 shadow-lg p-4 flex flex-col items-center">
-              <div className="w-full h-48 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
-                <div className="w-16 h-16 bg-blue-200 rounded-full flex items-center justify-center">
-                  <Play size={32} color="white" /> {/* Lucide Play Icon inside gray circle */}
-                </div>
-              </div>
-              <div className="flex ">
-                <div className="w-12 h-12 rounded-full bg-gray-300 overflow-hidden mr-4">
-                  <img
-                    src="/assets/demo/blue.png" // Add your image path here
-                    alt="Jane Doe"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div>
-                  <p className="font-bold text-gray-800">Jane Doe</p>
-                  <p className="text-sm text-gray-600">Software Engineer, Nairobi</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Video Card 3 */}
-            <div className="min-w-[280px] sm:min-w-[320px] bg-white border border-gray-200 rounded-lg shadow-lg p-4 flex flex-col items-center">
-              <div className="w-full h-48 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
-                <div className="w-16 h-16 bg-blue-100 rounded-full flex items-center justify-center">
-                  <Play size={32} color="white" /> {/* Lucide Play Icon inside gray circle */}
-                </div>
-              </div>
-              <div className="flex">
-                <div className="w-12 h-12 rounded-full bg-gray-300 overflow-hidden mr-4">
-                  <img
-                    src="/assets/demo/blue.png" // Add your image path here
-                    alt="John Smith"
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div>
-                  <p className="font-bold text-gray-800">John Smith</p>
-                  <p className="text-sm text-gray-600">Data Scientist, Lagos</p>
-                </div>
-              </div>
-            </div>
-
-            {/* Add more Video Cards if needed */}
-          </div>
+            <Swiper
+              slidesPerView={'auto'}
+              spaceBetween={10}
+              pagination={{
+                clickable: true,
+              }}
+              modules={[Pagination]}
+              className="mySwiper"
+            >
+                  <SwiperSlide>
+                      <div className="flex items-center space-x-[10px]">
+                          <div className="w-[430px] h-[300px] cursor-pointer  border border-gray-200 bg-white rounded-lg p-4 flex flex-col items-center">
+                            <div className="w-full h-[250px] bg-blue-600 rounded-lg flex items-center justify-center mb-4">
+                              <div className="w-[50px] h-[50px] bg-blue-200 rounded-full flex items-center justify-center">
+                                <Play size={28} color="white" />
+                              </div>
+                            </div>
+                            <div className="flex w-full space-x-[6px] items-center">
+                              <div className="w-12 h-12 rounded-full bg-gray-300 overflow-hidden mr-4">
+                                <img
+                                  src="/assets/demo/blue.png"
+                                  alt="Manzi Jack"
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                              <div>
+                                <p className="font-bold text-[16px] text-[#00473B]">Manzi Jack</p>
+                                <p className="text-sm text-[14px] text-[#737373]">Product Designer, Kigali</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="w-[430px] h-[300px] cursor-pointer  border border-gray-200 bg-white rounded-lg p-4 flex flex-col items-center">
+                            <div className="w-full h-[250px] bg-blue-600 rounded-lg flex items-center justify-center mb-4">
+                              <div className="w-[50px] h-[50px] bg-blue-200 rounded-full flex items-center justify-center">
+                                <Play size={28} color="white" />
+                              </div>
+                            </div>
+                            <div className="flex w-full space-x-[6px] items-center">
+                              <div className="w-12 h-12 rounded-full bg-gray-300 overflow-hidden mr-4">
+                                <img
+                                  src="/assets/demo/blue.png"
+                                  alt="Manzi Jack"
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                              <div>
+                                <p className="font-bold text-[16px] text-[#00473B]">Manzi Jack</p>
+                                <p className="text-sm text-[14px] text-[#737373]">Product Designer, Kigali</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="w-[430px] h-[300px] cursor-pointer  border border-gray-200 bg-white rounded-lg p-4 flex flex-col items-center">
+                            <div className="w-full h-[250px] bg-blue-600 rounded-lg flex items-center justify-center mb-4">
+                              <div className="w-[50px] h-[50px] bg-blue-200 rounded-full flex items-center justify-center">
+                                <Play size={28} color="white" />
+                              </div>
+                            </div>
+                            <div className="flex w-full space-x-[6px] items-center">
+                              <div className="w-12 h-12 rounded-full bg-gray-300 overflow-hidden mr-4">
+                                <img
+                                  src="/assets/demo/blue.png"
+                                  alt="Manzi Jack"
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                              <div>
+                                <p className="font-bold text-[16px] text-[#00473B]">Manzi Jack</p>
+                                <p className="text-sm text-[14px] text-[#737373]">Product Designer, Kigali</p>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                  </SwiperSlide>
+                  <SwiperSlide>
+                      <div className="flex items-center space-x-[10px]">
+                          <div className="w-[430px] h-[300px] cursor-pointer  border border-gray-200 bg-white rounded-lg p-4 flex flex-col items-center">
+                            <div className="w-full h-[250px] bg-blue-600 rounded-lg flex items-center justify-center mb-4">
+                              <div className="w-[50px] h-[50px] bg-blue-200 rounded-full flex items-center justify-center">
+                                <Play size={28} color="white" />
+                              </div>
+                            </div>
+                            <div className="flex w-full space-x-[6px] items-center">
+                              <div className="w-12 h-12 rounded-full bg-gray-300 overflow-hidden mr-4">
+                                <img
+                                  src="/assets/demo/blue.png"
+                                  alt="Manzi Jack"
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                              <div>
+                                <p className="font-bold text-[16px] text-[#00473B]">Manzi Jack</p>
+                                <p className="text-sm text-[14px] text-[#737373]">Product Designer, Kigali</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="w-[430px] h-[300px] cursor-pointer  border border-gray-200 bg-white rounded-lg p-4 flex flex-col items-center">
+                            <div className="w-full h-[250px] bg-blue-600 rounded-lg flex items-center justify-center mb-4">
+                              <div className="w-[50px] h-[50px] bg-blue-200 rounded-full flex items-center justify-center">
+                                <Play size={28} color="white" />
+                              </div>
+                            </div>
+                            <div className="flex w-full space-x-[6px] items-center">
+                              <div className="w-12 h-12 rounded-full bg-gray-300 overflow-hidden mr-4">
+                                <img
+                                  src="/assets/demo/blue.png"
+                                  alt="Manzi Jack"
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                              <div>
+                                <p className="font-bold text-[16px] text-[#00473B]">Manzi Jack</p>
+                                <p className="text-sm text-[14px] text-[#737373]">Product Designer, Kigali</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="w-[430px] h-[300px] cursor-pointer  border border-gray-200 bg-white rounded-lg p-4 flex flex-col items-center">
+                            <div className="w-full h-[250px] bg-blue-600 rounded-lg flex items-center justify-center mb-4">
+                              <div className="w-[50px] h-[50px] bg-blue-200 rounded-full flex items-center justify-center">
+                                <Play size={28} color="white" />
+                              </div>
+                            </div>
+                            <div className="flex w-full space-x-[6px] items-center">
+                              <div className="w-12 h-12 rounded-full bg-gray-300 overflow-hidden mr-4">
+                                <img
+                                  src="/assets/demo/blue.png"
+                                  alt="Manzi Jack"
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                              <div>
+                                <p className="font-bold text-[16px] text-[#00473B]">Manzi Jack</p>
+                                <p className="text-sm text-[14px] text-[#737373]">Product Designer, Kigali</p>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                  </SwiperSlide>
+            </Swiper>
         </div>
 
-        {/* Pagination Dots */}
-        <div className="mt-8 flex justify-center items-center space-x-2">
-          <span className="w-2 h-2 bg-blue-600 rounded-full"></span>
-          <span className="w-2 h-2 bg-gray-300 rounded-full"></span>
-          <span className="w-2 h-2 bg-gray-300 rounded-full"></span>
-        </div>
       </div>
     </section>
   );

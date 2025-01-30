@@ -2,7 +2,7 @@ import { Banknote } from "lucide-react";
 
 export default function Bento() {
   return (
-    <section className="min-h-screen bg-gray-100 w-full p-20">
+    <section className="min-h-screen bg-gray-100 w-full pt-[50px] pb-[50px] pr-[100px] pl-[100px]">
       {/* Header Section */}
       <div className="text-center mb-10">
         <h1 className="text-3xl lg:text-3xl font-bold text-black leading-tight">
@@ -14,7 +14,9 @@ export default function Bento() {
       <div className="bg-blue-500 w-full rounded-lg p-10 mb-10">
         {/* Small White Div */}
         <div className="bg-white w-16 h-16 flex justify-center items-center rounded-lg shadow-lg mb-6">
-          <Banknote className="text-blue-500 w-6 h-6" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width='20' height='20' fill="#2B71F0">
+              <path d="M7 5V2C7 1.44772 7.44772 1 8 1H16C16.5523 1 17 1.44772 17 2V5H21C21.5523 5 22 5.44772 22 6V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V6C2 5.44772 2.44772 5 3 5H7ZM4 16V19H20V16H4ZM4 14H20V7H4V14ZM9 3V5H15V3H9ZM11 11H13V13H11V11Z"></path>
+            </svg>
         </div>
         {/* Content */}
         <div>
@@ -36,7 +38,9 @@ export default function Bento() {
         <div className="flex-1 bg-blue-500 rounded-lg p-10">
           {/* Small White Div */}
           <div className="bg-white w-16 h-16 flex justify-center items-center rounded-lg shadow-lg mb-6">
-            <Banknote className="text-blue-500 w-6 h-6" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width='20' height='20' fill="#2B71F0">
+              <path d="M7 5V2C7 1.44772 7.44772 1 8 1H16C16.5523 1 17 1.44772 17 2V5H21C21.5523 5 22 5.44772 22 6V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V6C2 5.44772 2.44772 5 3 5H7ZM4 16V19H20V16H4ZM4 14H20V7H4V14ZM9 3V5H15V3H9ZM11 11H13V13H11V11Z"></path>
+            </svg>
           </div>
           {/* Content */}
           <div>
@@ -54,7 +58,9 @@ export default function Bento() {
         <div className="flex-1 bg-blue-500 rounded-lg p-10">
           {/* Small White Div */}
           <div className="bg-white w-16 h-16 flex justify-center items-center rounded-lg shadow-lg mb-6">
-            <Banknote className="text-blue-500 w-6 h-6" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width='20' height='20' fill="#2B71F0">
+              <path d="M7 5V2C7 1.44772 7.44772 1 8 1H16C16.5523 1 17 1.44772 17 2V5H21C21.5523 5 22 5.44772 22 6V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V6C2 5.44772 2.44772 5 3 5H7ZM4 16V19H20V16H4ZM4 14H20V7H4V14ZM9 3V5H15V3H9ZM11 11H13V13H11V11Z"></path>
+            </svg>
           </div>
           {/* Content */}
           <div>

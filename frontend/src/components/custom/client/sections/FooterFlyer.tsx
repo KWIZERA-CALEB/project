@@ -2,10 +2,10 @@ import React from 'react';
 
 const BannerSection = () => {
   return (
-    <section className="w-full bg-white pt-[50px] pb-[50px] pr-[60px] pl-[60px]">
+    <section className="w-full bg-white pt-[50px] pb-[50px] pr-[100px] pl-[100px]">
       <div className="w-full">
-        <div className="bg-umuravaBlueColor rounded-[26px] pt-[50px] pb-[50px] pr-[70px] pl-[70px]  flex flex-col items-center md:flex-row relative">
-        <img
+        <div className="bg-umuravaBlueColor w-full rounded-[26px] pt-[50px] pb-[50px] pr-[70px] pl-[70px]  flex flex-col items-center md:flex-row relative">
+          <img
             alt="ellipse"
             src="/assets/images/bendup.png"
             className="absolute bottom-0 left-0 opacity-90 ml-15 pointer-events-none object-cover w-96"
@@ -15,16 +15,16 @@ const BannerSection = () => {
             src="/assets/images/bend_bottom.png"
             className="absolute top-0 right-0 opacity-90 pointer-events-none object-cover h-25"
           />
-          <div className="w-full lg:w-1/2 mb-6 lg:mb-0 flex justify-center">
+          <div className="w-full md:w-[50%] mb-6 lg:mb-0">
             <img
-              src="/assets/demo/students.png" // Replace with your image path
+              src="/assets/demo/students.png" 
               alt="Skills Challenges Program"
-              className="w-64 sm:w-72 lg:w-80 rounded-lg shadow-md"
+              className="w-64 sm:w-72 md:w-80 rounded-lg"
             />
           </div>
 
           {/* Text Section */}
-          <div className="w-full lg:w-1/2 text-white text-center lg:text-left">
+          <div className="w-full md:w-[50%] text-white text-center lg:text-left">
             <h2 className="text-xl sm:text-xl lg:text-2xl font-bold mb-4">
               Ready to Unlock Your Career Potential Today!
             </h2>

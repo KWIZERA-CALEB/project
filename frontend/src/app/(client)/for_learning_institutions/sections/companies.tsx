@@ -8,7 +8,7 @@ export default function Companies() {
         {/* Heading */}
         <h2 className="text-xl lg:text-2xl font-bold text-gray-900 mb-8">
           Join a few Educational Institutions using <br />
-          <span className="text-blue-600">Skills Challenges by Umurava</span>
+          <span>Skills Challenges by Umurava</span>
         </h2>
 
         {/* images Grid */}

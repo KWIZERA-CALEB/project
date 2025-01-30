@@ -18,8 +18,7 @@ const UsersInLove = () => {
           See what our clients say about working with us. Their success <br/> speaks for our dedication and expertise.
         </p>
 
-        {/* Horizontal Scrollable Video Testimonial Cards */}
-        <div className="overflow-x-auto">
+        <div className="z-10">
             <Swiper
               slidesPerView={'auto'}
               spaceBetween={10}
@@ -30,7 +29,7 @@ const UsersInLove = () => {
               className="mySwiper"
             >
                   <SwiperSlide>
-                      <div className="flex items-center space-x-[10px]">
+                      <div className="flex items-center space-x-[10px] pt-[20px] pb-[20px]">
                           <div className="w-[430px] h-[300px] cursor-pointer  border border-gray-200 bg-white rounded-lg p-4 flex flex-col items-center">
                             <div className="w-full h-[250px] bg-blue-600 rounded-lg flex items-center justify-center mb-4">
                               <div className="w-[50px] h-[50px] bg-blue-200 rounded-full flex items-center justify-center">
@@ -46,7 +45,27 @@ const UsersInLove = () => {
                                 />
                               </div>
                               <div>
-                                <p className="font-bold text-[16px] text-[#00473B]">Manzi Jack</p>
+                                <p className="font-bold text-[16px] text-[#00473B]">Kwizera Caleb</p>
+                                <p className="text-sm text-[14px] text-[#737373]">Software Engineer, Kigali</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div className="w-[430px] h-[300px] cursor-pointer  border border-gray-200 bg-white rounded-lg p-4 flex flex-col items-center">
+                            <div className="w-full h-[250px] bg-blue-600 rounded-lg flex items-center justify-center mb-4">
+                              <div className="w-[50px] h-[50px] bg-blue-200 rounded-full flex items-center justify-center">
+                                <Play size={28} color="white" />
+                              </div>
+                            </div>
+                            <div className="flex w-full space-x-[6px] items-center">
+                              <div className="w-12 h-12 rounded-full bg-gray-300 overflow-hidden mr-4">
+                                <img
+                                  src="/assets/demo/blue.png"
+                                  alt="Manzi Jack"
+                                  className="w-full h-full object-cover"
+                                />
+                              </div>
+                              <div>
+                                <p className="font-bold text-[16px] text-[#00473B]">Hiwa Pie</p>
                                 <p className="text-sm text-[14px] text-[#737373]">Product Designer, Kigali</p>
                               </div>
                             </div>
@@ -66,27 +85,7 @@ const UsersInLove = () => {
                                 />
                               </div>
                               <div>
-                                <p className="font-bold text-[16px] text-[#00473B]">Manzi Jack</p>
-                                <p className="text-sm text-[14px] text-[#737373]">Product Designer, Kigali</p>
-                              </div>
-                            </div>
-                          </div>
-                          <div className="w-[430px] h-[300px] cursor-pointer  border border-gray-200 bg-white rounded-lg p-4 flex flex-col items-center">
-                            <div className="w-full h-[250px] bg-blue-600 rounded-lg flex items-center justify-center mb-4">
-                              <div className="w-[50px] h-[50px] bg-blue-200 rounded-full flex items-center justify-center">
-                                <Play size={28} color="white" />
-                              </div>
-                            </div>
-                            <div className="flex w-full space-x-[6px] items-center">
-                              <div className="w-12 h-12 rounded-full bg-gray-300 overflow-hidden mr-4">
-                                <img
-                                  src="/assets/demo/blue.png"
-                                  alt="Manzi Jack"
-                                  className="w-full h-full object-cover"
-                                />
-                              </div>
-                              <div>
-                                <p className="font-bold text-[16px] text-[#00473B]">Manzi Jack</p>
+                                <p className="font-bold text-[16px] text-[#00473B]">Ntwari Brian</p>
                                 <p className="text-sm text-[14px] text-[#737373]">Product Designer, Kigali</p>
                               </div>
                             </div>

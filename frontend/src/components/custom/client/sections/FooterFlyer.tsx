@@ -2,7 +2,7 @@ import React from 'react';
 
 const BannerSection = () => {
   return (
-    <section className="w-full bg-white pt-[50px] pb-[50px] pr-[100px] pl-[100px]">
+    <section className="w-full bg-white pt-[50px] pb-[50px] pr-[20px] pl-[20px] md:pr-[100px] md:pl-[100px]">
       <div className="w-full">
         <div className="bg-umuravaBlueColor w-full rounded-[26px] pt-[50px] pb-[50px] pr-[70px] pl-[70px]  flex flex-col items-center md:flex-row relative">
           <img

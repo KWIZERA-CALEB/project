@@ -6,7 +6,7 @@ export default function Bento() {
       {/* Header Section */}
       <div className="text-center mb-8">
         <h1 className="text-2xl lg:text-3xl font-bold text-black leading-tight">
-          Why we are solving this problem
+        Key Offerings & Benefits:
         </h1>
       </div>
 
@@ -16,7 +16,9 @@ export default function Bento() {
         <div className="flex-1 lg:w-[32%] bg-blue-500 rounded-lg p-6">
           {/* Small White Div */}
           <div className="bg-white w-12 h-12 flex justify-center items-center rounded-lg shadow-lg mb-4">
-            <Banknote className="text-blue-500 w-5 h-5" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width='20' height='20' fill="#2B71F0">
+              <path d="M7 5V2C7 1.44772 7.44772 1 8 1H16C16.5523 1 17 1.44772 17 2V5H21C21.5523 5 22 5.44772 22 6V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V6C2 5.44772 2.44772 5 3 5H7ZM4 16V19H20V16H4ZM4 14H20V7H4V14ZM9 3V5H15V3H9ZM11 11H13V13H11V11Z"></path>
+            </svg>
           </div>
           {/* Content */}
           <div>
@@ -32,7 +34,9 @@ export default function Bento() {
 
         <div className="flex-1 lg:w-[32%] bg-blue-500 rounded-lg p-6">
           <div className="bg-white w-12 h-12 flex justify-center items-center rounded-lg shadow-lg mb-4">
-            <Banknote className="text-blue-500 w-5 h-5" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width='20' height='20' fill="#2B71F0">
+              <path d="M7 5V2C7 1.44772 7.44772 1 8 1H16C16.5523 1 17 1.44772 17 2V5H21C21.5523 5 22 5.44772 22 6V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V6C2 5.44772 2.44772 5 3 5H7ZM4 16V19H20V16H4ZM4 14H20V7H4V14ZM9 3V5H15V3H9ZM11 11H13V13H11V11Z"></path>
+            </svg>
           </div>
           <div>
             <h2 className="text-white font-bold text-lg mb-2">
@@ -47,7 +51,9 @@ export default function Bento() {
 
         <div className="flex-1 lg:w-[32%] bg-blue-500 rounded-lg p-6">
           <div className="bg-white w-12 h-12 flex justify-center items-center rounded-lg shadow-lg mb-4">
-            <Banknote className="text-blue-500 w-5 h-5" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width='20' height='20' fill="#2B71F0">
+              <path d="M7 5V2C7 1.44772 7.44772 1 8 1H16C16.5523 1 17 1.44772 17 2V5H21C21.5523 5 22 5.44772 22 6V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V6C2 5.44772 2.44772 5 3 5H7ZM4 16V19H20V16H4ZM4 14H20V7H4V14ZM9 3V5H15V3H9ZM11 11H13V13H11V11Z"></path>
+            </svg>
           </div>
           <div>
             <h2 className="text-white font-bold text-lg mb-2">
@@ -64,7 +70,9 @@ export default function Bento() {
         {/* Large Card */}
         <div className="lg:w-[66%] bg-blue-500 rounded-lg p-6">
           <div className="bg-white w-12 h-12 flex justify-center items-center rounded-lg shadow-lg mb-4">
-            <Banknote className="text-blue-500 w-5 h-5" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width='20' height='20' fill="#2B71F0">
+              <path d="M7 5V2C7 1.44772 7.44772 1 8 1H16C16.5523 1 17 1.44772 17 2V5H21C21.5523 5 22 5.44772 22 6V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V6C2 5.44772 2.44772 5 3 5H7ZM4 16V19H20V16H4ZM4 14H20V7H4V14ZM9 3V5H15V3H9ZM11 11H13V13H11V11Z"></path>
+            </svg>
           </div>
           <div>
             <h2 className="text-white font-bold text-lg mb-2">
@@ -80,7 +88,9 @@ export default function Bento() {
         {/* Regular Card */}
         <div className="lg:w-[32%] bg-blue-500 rounded-lg p-6">
           <div className="bg-white w-12 h-12 flex justify-center items-center rounded-lg shadow-lg mb-4">
-            <Banknote className="text-blue-500 w-5 h-5" />
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width='20' height='20' fill="#2B71F0">
+              <path d="M7 5V2C7 1.44772 7.44772 1 8 1H16C16.5523 1 17 1.44772 17 2V5H21C21.5523 5 22 5.44772 22 6V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V6C2 5.44772 2.44772 5 3 5H7ZM4 16V19H20V16H4ZM4 14H20V7H4V14ZM9 3V5H15V3H9ZM11 11H13V13H11V11Z"></path>
+            </svg>
           </div>
           <div>
             <h2 className="text-white font-bold text-lg mb-2">

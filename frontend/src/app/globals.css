@@ -46,7 +46,8 @@ body {
 }
 
 .swiper-pagination {
-  margin-top: 50px;
+  margin-bottom: -20px !important;
+  z-index: 9999 !important;
 }
 
 @media (prefers-color-scheme: dark) {

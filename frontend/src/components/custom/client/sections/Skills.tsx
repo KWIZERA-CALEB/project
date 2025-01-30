@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from 'next/link'
 
 export default function SkillsShowcase() {
   return (
@@ -36,24 +37,28 @@ export default function SkillsShowcase() {
       </div>
 
       {/* Featured Project Card */}
-      <div className="bg-gray-100 rounded-lg shadow-md max-w-5xl mx-auto flex flex-col lg:flex-row items-center p-6">
+      <div className="bg-gray-100 rounded-lg max-w-5xl mx-auto flex flex-col lg:flex-row items-start pt-[40px] pb-[40px] pr-[40px] pl-[40px]">
         {/* Icon and Text */}
         <div className="flex-1 lg:pr-8 mb-6 lg:mb-0">
-          <div className="bg-blue-100 w-10 h-10 flex justify-center items-center rounded-full mb-4">
-            <span className="text-blue-600 text-lg font-bold">sf</span>
+          <div className="w-[70px] h-[70px] flex justify-center rounded-full mb-4">
+            <img src='/assets/images/sf.png' alt='SF' />
           </div>
-          <h2 className="text-black text-lg font-semibold mb-2">
-            The Embedded Finance Platform and Payroll Management Software
-          </h2>
-          <p className="text-gray-600 text-sm mb-4">
-            Solutions for your organization and workforce.
+          <p className="text-gray-600 text-start text-[14px] mt-[20px]">
+          The Embedded Finance Platform and Payroll<br></br> Management Software Solutions for your organization and Workforce
           </p>
-          <a
-            href="#"
-            className="text-blue-600 font-medium text-sm transition hover:underline"
+          <Link
+            href="/login"
+            className="text-umuravaBlueColor mt-[20px] flex flex-row items-center space-x-[6px] font-bold text-sm transition hover:underline"
           >
-            Learn more &rarr;
-          </a>
+            <p>
+            Learn more 
+            </p>
+            <div className='bg-umuravaBlueColor w-[30px] h-[30px] rounded-full flex justify-center items-center'>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width='20' height='20' fill="#fff">
+                <path d="M16.1716 10.9999L10.8076 5.63589L12.2218 4.22168L20 11.9999L12.2218 19.778L10.8076 18.3638L16.1716 12.9999H4V10.9999H16.1716Z"></path>
+              </svg>
+            </div>
+          </Link>
         </div>
 
         {/* Image */}

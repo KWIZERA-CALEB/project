@@ -62,13 +62,13 @@ const Navbar = () => {
       </button>
 
       {isMenuOpen && (
-        <div className="absolute top-16 z-50 left-0 w-full bg-white p-4 shadow-md text-sm font-medium text-gray-600 md:hidden">
+        <div className="absolute top-16  flex flex-col space-y-[10px] z-50 left-0 w-full bg-white p-4 shadow-md md:hidden">
           {navLinks.map((link) => (
             <Link
               key={link.path}
               href={link.path}
               className={clsx(
-                "block py-2 hover:text-blue-500 text-[14px] transition text-[#777] ease-in-out",
+                "hover:text-blue-500 text-[12px] transition ease-in-out",
                 currentPath === link.path && "text-blue-500"
               )}
               onClick={() => setIsMenuOpen(false)}
@@ -77,14 +77,10 @@ const Navbar = () => {
             </Link>
           ))}
 
-          <div className="mt-4">
-                <Button
-                className="bg-[#041738] w-full text-white text-[14px] font-semibold hover:bg-blue-700 transition ease-in-out"
-              > 
-                <Link href="/login">
-                Join the Program
-                </Link>
-              </Button>
+          <div className="mt-4 w-full">
+            <Link href="/login" className='w-full'>
+              <Button className='bg-[#041738] w-ful text-[12px] hover:bg-umuravaBlueColor transition ease-in-out'>Join the Program</Button>
+            </Link>
           </div>
 
         </div>

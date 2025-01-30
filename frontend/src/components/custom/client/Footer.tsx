@@ -32,7 +32,7 @@ const Footer = () => {
                 </div>
             </div>
         </div>
-        <div className='border-b border-solid w-full border-[#fff]/[22%] pt-[20px] pb-[30px] flex flex-row justify-between'>
+        <div className='border-b border-solid w-full border-[#fff]/[22%] pt-[20px] pb-[30px] flex flex-col md:flex-row space-y-[20px] md:space-y-[0px] md:justify-between'>
             <div>
                 <h3 className='text-[15px] font-black cursor-pointer select-none text-white'>Our Address</h3>
 
@@ -99,7 +99,7 @@ const Footer = () => {
         </div>
 
         {/* copyright */}
-        <div className='w-full flex flex-row mt-[30px] justify-between items-center'>
+        <div className='w-full flex flex-col space-y-[5px] md:space-y-[0px] md:flex-row mt-[30px] md:justify-between items-center'>
             <div>
                 <p className='text-white/[80%] text-[12px]'>Copyright &copy; All Rights Reserved SawaPay {new Date().getFullYear()}.</p>
             </div>

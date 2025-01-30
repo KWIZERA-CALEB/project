@@ -27,7 +27,7 @@ const ChallengesPage = () => {
       <Navbar />
       <main className='pr-[50px] pl-[50px] pt-[20px] pb-[20px]'>
         <h1 className="text-[20px] font-bold text-[#101928] text-center font-[600] cursor-pointer select-none">Challenges & Hackathons</h1>
-        <div className='w-full bg-white pr-[25px] pl-[25px] h-[50px]'>
+        <div className='w-full bg-white pr-[25px] pl-[25px] flex justify-center md:justify-start h-[50px]'>
             <div className='flex flex-row items-center space-x-[4px]'>
                 <div className='flex flex-row cursor-pointer items-center space-x-[6px]'>
                     <div className='border-solid border-[1px] rounded-[5px] border-[#667185] p-[4px]'>

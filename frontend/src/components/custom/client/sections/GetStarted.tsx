@@ -1,162 +1,57 @@
-import { Button } from "../../../ui/button"
+import { Button } from "../../../ui/button";
 
-
+const StepCard = ({ step, title, description, image, tall }) => {
+  return (
+    <div className={`bg-white relative overflow-hidden w-full ${tall ? "h-[350px]" : "h-[220px]"} rounded-xl p-6`}>
+      <Button className="font-sans bg-umuravaBlueColor text-white hover:bg-umuravaBlueColor/[90%]">
+        {step}
+      </Button>
+      <div className="mt-4">
+        <h4 className="font-bold cursor-pointer">{title}</h4>
+        <p className="text-[#667185] text-start text-sm">{description}</p>
+      </div>
+      {image && (
+        <div className="absolute bottom-0 right-0">
+          <img src={image} className="max-w-[140px] md:max-w-[180px]" alt={title} />
+        </div>
+      )}
+    </div>
+  );
+};
 const GetStarted = () => {
   return (
-    <section className="bg-[#F9FAFB] w-full pr-[20px] pl-[20px] md:pr-[50px] md:pl-[50px] py-16">
-        <h2 className="text-3xl font-bold text-center mb-12">How to Get Started</h2>
+    <section className="bg-[#F9FAFB] w-full px-5 md:px-12 py-16">
+      <h2 className="text-3xl font-bold text-center mb-12">How to Get Started</h2>
 
-        <div className='flex flex-col md:hidden space-y-[15px]'>
-            <div className='bg-white relative overflow-hidden w-full h-[364px] rounded-[12px] pt-[40px] pb-[40px] pr-[25px] pl-[25px]'>
-              <div>
-                <Button className='font-sans bg-umuravaBlueColor text-white hover:bg-umuravaBlueColor/[90%]'>Step 1</Button>
-                <div className='mt-[15px]'>
-                  <div className='flex flex-col space-y-[6px]'>
-                    <h4 className='font-bold cursor-pointer select-none'>Sign up on Umurava Platform</h4>
-                    <p className='text-[#667185] text-start select-none cursor-pointer text-[14px]'>Submit your completed project for evaluation</p>
-                  </div>
-                </div>
-              </div>
-              <div className='absolute bottom-0 right-0'>
-                <img src='/assets/images/signup-screen.png' className='w-[200px]' alt='Signup screen' />
-              </div>
-            </div>
+      {/* Mobile View (Stacked) */}
+      <div className="flex flex-col md:hidden gap-6">
+        <StepCard step="Step 1" title="Sign up on Umurava Platform" description="Submit your completed project for evaluation" image="/assets/images/signup-screen.png" />
+        <StepCard step="Step 2" title="Browse Open Challenges" description="Explore the range of challenges and hackathons and choose one that aligns with your interests and career goals" image="/assets/images/challenges-screen.png" />
+        <StepCard step="Step 3" title="Register and Participate" description="Sign up for the challenge and start working on the project." />
+        <StepCard step="Step 4" title="Submit your work" description="Submit your completed project for evaluation" />
+        <StepCard step="Step 5" title="Receive Feedback and Recognition" description="Get feedback on your work and celebrate your achievements" />
+      </div>
 
-            <div className='bg-white relative overflow-hidden w-full h-[364px] rounded-[12px] pt-[40px] pb-[40px] pr-[25px] pl-[25px]'>
-              <div>
-                <Button className='font-sans bg-umuravaBlueColor text-white hover:bg-umuravaBlueColor/[90%]'>Step 2</Button>
-                <div className='mt-[15px]'>
-                  <div className='flex flex-col space-y-[6px]'>
-                    <h4 className='font-bold cursor-pointer select-none'>Browse Open Challenges</h4>
-                    <p className='text-[#667185] text-start select-none cursor-pointer text-[14px]'>Explore the range of challenges and hackathons and choose one that aligns with your interests and career goals</p>
-                  </div>
-                </div>
-              </div>
-              <div className='absolute bottom-0 right-0'>
-                <img src='/assets/images/challenges-screen.png' className='w-[200px]' alt='Challenges screen' />
-              </div>
-            </div>
-
-            <div className='bg-white overflow-hidden w-full h-[235px] rounded-[12px] pt-[40px] pb-[40px] pr-[25px] pl-[25px]'>
-              <div>
-                <Button className='font-sans bg-umuravaBlueColor text-white hover:bg-umuravaBlueColor/[90%]'>Step 3</Button>
-                <div className='mt-[15px]'>
-                  <div className='flex flex-col space-y-[6px]'>
-                    <h4 className='font-bold cursor-pointer select-none'>Register and Participate</h4>
-                    <p className='text-[#667185] text-start select-none cursor-pointer text-[14px]'>Sign up for the challenge and start working on the project.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className='bg-white overflow-hidden w-full h-[235px] rounded-[12px] pt-[40px] pb-[40px] pr-[25px] pl-[25px]'>
-              <div>
-                <Button className='font-sans bg-umuravaBlueColor text-white hover:bg-umuravaBlueColor/[90%]'>Step 4</Button>
-                <div className='mt-[15px]'>
-                  <div className='flex flex-col space-y-[6px]'>
-                    <h4 className='font-bold cursor-pointer select-none'>Submit your work</h4>
-                    <p className='text-[#667185] text-start select-none cursor-pointer text-[14px]'>Submit your completed project for evaluation</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className='bg-white overflow-hidden w-full h-[235px] rounded-[12px] pt-[40px] pb-[40px] pr-[25px] pl-[25px]'>
-              <div>
-                <Button className='font-sans bg-umuravaBlueColor text-white hover:bg-umuravaBlueColor/[90%]'>Step 5</Button>
-                <div className='mt-[15px]'>
-                  <div className='flex flex-col space-y-[6px]'>
-                    <h4 className='font-bold cursor-pointer select-none'>Receive Feedback and Recognition</h4>
-                    <p className='text-[#667185] text-start select-none cursor-pointer text-[14px]'>Get feedback on your work and celebrate your achievements</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-
+      {/* Desktop View */}
+      <div className="hidden md:flex justify-center gap-x-6">
+        {/* Left Column (Step 1 & 2, slightly reduced width) */}
+        <div className="flex flex-col gap-y-6 w-[420px]">
+          <StepCard step="Step 1" title="Sign up on Umurava Platform" description="Submit your completed project for evaluation" image="/assets/images/signup-screen.png" tall />
+          <StepCard step="Step 2" title="Browse Open Challenges" description="Explore the range of challenges and hackathons and choose one that aligns with your interests and career goals" image="/assets/images/challenges-screen.png" tall />
         </div>
 
-        {/* guideline */}
-        <div className='md:w-full hidden md:flex space-x-[23px] justify-center'>
-
-          <div className='flex flex-col space-y-[23px]'>
-
-            <div className='bg-white relative overflow-hidden w-[470px] h-[364px] rounded-[12px] pt-[40px] pb-[40px] pr-[25px] pl-[25px]'>
-              <div>
-                <Button className='font-sans bg-umuravaBlueColor text-white hover:bg-umuravaBlueColor/[90%]'>Step 1</Button>
-                <div className='mt-[15px]'>
-                  <div className='flex flex-col space-y-[6px]'>
-                    <h4 className='font-bold cursor-pointer select-none'>Sign up on Umurava Platform</h4>
-                    <p className='text-[#667185] text-start select-none cursor-pointer text-[14px]'>Submit your completed project for evaluation</p>
-                  </div>
-                </div>
-              </div>
-              <div className='absolute bottom-0 right-0'>
-                <img src='/assets/images/signup-screen.png' className='w-[200px]' alt='Signup screen' />
-              </div>
-            </div>
-            <div className='bg-white relative overflow-hidden w-[470px] h-[364px] rounded-[12px] pt-[40px] pb-[40px] pr-[25px] pl-[25px]'>
-              <div>
-                <Button className='font-sans bg-umuravaBlueColor text-white hover:bg-umuravaBlueColor/[90%]'>Step 2</Button>
-                <div className='mt-[15px]'>
-                  <div className='flex flex-col space-y-[6px]'>
-                    <h4 className='font-bold cursor-pointer select-none'>Browse Open Challenges</h4>
-                    <p className='text-[#667185] text-start select-none cursor-pointer text-[14px]'>Explore the range of challenges and hackathons and choose one that aligns with your interests and career goals</p>
-                  </div>
-                </div>
-              </div>
-              <div className='absolute bottom-0 right-0'>
-                <img src='/assets/images/challenges-screen.png' className='w-[200px]' alt='Challenges screen' />
-              </div>
-            </div>
-
-          </div>
-
-          <div className='flex flex-col space-y-[23px]'>
-            {/* card */}
-            <div className='bg-white overflow-hidden w-[470px] h-[235px] rounded-[12px] pt-[40px] pb-[40px] pr-[25px] pl-[25px]'>
-              <div>
-                <Button className='font-sans bg-umuravaBlueColor text-white hover:bg-umuravaBlueColor/[90%]'>Step 3</Button>
-                <div className='mt-[15px]'>
-                  <div className='flex flex-col space-y-[6px]'>
-                    <h4 className='font-bold cursor-pointer select-none'>Register and Participate</h4>
-                    <p className='text-[#667185] text-start select-none cursor-pointer text-[14px]'>Sign up for the challenge and start working on the project.</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* card */}
-            {/* card */}
-            <div className='bg-white overflow-hidden w-[470px] h-[235px] rounded-[12px] pt-[40px] pb-[40px] pr-[25px] pl-[25px]'>
-              <div>
-                <Button className='font-sans bg-umuravaBlueColor text-white hover:bg-umuravaBlueColor/[90%]'>Step 4</Button>
-                <div className='mt-[15px]'>
-                  <div className='flex flex-col space-y-[6px]'>
-                    <h4 className='font-bold cursor-pointer select-none'>Submit your work</h4>
-                    <p className='text-[#667185] text-start select-none cursor-pointer text-[14px]'>Submit your completed project for evaluation</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* card */}
-            {/* card */}
-            <div className='bg-white overflow-hidden w-[470px] h-[235px] rounded-[12px] pt-[40px] pb-[40px] pr-[25px] pl-[25px]'>
-              <div>
-                <Button className='font-sans bg-umuravaBlueColor text-white hover:bg-umuravaBlueColor/[90%]'>Step 5</Button>
-                <div className='mt-[15px]'>
-                  <div className='flex flex-col space-y-[6px]'>
-                    <h4 className='font-bold cursor-pointer select-none'>Receive Feedback and Recognition</h4>
-                    <p className='text-[#667185] text-start select-none cursor-pointer text-[14px]'>Get feedback on your work and celebrate your achievements</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-            {/* card */}
-          </div>
-
+        {/* Right Column (Step 3, 4, 5) - Retains original width for better proportions */}
+        <div className="flex flex-col gap-y-6 w-[470px]">
+          <StepCard step="Step 3" title="Register and Participate" description="Sign up for the challenge and start working on the project." />
+          <StepCard step="Step 4" title="Submit your work" description="Submit your completed project for evaluation" />
+          <StepCard step="Step 5" title="Receive Feedback and Recognition" description="Get feedback on your work and celebrate your achievements" />
         </div>
-        {/* guideline */}
+      </div>
     </section>
   );
 };
+
+// StepCard Component
+
 
 export default GetStarted;

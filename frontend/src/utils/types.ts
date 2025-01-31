@@ -9,6 +9,9 @@ export interface Challenge {
     projectDescription: string;
     projectBrief: string;
     projectDescriptionTasks: string;
+    category: string;
+    levels: string;
+    skills: string;
     createdAt: string;
 }
 
@@ -22,6 +25,9 @@ export interface ChallengeFormData {
     projectDescription: string;
     projectBrief: string;
     projectDescriptionTasks: string;
+    levels: string;
+    skills: string;
+    category: string;
 }
 
 export interface RegisterForChallengeFormData {

@@ -55,7 +55,7 @@ const Login = () => {
                         </div>
                         <Button
                             type="submit"
-                            className={`w-[50%] font-sans ${loading ? 'cursor-not-allowed bg-umuravaBlueColor text-white hover:bg-umuravaBlueColor/[90%]' : 'bg-umuravaBlueColor text-white hover:bg-umuravaBlueColor/[90%]'} `}
+                            className={`w-full font-sans ${loading ? 'cursor-not-allowed bg-umuravaBlueColor text-white hover:bg-umuravaBlueColor/[90%]' : 'bg-umuravaBlueColor text-white hover:bg-umuravaBlueColor/[90%]'} `}
                             disabled={loading}
                         >
                             {loading ? (
@@ -69,6 +69,14 @@ const Login = () => {
                         </Button>
                     </div>
                 </form>
+
+                <div className='rounded-[10px] mt-[15px] border-solid border-[1px] border-red-500 p-[6px] bg-red-500/[40%]'>
+                    <p className='text-red-500 font-sans select-none text-center cursor-pointer text-[14px]'>Notice ⛔</p>
+                    <p className='text-red-500 font-sans select-none cursor-pointer text-[14px]'>-This is a sample login page for testing the authentication between multiple users since it will be integrated in the already running site.</p>
+                    <p className='text-red-500 font-sans select-none cursor-pointer text-[14px]'>-Admin acount: kwizeracaleb91@gmail.com | Talent account: spongebob@gmail.com. | Passwords: pass12345</p>
+                    <p className='text-red-500 font-sans select-none cursor-pointer text-[14px]'>-Based on understanding the product design, we have also added more fields on create page cause there are some missing in the challenge card.</p>
+                    <p className='text-red-500 font-sans select-none cursor-pointer text-[14px]'>-Hosted app: (Frontend: https://umurava-app.vercel.app/) | (Backend: https://umurava-edtech.onrender.com/api-docs)</p>
+                </div>
             </div>
 
         </div>

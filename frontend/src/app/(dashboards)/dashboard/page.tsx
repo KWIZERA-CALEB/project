@@ -19,7 +19,7 @@ import {
     DropdownMenuItem,
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import withAuth from '@/hoc/withAuth'
+import ProtectedRoute from '@/hoc/withAuth'
 
 const getWeekRange = () => {
     const currentDate = new Date();
@@ -54,6 +54,7 @@ const AdminDashboard = () => {
 
     const dispatch = useAppDispatch();
     const { data = [], loading } = useAppSelector((state) => state.challenges);
+    const { user } = useAppSelector((state) => state.user);
 
     const handleFetchChallenges = useCallback(() => {
         dispatch(fetchChallenges(`${process.env.NEXT_PUBLIC_API_BASE_URL}/challenges`));
@@ -63,15 +64,6 @@ const AdminDashboard = () => {
         handleFetchChallenges()
     }, [handleFetchChallenges]);
 
-    const handleCheckAuth = useCallback(() => {
-        if (!isAuthenticated) {
-            router.push('/');
-        }
-    }, [isAuthenticated, router])
-
-    useEffect(() => {
-        handleCheckAuth()
-    }, [handleCheckAuth])
 
     const challengeCounts = useMemo(() => {
         const counts = { open: 0, closed: 0, ongoing: 0 };
@@ -147,14 +139,14 @@ const AdminDashboard = () => {
     
 
     return (
-        <>
+        <ProtectedRoute>
             <div className='w-full h-[100vh] flex flex-row'>
                 <Sidebar />
                 <div className='md:flex-1 w-full md:ml-[270px]'>
                     <AdminNavbar />
                     <div className='bg-[#F9FAFB] z-20 pr-[25px] pl-[25px] pt-[70px] pb-[70px] md:pb-[25px] w-full min-h-screen'>
                         <div>
-                            <h4 className='font-bold cursor-pointer select-none'>Welcome back Hilare</h4>
+                            <h4 className='font-bold cursor-pointer select-none'>Welcome back {user?.fullName}</h4>
                             <p className='text-[#667185] select-none cursor-pointer text-[14px]'>Build Work Experience through Work Challenges</p>
                         </div>
                         {/* statistics */}
@@ -469,7 +461,9 @@ const AdminDashboard = () => {
                                                 challengeLink={challenge._id} 
                                                 duration={challenge.challengeDuration} 
                                                 challengeTitle={challenge.challengeTitle}
-                                                status={challenge.status} 
+                                                status={challenge.status}
+                                                skills={challenge.skills}
+                                                levels={challenge.levels || 'No levels'} 
                                             />
                                         ))}
                                     </div>
@@ -479,8 +473,8 @@ const AdminDashboard = () => {
                 </div>
             </div>
             <MobileSidebar />
-        </>
+        </ProtectedRoute>
     )
 }
 
-export default withAuth(AdminDashboard)
+export default AdminDashboard

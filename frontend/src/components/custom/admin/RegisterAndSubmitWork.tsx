@@ -1,8 +1,9 @@
+'use client'
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useForm } from 'react-hook-form'
 import { RegisterForChallengeFormData, TeamMember } from "@/utils/types"
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     Dialog,
     DialogContent,
@@ -13,15 +14,20 @@ import {
   } from "@/components/ui/dialog"
 import axios from 'axios'
 import { useAppSelector } from '@/redux/hooks'
+import { useRouter } from 'next/navigation'
+import { RootState } from '@/redux/slices/index';
+
 
 interface ChallengeForSubmittingWorkProps {
     challengeId: string | undefined;
+    challengeStatus: string | undefined;
 }
 
-const RegisterAndSubmitWork: React.FC<ChallengeForSubmittingWorkProps> = ({ challengeId }) => {
-    const isRegistered = true
+const RegisterAndSubmitWork: React.FC<ChallengeForSubmittingWorkProps> = ({ challengeId, challengeStatus }) => {
+    const [isRegistered, setIsRegistered] = useState(false);
     const maxNumberOFMembersPerTeam = 3
-    const minNumberOFMembersPerTeam = 1
+    const minNumberOFMembersPerTeam = 3
+    const router = useRouter()
 
     const {
         register,
@@ -32,6 +38,26 @@ const RegisterAndSubmitWork: React.FC<ChallengeForSubmittingWorkProps> = ({ chal
     } = useForm<RegisterForChallengeFormData>()
     const [registeredTeamMembers, setRegisteredTeamMembers] = useState<TeamMember[]>([])
     const { user } = useAppSelector((state) => state.user);
+
+
+    
+    const { data = [] } = useAppSelector((state: RootState) => ({
+        data: state.participants.data || []
+    }));
+    
+    const loggedInUserEmail = user?.email;
+
+    useEffect(() => {
+        if (!challengeId || !loggedInUserEmail) return;
+
+        const isUserRegistered = data.some(participant => 
+            participant.challengeId.toString() === challengeId &&
+            (participant.teamLeader.email === loggedInUserEmail || 
+             participant.otherTeamMembers.some(member => member.email === loggedInUserEmail))
+        );
+
+        setIsRegistered(isUserRegistered);
+    }, [challengeId, loggedInUserEmail, data]);
 
 
     const handleAddMemberToTeam = (data: RegisterForChallengeFormData) => {
@@ -55,7 +81,7 @@ const RegisterAndSubmitWork: React.FC<ChallengeForSubmittingWorkProps> = ({ chal
             challengeId: challengeId,
             teamLeader: {
                 fullName: data.teamLeaderFullName,
-                email: data.teamLeaderEmail,
+                email: loggedInUserEmail,
                 phoneNumber: data.teamLeaderPhoneNumber,
             },
             otherTeamMembers: registeredTeamMembers.map((member) => ({
@@ -69,6 +95,7 @@ const RegisterAndSubmitWork: React.FC<ChallengeForSubmittingWorkProps> = ({ chal
             const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
             const response = await axios.post(`${apiBaseUrl}/register-for-challenge`, payload);
             alert('Registered successfully!');
+            router.push('/challenges')
         } catch (error) {
             console.error('Error:', error);
             alert('An error occurred while registering.');
@@ -109,6 +136,7 @@ const RegisterAndSubmitWork: React.FC<ChallengeForSubmittingWorkProps> = ({ chal
             const apiBaseUrl = process.env.NEXT_PUBLIC_API_BASE_URL || '';
             const response = await axios.post(`${apiBaseUrl}/submit-work`, payload);
             alert('Work submitted successfully!');
+            router.push('/challenges')
             console.log('Submitted work:', response.data);
         } catch (error) {
             console.error('Error submitting work:', error);
@@ -119,14 +147,20 @@ const RegisterAndSubmitWork: React.FC<ChallengeForSubmittingWorkProps> = ({ chal
     return (
         <>
             <div className='mt-[10px]'>
-                {isRegistered ? 
+                {isRegistered  ? 
                     <Dialog>
                         <DialogTrigger className='w-full'>
-                            <Button className='bg-umuravaBlueColor w-full text-white hover:bg-umuravaBlueColor/[90%] font-sans'>
-                                Submit Your Work
-                            </Button>
+                            {challengeStatus === 'closed' ? 
+                                <Button disabled className='bg-red-500 cursor-not-allowed w-full text-white hover:bg-umuravaBlueColor/[90%] font-sans'>
+                                    Submission Deadline reached
+                                </Button>
+                            :
+                                <Button className='bg-umuravaBlueColor w-full text-white hover:bg-umuravaBlueColor/[90%] font-sans'>
+                                    Submit your work
+                                </Button>
+                            }
                         </DialogTrigger>
-                        <DialogContent className='bg-white md:w-[600px] overflow-y-scroll'>
+                        <DialogContent className='bg-white w-full md:w-[600px] overflow-y-scroll'>
                             <div className='w-full h-full'>
                                 <div className='p-[6px] border-b border-solid border-[#E4E7EC]'>
                                     <p className='text-[#667185] font-sans select-none cursor-pointer text-start text-[14px]'>Fill the form to submit your done work</p>
@@ -160,11 +194,17 @@ const RegisterAndSubmitWork: React.FC<ChallengeForSubmittingWorkProps> = ({ chal
                 :   
                     <Dialog>
                         <DialogTrigger className='w-full'>
-                            <Button className='bg-umuravaBlueColor w-full text-white hover:bg-umuravaBlueColor/[90%] font-sans'>
-                                Register for Challenge
-                            </Button>
+                            {challengeStatus === 'closed' || challengeStatus === 'ongoing' ? 
+                                <Button disabled className='bg-red-500 cursor-not-allowed w-full text-white hover:bg-umuravaBlueColor/[90%] font-sans'>
+                                    Registration Closed
+                                </Button>
+                            :
+                                <Button className='bg-umuravaBlueColor w-full text-white hover:bg-umuravaBlueColor/[90%] font-sans'>
+                                    Register for Challenge
+                                </Button>
+                            }
                         </DialogTrigger>
-                        <DialogContent className='bg-white h-[600px] md:w-[600px] overflow-y-scroll'>
+                        <DialogContent className='bg-white h-[600px] w-full md:w-[600px] overflow-y-scroll'>
                             <div className='w-full h-full'>
                                 <div className='p-[6px] border-b border-solid border-[#E4E7EC]'>
                                     <p className='text-[#667185] font-sans select-none cursor-pointer text-start text-[14px]'>Fill the form to register for challenge.(3 Members Minimum)</p>
@@ -181,7 +221,7 @@ const RegisterAndSubmitWork: React.FC<ChallengeForSubmittingWorkProps> = ({ chal
                                                 </div>
                                                 <div>
                                                     <p className='text-[#777] font-sans select-none cursor-pointer text-[14px]'>Email</p>
-                                                    <Input {...register("teamLeaderEmail", { required: "Email is required" })} type='text' placeholder='Email' className={errors.teamLeaderEmail ? 'shadow-none pt-[20px] pb-[20px] border-solid border-[1px] border-red-500' : 'shadow-none pt-[20px] pb-[20px]'} />
+                                                    <Input {...register("teamLeaderEmail")} value={loggedInUserEmail} disabled type='text' placeholder='Email' className={errors.teamLeaderEmail ? 'shadow-none pt-[20px] pb-[20px] border-solid border-[1px] border-red-500' : 'shadow-none pt-[20px] pb-[20px]'} />
                                                 </div>
                                                 <div>
                                                     <p className='text-[#777] font-sans select-none cursor-pointer text-[14px]'>Phone Number</p>
@@ -195,7 +235,7 @@ const RegisterAndSubmitWork: React.FC<ChallengeForSubmittingWorkProps> = ({ chal
                                         </div>
                                         }
 
-                                        <div className='grid grid-cols-2 mt-[10px] mb-[10px] gap-[4px] w-full'>
+                                        <div className='grid grid-cols-1 md:grid-cols-2 mt-[10px] mb-[10px] gap-[2px] md:gap-[4px] w-full'>
                                             {registeredTeamMembers.map((member, index) => (
                                                 <div key={index} className='p-[10px] rounded-[4px] relative border-[1px] border-solid border-[#E4E7EC]'>
                                                     <div className='flex flex-row space-x-[10px] cursor-pointer items-center'>

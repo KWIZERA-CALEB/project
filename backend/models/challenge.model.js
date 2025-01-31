@@ -41,6 +41,21 @@ const challengeSchema = new Schema({
         required: true,
         default: 'open',
     },
+    levels: {
+        type: String,
+        required: true,
+        default: 'Senior'
+    },
+    skills: {
+        type: String,
+        required: true,
+        default: 'Frontend,UI/UX'
+    },
+    category: {
+        type: String,
+        required: true,
+        default: 'Web design'
+    },
 }, {timestamps: true})
 
 const ChallengeModel = mongoose.model('Challenge', challengeSchema)

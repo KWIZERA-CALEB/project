@@ -5,30 +5,26 @@ config()
 
 export const protectRoute = async (req, res, next) => {
   try {
-    const token = req.cookies.jwt;
+      const authHeader = req.headers.authorization;
 
-    if (!token) {
-      return res.status(401).json({ message: "Unauthorized - No Token Provided" });
-    }
+      if (!authHeader || !authHeader.startsWith("Bearer ")) {
+          return res.status(401).json({ message: "Unauthorized: No token provided" });
+      }
 
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      const token = authHeader.split(" ")[1];
 
-    if (!decoded) {
-      return res.status(401).json({ message: "Unauthorized - Invalid Token" });
-      // you can refresh the token here
-    }
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
 
-    const user = await UserModel.findById(decoded.userId).select("-password");
+      const user = await UserModel.findById(decoded.id).select("-password");
+      if (!user) {
+          return res.status(401).json({ message: "Unauthorized: User not found" });
+      }
 
-    if (!user) {
-      return res.status(404).json({ message: "User not found" });
-    }
+      req.user = user;
+      next();
 
-    req.user = user;
-
-    next();
   } catch (error) {
-    console.log("Error in protectRoute middleware: ", error.message);
-    res.status(500).json({ message: "Internal server error" });
+      console.error("Authentication error:", error);
+      res.status(401).json({ message: "Unauthorized: Invalid token" });
   }
 };

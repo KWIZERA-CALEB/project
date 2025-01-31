@@ -1,4 +1,6 @@
 import ChallengeModel from "../models/challenge.model.js";
+import ParticipantModel from "../models/participants.model.js";
+
 
 // Create a new challenge
 export const createNewChallenge = async (req, res) => {
@@ -116,12 +118,14 @@ export const deleteChallenge = async (req, res) => {
             });
         }
 
+        await ParticipantModel.deleteMany({ challengeId: id });
+
         return res.status(200).json({
-            message: "Challenge deleted successfully",
+            message: "Challenge and its participants deleted successfully",
         });
     } catch (error) {
         return res.status(500).json({
-            message: "Error deleting challenge",
+            message: "Error deleting challenge and participants",
             error: error.message,
         });
     }

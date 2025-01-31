@@ -22,6 +22,8 @@ import {
 } from "@/components/ui/dialog"
 import { BarsLoading } from '@/components/skeletons/Skeletons'
 import { Participants } from '@/utils/types'
+import ProtectedRoute from '@/hoc/withAuth'
+
 
 
 interface AdminEditChallengeParams {
@@ -44,16 +46,6 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
     }));
 
     const router = useRouter();
-
-    const handleCheckAuth = useCallback(() => {
-        if (!isAuthenticated) {
-            router.push('/');
-        }
-    }, [isAuthenticated, router])
-
-    useEffect(() => {
-        handleCheckAuth()
-    }, [handleCheckAuth])
 
     const handleFetchChallenge = useCallback(() => {
         dispatch(fetchChallengeDetails({url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/challenge`, id}));
@@ -96,7 +88,7 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
     }, [data]);
 
     return (
-        <>
+        <ProtectedRoute>
             <div className='w-full h-[100vh] flex flex-row'>
                 <Sidebar />
                 <div className='md:flex-1 w-full md:ml-[270px]'>
@@ -111,13 +103,13 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
                                 </div>
                                 <Link href='/challenges'>
                                     <div>
-                                        <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Go Back</p>
+                                        <p className='text-[#667185] font-sans select-none cursor-pointer text-[12px] md:text-[14px]'>Go Back</p>
                                     </div>
                                 </Link>
                             </div>
-                            <div className={loading ? 'bg-[#F9FAFB] h-[10px] w-[200px] animate-pulse cursor-pointer' : undefined}>&nbsp;</div>
                             <div>
-                                <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'><Link href='/challenges'>Challenges & Hackathons</Link> / <span className='text-umuravaBlueColor'>{challengeDetails?.challengeTitle}</span></p>
+                                <p className='text-[#667185] font-sans select-none cursor-pointer text-[12px] md:text-[14px]'><Link href='/challenges'>Challenges & Hackathons</Link> / 
+                                <span className='text-umuravaBlueColor'>{challengeDetails?.challengeTitle || 'Loading...'}</span></p>
                             </div>
                         </div>
 
@@ -125,7 +117,7 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
                             <div className='w-full md:w-[60%]'>
                                 <div className='bg-white border-solid border-[1px] border-[#E4E7EC] p-[15px] rounded-[12px] mt-[20px]'>
                                     <div className='w-full h-[250px] bg-umuravaBlueColor flex justify-center items-center rounded-[10px]'>
-                                        <img src='/assets/images/logo.png' className='w-[60px]' alt='Challenge Image' />
+                                        <img src='/assets/images/official-logo.png' className='w-[120px]' alt='Challenge Image' />
                                     </div>
                                     {loading ? 
                                         <BarsLoading />
@@ -181,7 +173,7 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
                                             <div className='flex items-center flex-row space-x-[6px]'>
                                                 <div className='flex justify-center items-center w-[40px] h-[40px] rounded-full p-[6px] bg-[#D0E0FC]'>
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='20' width='20' fill="#2B71F0">
-                                                        <path d="M20 22H4C3.44772 22 3 21.5523 3 21V3C3 2.44772 3.44772 2 4 2H20C20.5523 2 21 2.44772 21 3V21C21 21.5523 20.5523 22 20 22ZM19 20V4H5V20H19ZM8 7H16V9H8V7ZM8 11H16V13H8V11ZM8 15H16V17H8V15Z"></path>
+                                                        <path d="M3 3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3ZM20 7.23792L12.0718 14.338L4 7.21594V19H20V7.23792ZM4.51146 5L12.0619 11.662L19.501 5H4.51146Z"></path>
                                                     </svg>
                                                 </div>
                                                 <div>
@@ -192,18 +184,18 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
                                             <div className='flex items-center flex-row space-x-[6px]'>
                                                 <div className='flex justify-center items-center w-[40px] h-[40px] rounded-full p-[6px] bg-[#D0E0FC]'>
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='20' width='20' fill="#2B71F0">
-                                                        <path d="M20 22H4C3.44772 22 3 21.5523 3 21V3C3 2.44772 3.44772 2 4 2H20C20.5523 2 21 2.44772 21 3V21C21 21.5523 20.5523 22 20 22ZM19 20V4H5V20H19ZM8 7H16V9H8V7ZM8 11H16V13H8V11ZM8 15H16V17H8V15Z"></path>
+                                                        <path d="M7 5V2C7 1.44772 7.44772 1 8 1H16C16.5523 1 17 1.44772 17 2V5H21C21.5523 5 22 5.44772 22 6V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V6C2 5.44772 2.44772 5 3 5H7ZM4 16V19H20V16H4ZM4 14H20V7H4V14ZM9 3V5H15V3H9ZM11 11H13V13H11V11Z"></path>
                                                     </svg>
                                                 </div>
                                                 <div>
-                                                    <h4 className='font-bold cursor-pointer select-none'>Web Design</h4>
+                                                    <h4 className='font-bold cursor-pointer select-none'>{challengeDetails?.category}</h4>
                                                     <p className='text-[#667185] select-none cursor-pointer text-[14px]'>Challenge Category</p>
                                                 </div>
                                             </div>
                                             <div className='flex items-center flex-row space-x-[6px]'>
                                                 <div className='flex justify-center items-center w-[40px] h-[40px] rounded-full p-[6px] bg-[#D0E0FC]'>
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='20' width='20' fill="#2B71F0">
-                                                        <path d="M20 22H4C3.44772 22 3 21.5523 3 21V3C3 2.44772 3.44772 2 4 2H20C20.5523 2 21 2.44772 21 3V21C21 21.5523 20.5523 22 20 22ZM19 20V4H5V20H19ZM8 7H16V9H8V7ZM8 11H16V13H8V11ZM8 15H16V17H8V15Z"></path>
+                                                        <path d="M9 1V3H15V1H17V3H21C21.5523 3 22 3.44772 22 4V20C22 20.5523 21.5523 21 21 21H3C2.44772 21 2 20.5523 2 20V4C2 3.44772 2.44772 3 3 3H7V1H9ZM20 11H4V19H20V11ZM7 5H4V9H20V5H17V7H15V5H9V7H7V5Z"></path>
                                                     </svg>
                                                 </div>
                                                 <div>
@@ -214,7 +206,7 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
                                             <div className='flex items-center flex-row space-x-[6px]'>
                                                 <div className='flex justify-center items-center w-[40px] h-[40px] rounded-full p-[6px] bg-[#D0E0FC]'>
                                                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" height='20' width='20' fill="#2B71F0">
-                                                        <path d="M20 22H4C3.44772 22 3 21.5523 3 21V3C3 2.44772 3.44772 2 4 2H20C20.5523 2 21 2.44772 21 3V21C21 21.5523 20.5523 22 20 22ZM19 20V4H5V20H19ZM8 7H16V9H8V7ZM8 11H16V13H8V11ZM8 15H16V17H8V15Z"></path>
+                                                        <path d="M12.0049 22.0027C6.48204 22.0027 2.00488 17.5256 2.00488 12.0027C2.00488 6.4799 6.48204 2.00275 12.0049 2.00275C17.5277 2.00275 22.0049 6.4799 22.0049 12.0027C22.0049 17.5256 17.5277 22.0027 12.0049 22.0027ZM12.0049 20.0027C16.4232 20.0027 20.0049 16.421 20.0049 12.0027C20.0049 7.58447 16.4232 4.00275 12.0049 4.00275C7.5866 4.00275 4.00488 7.58447 4.00488 12.0027C4.00488 16.421 7.5866 20.0027 12.0049 20.0027ZM8.50488 14.0027H14.0049C14.281 14.0027 14.5049 13.7789 14.5049 13.5027C14.5049 13.2266 14.281 13.0027 14.0049 13.0027H10.0049C8.62417 13.0027 7.50488 11.8835 7.50488 10.5027C7.50488 9.12203 8.62417 8.00275 10.0049 8.00275H11.0049V6.00275H13.0049V8.00275H15.5049V10.0027H10.0049C9.72874 10.0027 9.50488 10.2266 9.50488 10.5027C9.50488 10.7789 9.72874 11.0027 10.0049 11.0027H14.0049C15.3856 11.0027 16.5049 12.122 16.5049 13.5027C16.5049 14.8835 15.3856 16.0027 14.0049 16.0027H13.0049V18.0027H11.0049V16.0027H8.50488V14.0027Z"></path>
                                                     </svg>
                                                 </div>
                                                 <div>
@@ -236,7 +228,7 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
                                             </Button>
                                         </div>
                                         :
-                                        (challengeDetails?._id && <RegisterAndSubmitWork challengeId={challengeDetails._id} />)
+                                        (challengeDetails?._id && <RegisterAndSubmitWork challengeStatus={challengeDetails.status} challengeId={challengeDetails._id} />)
                                     }
                                 </div>
                                 {isAdmin &&
@@ -278,14 +270,14 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
                                         )}
 
                                         
-                                        <div className='flex pr-[24px] pt-[15px] pl-[24px] pt-[15px] flex-row space-x-[10px] cursor-pointer items-center'>
+                                        <div className='flex pr-[24px] pb-[15px] pl-[24px] pt-[15px] flex-row space-x-[10px] cursor-pointer items-center'>
                                             <Dialog>
                                                 <DialogTrigger className='w-full'>
                                                     <Button disabled={data.length === 0} className='bg-umuravaBlueColor w-full text-white hover:bg-umuravaBlueColor/[90%] font-sans'>
                                                     View All
                                                     </Button>
                                                 </DialogTrigger>
-                                                <DialogContent className='bg-white md:w-[600px] h-[600px] overflow-y-scroll'>
+                                                <DialogContent className='bg-white w-full md:w-[600px] h-[600px] overflow-y-scroll'>
                                                     <div className='w-full h-full'>
                                                         <div className='p-[6px] border-b border-solid border-[#E4E7EC]'>
                                                             <p className='text-[#667185] font-sans select-none cursor-pointer text-start text-[14px]'>Participants in this challenge: {data.length}</p>
@@ -333,7 +325,7 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
                 </div>
             </div>
             <MobileSidebar />
-        </>
+        </ProtectedRoute>
     )
 }
 

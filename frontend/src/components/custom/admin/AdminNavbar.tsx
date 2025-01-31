@@ -4,6 +4,8 @@ import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Challenge } from "@/utils/types"
+import { logoutUser } from '@/redux/slices/userSlice'
+import { useRouter } from 'next/navigation'
 
 
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
@@ -13,7 +15,20 @@ const AdminNavbar = () => {
     const [isPopoverOpen, setIsPopoverOpen] = useState(false)
     const { data = [] } = useAppSelector((state) => state.challenges);
     const { user } = useAppSelector((state) => state.user);
+    const dispatch = useAppDispatch()
+    const router = useRouter()
 
+
+    const handleLogout = async () => {
+        const resultAction = await dispatch(logoutUser());
+    
+        if (logoutUser.fulfilled.match(resultAction)) {
+            console.log("Logged out successfully:", resultAction.payload);
+            router.push('/login');
+        } else {
+            console.error('Failed to create challenge:', resultAction.payload || resultAction.error);
+        }
+    }
 
     // const searchResults = data.filter(challenge => challenge.challengeTitle === inputValue);
 
@@ -78,16 +93,16 @@ const AdminNavbar = () => {
                             </svg>
                         </div>
                     </PopoverTrigger>
-                    <PopoverContent className='pt-[0px] pr-[0px] pl-[0px] pb-[15px] w-[400px]'>
+                    <PopoverContent className='w-[100vw] pt-[0px] pr-[0px] pl-[0px] pb-[15px] md:w-[400px]'>
                         <div className='pt-[10px] border-b border-solid border-[#E4E7EC] pr-[10px] pl-[10px] pb-[6px]'>
                             <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Notifications</p>
                         </div>
-                        <div className='pt-[10px] border-b border-solid border-[#E4E7EC] pr-[10px] pl-[10px] pb-[6px]'>
+                        {/* <div className='pt-[10px] border-b border-solid border-[#E4E7EC] pr-[10px] pl-[10px] pb-[6px]'>
                             <p className='text-[#667185] font-sans select-none cursor-pointer text-umuravaBlueColor text-[14px]'>You have been allowed to join</p>
                         </div>
                         <div className='pt-[10px] border-b border-solid border-[#E4E7EC] pr-[10px] pl-[10px] pb-[6px]'>
                             <p className='text-[#667185] font-sans select-none cursor-pointer text-umuravaBlueColor text-[14px]'>You have been allowed to join</p>
-                        </div>
+                        </div> */}
                         <div className='pt-[10px] pr-[10px] pl-[10px] pb-[6px]'>
                             <p className='text-[#667185] font-sans select-none cursor-pointer text-center text-[14px]'>No more notifications</p>
                         </div>
@@ -99,7 +114,7 @@ const AdminNavbar = () => {
                             <img src="/assets/images/default.png" className='w-full h-full object-cover object-center rounded-full' alt="User"/>
                         </div>
                     </PopoverTrigger>
-                    <PopoverContent className='pt-[10px] pr-[0px] pl-[0px] pb-[15px] w-[400px]'>
+                    <PopoverContent className='w-[100vw] pt-[10px] pr-[0px] pl-[0px] pb-[15px] md:w-[400px]'>
                         <div className='pt-[10px] border-b border-solid border-[#E4E7EC] pr-[10px] pl-[10px] pb-[6px]'>
                             <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Profile Details</p>
                         </div>
@@ -109,11 +124,11 @@ const AdminNavbar = () => {
                                     <img src="/assets/images/default.png" className='w-full h-full object-cover object-center rounded-full' alt="User"/>
                                 </div>
                                 <div className='flex flex-col'>
-                                    <p className='font-sans text-[14px]'>{user?.fullName}</p>
-                                    <p className='font-sans text-[14px]'>{user?.email}</p>
+                                    <p className='font-sans text-[14px] truncate'>{user?.fullName || 'Login Please'}</p>
+                                    <p className='font-sans text-[14px] truncate'>{user?.email || 'Login Please'}</p>
                                 </div>
                             </div>
-                            <div className='cursor-pointer'>
+                            <div onClick={handleLogout} className='cursor-pointer'>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width='18' height='18' fill='#ff0000'>
                                     <path d="M5 22C4.44772 22 4 21.5523 4 21V3C4 2.44772 4.44772 2 5 2H19C19.5523 2 20 2.44772 20 3V6H18V4H6V20H18V18H20V21C20 21.5523 19.5523 22 19 22H5ZM18 16V13H11V11H18V8L23 12L18 16Z"></path>
                                 </svg>

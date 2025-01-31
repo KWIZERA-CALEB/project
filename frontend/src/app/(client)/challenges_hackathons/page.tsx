@@ -58,11 +58,13 @@ const ChallengesPage = () => {
               <div className='grid grid-cols-1 mt-[15px] sm:grid-cols-2 md:grid-cols-4 gap-4'>
                   {Array.isArray(data) && data.map((challenge) => (
                       <ChallengeCard 
-                          key={challenge._id} 
-                          challengeLink={challenge._id} 
-                          duration={challenge.challengeDuration} 
-                          challengeTitle={challenge.challengeTitle}
-                          status={challenge.status} 
+                            key={challenge._id} 
+                            challengeLink={challenge._id} 
+                            duration={challenge.challengeDuration} 
+                            challengeTitle={challenge.challengeTitle}
+                            status={challenge.status} 
+                            skills={challenge.skills}
+                            levels={challenge.levels || 'No levels'} 
                       />
                   ))}
               </div>

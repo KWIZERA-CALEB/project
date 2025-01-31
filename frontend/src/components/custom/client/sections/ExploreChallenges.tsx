@@ -59,7 +59,9 @@ export default function ChallengesSection() {
                           challengeLink={challenge._id} 
                           duration={challenge.challengeDuration} 
                           challengeTitle={challenge.challengeTitle}
-                          status={challenge.status} 
+                          status={challenge.status}
+                          skills={challenge.skills}
+                          levels={challenge.levels || 'No levels'} 
                       />
                   ))}
               </div>

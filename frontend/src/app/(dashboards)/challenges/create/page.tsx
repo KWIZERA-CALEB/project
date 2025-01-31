@@ -15,6 +15,16 @@ import { Loader2 } from "lucide-react"
 import { ChallengeFormData } from '@/utils/types'
 import { useCallback, useEffect } from 'react'
 import { useAuth } from '@/hooks/useAuth'
+import ProtectedRoute from '@/hoc/withAuth'
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/components/ui/select"
 
 const AdminCreateChallenge = () => {
     const {
@@ -30,18 +40,6 @@ const AdminCreateChallenge = () => {
     const { loading, error } = useAppSelector((state) => state.challenges);
     const { isAuthenticated, isAdmin } = useAuth();
 
-
-    const handleCheckAuth = useCallback(() => {
-        if (!isAuthenticated) {
-            router.push('/');
-        } else if (!isAdmin) {
-            router.push('/challenges')
-        }
-    }, [isAuthenticated, isAdmin, router])
-
-    useEffect(() => {
-        handleCheckAuth()
-    }, [handleCheckAuth])
 
     const handleCreateChallenge = async (data: ChallengeFormData) => {  
         const resultAction = await dispatch(createChallenge(data));
@@ -59,7 +57,7 @@ const AdminCreateChallenge = () => {
         handleCreateChallenge(data)
     };
     return (
-        <>
+        <ProtectedRoute>
             <div className='w-full h-[100vh] flex flex-row'>
                 <Sidebar />
                 <div className='md:flex-1 w-full md:ml-[270px]'>
@@ -74,18 +72,18 @@ const AdminCreateChallenge = () => {
                                 </div>
                                 <Link href='/challenges'>
                                     <div>
-                                        <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'>Go Back</p>
+                                        <p className='text-[#667185] font-sans select-none cursor-pointer text-[12px] md:text-[14px]'>Go Back</p>
                                     </div>
                                 </Link>
                             </div>
                             <div>
-                                <p className='text-[#667185] font-sans select-none cursor-pointer text-[14px]'><Link href='/challenges'>Challenges & Hackathons</Link> / <span className='text-umuravaBlueColor'>Create New Challenge</span></p>
+                                <p className='text-[#667185] font-sans select-none cursor-pointer text-[12px] md:text-[14px]'><Link href='/challenges'>Challenges & Hackathons</Link> / <span className='text-umuravaBlueColor'>Create New Challenge</span></p>
                             </div>
                         </div>
                         {/* create form */}
                         <div className='w-full mt-[20px] flex justify-center'>
                             <form onSubmit={handleSubmit(onSubmit)}>
-                                <div className='bg-white w-[600px] rounded-[15px] p-[15px] border-solid border-[1px] border-[#E4E7EC]'>
+                                <div className='bg-white w-full md:w-[600px] rounded-[15px] p-[15px] border-solid border-[1px] border-[#E4E7EC]'>
                                     <div>
                                         <h4 className='font-sans font-bold cursor-pointer select-none text-center'>Create New Challenge</h4>
                                         <p className='text-[#667185] font-sans select-none cursor-pointer text-center text-[14px]'>Fill out these fields to build your broadcast</p>
@@ -193,6 +191,45 @@ const AdminCreateChallenge = () => {
                                             />
                                             <p className='text-[#777] font-sans select-none cursor-pointer text-[14px]'>Keep this simple of 250 character</p>
                                         </div>
+                                        <div className='mt-[10px]'>
+                                            <p className='text-[#777] font-sans select-none cursor-pointer text-[14px]'>Seniority Levels</p>
+                                            <Input {...register("levels", { required: "Level is required" })} type='text' placeholder='senior,junior,intermediate' className={errors.levels ? 'shadow-none pt-[20px] pb-[20px] border-solid border-[1px] border-red-500 w-full' : 'shadow-none w-full pt-[20px] pb-[20px]'} />
+                                        </div>
+                                        <div className='mt-[10px]'>
+                                            <p className='text-[#777] font-sans select-none cursor-pointer text-[14px]'>Status</p>
+                                            <Controller
+                                                name="status"
+                                                control={control}
+                                                rules={{ required: "Challenge status is required" }}
+                                                render={({ field }) => (
+                                                    <Select value={field.value} onValueChange={field.onChange}>
+                                                        <SelectTrigger className="w-full">
+                                                            <SelectValue placeholder="Choose challenge status" />
+                                                        </SelectTrigger>
+                                                        <SelectContent>
+                                                            <SelectGroup>
+                                                                <SelectLabel>Status</SelectLabel>
+                                                                <SelectItem value="open">Open</SelectItem>
+                                                                <SelectItem value="ongoing">Ongoing</SelectItem>
+                                                                <SelectItem value="closed">Closed | Completed</SelectItem>
+                                                            </SelectGroup>
+                                                        </SelectContent>
+                                                    </Select>
+                                                )}
+                                            />
+                                        </div>
+                                        <div className='mt-[10px]'>
+                                            <div>
+                                                <p className='text-[#777] font-sans select-none cursor-pointer text-[14px]'>Skills Required</p>
+                                                <Input {...register("skills", { required: "Skills is required" })} type='text' placeholder='Frontend,Crtical Thinking' className={errors.skills ? 'shadow-none pt-[20px] pb-[20px] border-solid border-[1px] border-red-500 w-full' : ' w-full shadow-none pt-[20px] pb-[20px]'} />
+                                            </div>
+                                        </div>
+                                        <div className='mt-[10px]'>
+                                            <div>
+                                                <p className='text-[#777] font-sans select-none cursor-pointer text-[14px]'>Challenge category</p>
+                                                <Input {...register("category", { required: "Category is required" })} type='text' placeholder='Web development' className={errors.category ? 'shadow-none pt-[20px] pb-[20px] border-solid border-[1px] border-red-500 w-full' : ' w-full shadow-none pt-[20px] pb-[20px]'} />
+                                            </div>
+                                        </div>
                                         <div className='flex w-full flex-row space-x-[6px] mt-[10px] justify-between items-center'>
                                             <Button className='bg-white w-[50%] text-umuravaBlueColor border-solid border-[2px] border-umuravaBlueColor hover:bg-white/[90%] font-sans'>
                                                 <Link href='/challenges'>
@@ -223,7 +260,7 @@ const AdminCreateChallenge = () => {
                 </div>
             </div>
             <MobileSidebar />
-        </>
+        </ProtectedRoute>
     )
 }
 

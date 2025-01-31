@@ -1,28 +1,25 @@
-import React, { ComponentType } from 'react';
-import { useAuth } from '@/hooks/useAuth';
-import { useRouter } from 'next/navigation';
+"use client";
+import { useAuth } from "@/hooks/useAuth";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
-const withAuth = <P extends object>(WrappedComponent: ComponentType<P>): React.FC<P> => {
-    const AuthComponent: React.FC<P> = (props) => {
-        const { user, loading, error } = useAuth();
-        const router = useRouter();
+const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
+    const { isAuthenticated, loading } = useAuth();
+    const router = useRouter();
+    const [initialLoad, setInitialLoad] = useState(true);
 
-        if (loading) {
-            return <p>Loading..</p>;
+    useEffect(() => {
+        if (!loading) setInitialLoad(false);
+        if (!loading && !isAuthenticated && initialLoad) {
+            router.push("/");
         }
+    }, [isAuthenticated, loading, router, initialLoad]);
 
-        if (error || !user) {
-            router.push('/login');
-            return null;
-        }
+    if (loading && initialLoad) return <div className='w-full h-[100vh] bg-white flex justify-center items-center'>
+        <div className='loader'></div>
+    </div>;
 
-        return <WrappedComponent {...props} />;
-    };
-
-    // Add display name
-    AuthComponent.displayName = `withAuth(${WrappedComponent.displayName || WrappedComponent.name || 'Component'})`;
-
-    return AuthComponent;
+    return <>{children}</>;
 };
 
-export default withAuth;
+export default ProtectedRoute;

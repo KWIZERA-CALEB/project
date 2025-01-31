@@ -8,23 +8,23 @@ export const useAuth = () => {
     const { token, user, loading, error } = useAppSelector((state) => state.user);
     const router = useRouter();
     const dispatch = useAppDispatch();
-    const [isFetching, setIsFetching] = useState(true);
+    const [checkedAuth, setCheckedAuth] = useState(false);
 
     useEffect(() => {
         const fetchUser = async () => {
-            setIsFetching(true);
             try {
                 await dispatch(fetchLoggedInUser());
             } catch (err) {
                 console.error("Error fetching logged-in user:", err);
                 await dispatch(logoutUser());
             } finally {
-                setIsFetching(false);
+                setCheckedAuth(true);
             }
         };
-        if (!user && token) fetchUser();
-        else setIsFetching(false);
-    }, [dispatch, user, token]);
+
+        if (!user && !checkedAuth) fetchUser();
+        else setCheckedAuth(true);
+    }, [dispatch, user, checkedAuth]);
 
     const decodedToken = useMemo(() => {
         if (token) {
@@ -43,10 +43,11 @@ export const useAuth = () => {
     const isTalent = user?.role === 'talent';
 
     useEffect(() => {
-        if (!isFetching && !isAuthenticated) {
+        if (!isAuthenticated) {
+            dispatch(logoutUser());
             router.push('/');
         }
-    }, [isAuthenticated, isFetching, router]);
+    }, [isAuthenticated, router, dispatch]);
 
-    return { isAuthenticated, isAdmin, isTalent, user, loading: loading || isFetching, error };
+    return { isAuthenticated, isAdmin, isTalent, user, loading: loading, error };
 };

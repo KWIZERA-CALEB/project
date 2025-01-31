@@ -1,9 +1,10 @@
 'use client'
 import { useEffect, useState } from 'react'
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link'
 import { Button } from "@/components/ui/button"
 import { useAppSelector, useAppDispatch } from '@/redux/hooks';
+import { logoutUser } from '@/redux/slices/userSlice'
 
 
 import {
@@ -19,7 +20,20 @@ const Sidebar = () => {
     const pathname = usePathname() || '';
     const [currentPath, setCurrentPath] = useState('');
     const { user } = useAppSelector((state) => state.user);
+    const router = useRouter()
+    const dispatch = useAppDispatch()
     
+
+    const handleLogout = async () => {
+        const resultAction = await dispatch(logoutUser());
+    
+        if (logoutUser.fulfilled.match(resultAction)) {
+            console.log("Logged out successfully:", resultAction.payload);
+            router.push('/login');
+        } else {
+            console.error('Failed to create challenge:', resultAction.payload || resultAction.error);
+        }
+    }
 
     useEffect(() => {
         if (pathname) {
@@ -133,15 +147,16 @@ const Sidebar = () => {
                 </div>
                 <div className='mt-[20px] flex flex-row justify-between items-center'>
                     <div className='flex flex-row space-x-[10px] cursor-pointer items-center'>
-                        <div className='w-[40px] h-[40px] rounded-full border-solid border-white border-[2px]'>
+                        <div className='w-[40px] h-[40px] relative rounded-full border-solid border-white border-[2px]'>
                             <img src="/assets/images/default.png" className='w-full h-full object-cover object-center rounded-full' alt="User"/>
+                            <div className='w-[14px] h-[14px] bg-[#0F973D] rounded-full border-solid border-white border-[2px] absolute bottom-[-2px] right-[-2px]'></div>
                         </div>
                         <div className='flex flex-col'>
-                            <p className='font-sans text-white text-[14px]'>{user?.fullName}</p>
-                            <p className='font-sans text-white text-[14px]'>{user?.email}</p>
+                            <p className='font-sans text-white text-[14px] truncate'>{user?.fullName || 'Login Please'}</p>
+                            <p className='font-sans text-white text-[14px] truncate'>{user?.email || 'Login Please'}</p>
                         </div>
                     </div>
-                    <div className='cursor-pointer'>
+                    <div onClick={handleLogout} className='cursor-pointer'>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width='18' height='18' fill='#fff'>
                             <path d="M5 22C4.44772 22 4 21.5523 4 21V3C4 2.44772 4.44772 2 5 2H19C19.5523 2 20 2.44772 20 3V6H18V4H6V20H18V18H20V21C20 21.5523 19.5523 22 19 22H5ZM18 16V13H11V11H18V8L23 12L18 16Z"></path>
                         </svg>

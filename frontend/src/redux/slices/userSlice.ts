@@ -1,6 +1,6 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-//import Cookies from 'js-cookie';
-import { login, logout, getLoggedInUser } from '@/utils/services'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
+import { login, logout, getLoggedInUser } from '@/utils/services';
+import { api } from '@/utils/services'
 
 interface UserState {
     token: string | null;
@@ -15,15 +15,8 @@ interface UserState {
 }
 
 const initialState: UserState = {
-    token: null,
+    token: typeof window !== "undefined" ? localStorage.getItem("token") : null,
     user: null,
-    // token: 'mjdjcjdcjdkcdj',
-    // user: {
-    //     id: '8373873',
-    //     email: 'kwizeracaleb91@gmail.com',
-    //     fullName: 'Kwizera Caleb',
-    //     role: 'admin',
-    // },
     loading: false,
     error: null,
 };
@@ -32,34 +25,41 @@ export const loginUser = createAsyncThunk(
     'user/login',
     async (credentials: { email: string; password: string }, { rejectWithValue }) => {
         try {
-          const response = await login(credentials.email, credentials.password);
-          return response.data;
+            const response = await login(credentials.email, credentials.password);
+            localStorage.setItem("token", response.data.token);
+            return response.data;
         } catch (error: any) {
-          return rejectWithValue(error.response.data.message);
+            return rejectWithValue(error.response.data.message);
         }
     }
-)
+);
 
 export const fetchLoggedInUser = createAsyncThunk(
     'user/fetchUser',
     async (_, { rejectWithValue }) => {
-      try {
-        const response = await getLoggedInUser();
-        return response.data;
-      } catch (error: any) {
-        return rejectWithValue(error.response.data.message);
-      }
+        try {
+            const token = localStorage.getItem("token");
+            if (!token) return rejectWithValue("No token found");
+
+            const response = await getLoggedInUser();
+            return response.data;
+        } catch (error: any) {
+            return rejectWithValue(error.response.data.message);
+        }
     }
 );
 
 export const logoutUser = createAsyncThunk(
     'user/logout',
     async (_, { rejectWithValue }) => {
-      try {
-        await logout();
-      } catch (error: any) {
-        return rejectWithValue(error.response.data.message);
-      }
+        try {
+            await logout();
+            localStorage.removeItem("token");
+            delete api.defaults.headers.common["Authorization"];
+            return null;
+        } catch (error: any) {
+            return rejectWithValue(error.response.data.message);
+        }
     }
 );
 
@@ -68,30 +68,25 @@ const userSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-      builder
-        .addCase(loginUser.pending, (state) => {
-          state.loading = true;
-          state.error = null;
-        })
-        .addCase(loginUser.fulfilled, (state, action) => {
-          state.loading = false;
-          state.token = action.payload.token;
-          state.user = action.payload.user;
-        })
-        .addCase(loginUser.rejected, (state, action) => {
-          state.loading = false;
-          state.error = action.payload as string;
-        })
-
-        .addCase(fetchLoggedInUser.fulfilled, (state, action) => {
-          state.user = action.payload;
-        })
-
-        .addCase(logoutUser.fulfilled, (state) => {
-          state.token = null;
-          state.user = null;
-        });
+        builder
+            .addCase(loginUser.fulfilled, (state, action) => {
+                state.token = action.payload.token;
+                state.user = action.payload.user;
+            })
+            .addCase(fetchLoggedInUser.fulfilled, (state, action) => {
+                state.user = action.payload;
+            })
+            .addCase(fetchLoggedInUser.rejected, (state) => {
+                localStorage.removeItem("token");
+                state.token = null;
+                state.user = null;
+            })
+            .addCase(logoutUser.fulfilled, (state) => {
+                state.token = null;
+                state.user = null;
+                delete api.defaults.headers.common["Authorization"];
+            });
     },
 });
-  
+
 export default userSlice.reducer;

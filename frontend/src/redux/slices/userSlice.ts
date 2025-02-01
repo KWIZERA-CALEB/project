@@ -69,9 +69,18 @@ const userSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder
+            .addCase(loginUser.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
             .addCase(loginUser.fulfilled, (state, action) => {
                 state.token = action.payload.token;
                 state.user = action.payload.user;
+                state.loading = false;
+            })
+            .addCase(loginUser.rejected, (state, action) => {
+                state.loading = false;
+                state.error = action.payload as string;
             })
             .addCase(fetchLoggedInUser.fulfilled, (state, action) => {
                 state.user = action.payload;

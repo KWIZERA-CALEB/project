@@ -60,7 +60,7 @@ const GetStarted = () => {
     <section className="bg-[#F9FAFB] w-full pr-[20px] pl-[20px] md:pr-[50px] md:pl-[50px] py-16">
         <h2 className="text-3xl font-bold text-center mb-12">How to Get Started</h2>
 
-        <div className='flex flex-col md:hidden space-y-[15px]'>
+        <div className='flex flex-col lg:hidden space-y-[15px]'>
             <div className='bg-white relative overflow-hidden w-full h-[364px] rounded-[12px] pt-[40px] pb-[40px] pr-[25px] pl-[25px]'>
               <div>
                 <Button className='font-sans bg-umuravaBlueColor text-white hover:bg-umuravaBlueColor/[90%]'>Step 1</Button>
@@ -130,9 +130,9 @@ const GetStarted = () => {
         </div>
 
         {/* guideline */}
-        <div className='md:w-full hidden md:flex space-x-[23px] justify-center'>
+        <div className='md:w-full hidden lg:flex space-x-[10px] lg:space-x-[23px] justify-center'>
 
-          <div className='flex flex-col space-y-[23px]'>
+          <div className='flex flex-col space-y-[10px] lg:space-y-[23px]'>
 
             <div className='bg-white relative overflow-hidden w-[470px] h-[364px] rounded-[12px] pt-[40px] pb-[40px] pr-[25px] pl-[25px]'>
               <div>
@@ -165,7 +165,7 @@ const GetStarted = () => {
 
           </div>
 
-          <div className='flex flex-col space-y-[23px]'>
+          <div className='flex flex-col space-y-[10px] lg:space-y-[23px]'>
             {/* card */}
             <div className='bg-white overflow-hidden w-[470px] h-[235px] rounded-[12px] pt-[40px] pb-[40px] pr-[25px] pl-[25px]'>
               <div>

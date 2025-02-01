@@ -36,35 +36,35 @@ export default function Companies() {
             className="mx-auto"
           />
           <Image
-            src="/assets/images/keplerLogo.png"
+            src="/assets/images/KeplerLogo.png"
             alt="Kepler Logo"
             width={100}
             height={50}
             className="mx-auto object-cover"
           />
           <Image
-            src="/assets/images/Hill.png"
+            src="/assets/images/hill.png"
             alt="HiiL Logo"
             width={100}
             height={50}
             className="mx-auto"
           />
           <Image
-            src="/assets/images/ciba.png"
+            src="/assets/images/CIBA.png"
             alt="CIB Logo"
             width={100}
             height={50}
             className="mx-auto"
           />
           <Image
-            src="/assets/images/ared.png"
+            src="/assets/images/Ared.png"
             alt="ARED Logo"
             width={100}
             height={50}
             className="mx-auto"
           />
           <Image
-            src="/assets/images/igihe_LOGO.png"
+            src="/assets/images/IGIHE_LOGO.png"
             alt="Igihe Logo"
             width={100}
             height={50}
@@ -92,7 +92,7 @@ export default function Companies() {
             className="mx-auto"
           />
           <Image
-            src="/assets/images/sokofund.png"
+            src="/assets/images/SokoFund.png"
             alt="SokoFresh Logo"
             width={100}
             height={50}

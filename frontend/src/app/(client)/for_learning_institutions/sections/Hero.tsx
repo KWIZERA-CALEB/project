@@ -29,7 +29,7 @@ const Hero: FC = () => {
               width={480}
               height={320}
               className="object-cover rounded-xl"
-              src="/assets/images/image3.png"
+              src="/assets/images/Image3.png"
             />
           </div>
         </div>

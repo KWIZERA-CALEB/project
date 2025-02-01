@@ -28,7 +28,7 @@ export default function Hero() {
           {/* First Image */}
           <div className="w-[200px] h-[200px] sm:w-[250px] sm:h-[250px] lg:w-[320px] lg:h-[320px] flex items-center justify-center rounded-xl">
             <Image
-              src="/assets/images/image2.png"
+              src="/assets/images/Image2.png"
               alt="Team Collaboration"
               width={330}
               height={320}
@@ -38,7 +38,7 @@ export default function Hero() {
           {/* Second Image */}
           <div className="w-[200px] h-[250px] sm:w-[250px] sm:h-[300px] lg:w-[320px] lg:h-[380px] flex items-center justify-center rounded-xl">
             <Image
-              src="/assets/images/image1.png"
+              src="/assets/images/Image1.png"
               alt="Smiling Professional"
               width={250}
               height={250}

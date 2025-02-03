@@ -2,7 +2,7 @@ import { Banknote } from "lucide-react";
 
 export default function Bento() {
   return (
-    <section className="min-h-screen bg-gray-100 w-full p-16">
+    <section className="min-h-screen bg-gray-100 w-full p-[20px] md:p-16">
       {/* Header Section */}
       <div className="text-center mb-8">
         <h1 className="text-2xl lg:text-3xl font-bold text-black leading-tight">

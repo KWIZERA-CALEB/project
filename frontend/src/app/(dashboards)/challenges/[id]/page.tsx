@@ -271,49 +271,55 @@ const AdminChallengePage: React.FC<AdminEditChallengeProps> = ({ params })  => {
 
                                         
                                         <div className='flex pr-[24px] pb-[15px] pl-[24px] pt-[15px] flex-row space-x-[10px] cursor-pointer items-center'>
-                                            <Dialog>
-                                                <DialogTrigger className='w-full'>
-                                                    <Button disabled={data.length === 0} className='bg-umuravaBlueColor w-full text-white hover:bg-umuravaBlueColor/[90%] font-sans'>
-                                                    View All
-                                                    </Button>
-                                                </DialogTrigger>
-                                                <DialogContent className='bg-white w-full md:w-[600px] h-[600px] overflow-y-scroll'>
-                                                    <div className='w-full h-full'>
-                                                        <div className='p-[6px] border-b border-solid border-[#E4E7EC]'>
-                                                            <p className='text-[#667185] font-sans select-none cursor-pointer text-start text-[14px]'>Participants in this challenge: {data.length}</p>
-                                                        </div>
-                                                        <div className='p-[6px] mt-[15px]'>
+                                            {!data || data.length === 0 ? (
+                                                <Button disabled className='bg-umuravaBlueColor disabled:cursor-not-allowed w-full text-white hover:bg-umuravaBlueColor/[90%] font-sans'>
+                                                View All
+                                                </Button>
+                                            ) : (
+                                                <Dialog>
+                                                    <DialogTrigger className='w-full'>
+                                                        <Button className='bg-umuravaBlueColor w-full text-white hover:bg-umuravaBlueColor/[90%] font-sans'>
+                                                        View All
+                                                        </Button>
+                                                    </DialogTrigger>
+                                                    <DialogContent className='bg-white w-full md:w-[600px] h-[600px] overflow-y-scroll'>
+                                                        <div className='w-full h-full'>
+                                                            <div className='p-[6px] border-b border-solid border-[#E4E7EC]'>
+                                                                <p className='text-[#667185] font-sans select-none cursor-pointer text-start text-[14px]'>Participants in this challenge: {data.length}</p>
+                                                            </div>
+                                                            <div className='p-[6px] mt-[15px]'>
 
-                                                        {data.length === 0 ? (
-                                                            <p className="text-[#667185] text-center mt-[10px] font-sans select-none cursor-pointer text-[14px]">
-                                                                No Participants
-                                                            </p>
-                                                        ) : (
-                                                            data.map((member, index: number) => (
-                                                                <div key={index} className='flex pr-[24px] bg-[#E4E7EC] border-solid border-b-[1px] pt-[15px] pl-[24px] pt-[15px] pb-[15px] flex-row space-x-[10px] cursor-pointer items-center'>
-                                                                    <div className='w-[10px] h-[60px] bg-umuravaBlueColor'></div>
-                                                                    <div className='flex flex-col'>
-                                                                        <p className='font-sans font-md text-[14px]'>{member?.teamLeader?.fullName} (Team leader)</p>
-                                                                        <p className='font-sans text-[14px]'>{member?.teamLeader?.email}</p>
-                                                                        {member.submittedWork.length === 0 ? 
-                                                                            (
-                                                                                <p className='font-sans text-[14px]'>Submitted work: <span className='text-umuravaBlueColor'>Not Provided</span> | <span className='text-umuravaBlueColor'>Not Provided</span></p>
-                                                                            )
-                                                                            :
-                                                                            (
-                                                                                member.submittedWork.map((work, index: number) => (
-                                                                                    <p key={index} className='font-sans text-[14px]'>Submitted work: <span className='text-umuravaBlueColor'>{work.liveProjectLink}</span> | <span className='text-umuravaBlueColor'>{work.resourcesLink}</span></p>
-                                                                                ))
-                                                                            )
-                                                                        }
+                                                            {data.length === 0 ? (
+                                                                <p className="text-[#667185] text-center mt-[10px] font-sans select-none cursor-pointer text-[14px]">
+                                                                    No Participants
+                                                                </p>
+                                                            ) : (
+                                                                data.map((member, index: number) => (
+                                                                    <div key={index} className='flex pr-[24px] bg-[#E4E7EC] border-solid border-b-[1px] pt-[15px] pl-[24px] pt-[15px] pb-[15px] flex-row space-x-[10px] cursor-pointer items-center'>
+                                                                        <div className='w-[10px] h-[60px] bg-umuravaBlueColor'></div>
+                                                                        <div className='flex flex-col'>
+                                                                            <p className='font-sans font-md text-[14px]'>{member?.teamLeader?.fullName} (Team leader)</p>
+                                                                            <p className='font-sans text-[14px]'>{member?.teamLeader?.email}</p>
+                                                                            {member.submittedWork.length === 0 ? 
+                                                                                (
+                                                                                    <p className='font-sans text-[14px]'>Submitted work: <span className='text-umuravaBlueColor'>Not Provided</span> | <span className='text-umuravaBlueColor'>Not Provided</span></p>
+                                                                                )
+                                                                                :
+                                                                                (
+                                                                                    member.submittedWork.map((work, index: number) => (
+                                                                                        <p key={index} className='font-sans text-[14px]'>Submitted work: <span className='text-umuravaBlueColor'>{work.liveProjectLink}</span> | <span className='text-umuravaBlueColor'>{work.resourcesLink}</span></p>
+                                                                                    ))
+                                                                                )
+                                                                            }
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            ))
-                                                        )}
+                                                                ))
+                                                            )}
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                </DialogContent>
-                                            </Dialog>
+                                                    </DialogContent>
+                                                </Dialog>
+                                            )}
                                         </div>
                                         {/* user */}
                                     </div>

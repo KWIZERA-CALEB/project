@@ -149,17 +149,19 @@ const RegisterAndSubmitWork: React.FC<ChallengeForSubmittingWorkProps> = ({ chal
             <div className='mt-[10px]'>
                 {isRegistered  ? 
                     <Dialog>
-                        <DialogTrigger className='w-full'>
-                            {challengeStatus === 'closed' ? 
-                                <Button disabled className='bg-red-500 cursor-not-allowed w-full text-white hover:bg-umuravaBlueColor/[90%] font-sans'>
-                                    Submission Deadline reached
-                                </Button>
-                            :
-                                <Button className='bg-umuravaBlueColor w-full text-white hover:bg-umuravaBlueColor/[90%] font-sans'>
-                                    Submit your work
-                                </Button>
-                            }
-                        </DialogTrigger>
+                        {challengeStatus === 'closed' ?  
+                            <DialogTrigger disabled className='w-full'>
+                                    <Button disabled className='bg-red-500 cursor-not-allowed w-full text-white hover:bg-umuravaBlueColor/[90%] font-sans'>
+                                        Submission Deadline reached
+                                    </Button>
+                            </DialogTrigger>
+                        :
+                            <DialogTrigger className='w-full'>
+                                    <Button className='bg-umuravaBlueColor w-full text-white hover:bg-umuravaBlueColor/[90%] font-sans'>
+                                        Submit your work
+                                    </Button>
+                            </DialogTrigger>
+                        }
                         <DialogContent className='bg-white w-full md:w-[600px] overflow-y-scroll'>
                             <div className='w-full h-full'>
                                 <div className='p-[6px] border-b border-solid border-[#E4E7EC]'>
@@ -193,17 +195,19 @@ const RegisterAndSubmitWork: React.FC<ChallengeForSubmittingWorkProps> = ({ chal
                     </Dialog>
                 :   
                     <Dialog>
-                        <DialogTrigger className='w-full'>
-                            {challengeStatus === 'closed' || challengeStatus === 'ongoing' ? 
+                        {challengeStatus === 'closed' || challengeStatus === 'ongoing' ? (
+                            <DialogTrigger disabled className='w-full'>
                                 <Button disabled className='bg-red-500 cursor-not-allowed w-full text-white hover:bg-umuravaBlueColor/[90%] font-sans'>
                                     Registration Closed
                                 </Button>
-                            :
+                            </DialogTrigger>
+                        ) : (
+                            <DialogTrigger className='w-full'>
                                 <Button className='bg-umuravaBlueColor w-full text-white hover:bg-umuravaBlueColor/[90%] font-sans'>
                                     Register for Challenge
                                 </Button>
-                            }
-                        </DialogTrigger>
+                            </DialogTrigger>
+                        )}
                         <DialogContent className='bg-white h-[600px] w-full md:w-[600px] overflow-y-scroll'>
                             <div className='w-full h-full'>
                                 <div className='p-[6px] border-b border-solid border-[#E4E7EC]'>

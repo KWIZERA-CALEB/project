@@ -24,7 +24,14 @@ export default function Hero() {
 
       {/* Image Content */}
       <div className="mt-[60px] lg:mt-0 flex justify-center lg:justify-end w-full md:w-[50%] lg:w-auto">
-        <div className="flex flex-row space-x-[20px]">
+        <div>
+          <img
+              src="/assets/images/Image1.png"
+              alt="Team Collaboration"
+              className="w-full cursor-pointer"
+            />
+        </div>
+        <div className="hidden md:flex flex-row space-x-[20px]">
           {/* First Image */}
           <div className="w-[200px] h-[200px] sm:w-[250px] sm:h-[250px] lg:w-[320px] lg:h-[320px] flex items-center justify-center rounded-xl">
             <Image

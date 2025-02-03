@@ -29,6 +29,7 @@ const Login = () => {
             router.push('/dashboard');
         } else {
             console.error('Failed to create challenge:', resultAction.payload || resultAction.error);
+            alert('An error during login.');
         }
     }
 
@@ -36,9 +37,9 @@ const Login = () => {
         handleLogin(data)
     }
     return (
-        <div className='w-full bg-[#F9FAFB] h-[100vh] flex justify-center items-center'>
+        <div className='w-full bg-[#F9FAFB] pr-[12px] pl-[12px] md:pr-[0px] md:pl-[12px] h-[100vh] flex justify-center items-center'>
 
-            <div className='w-[450px] p-[15px] rounded-[12px] bg-white'>
+            <div className='md:w-[450px] w-full p-[15px] rounded-[12px] bg-white'>
                 <div>
                     <h4 className='font-sans font-bold cursor-pointer select-none text-center'>Testing Login Page</h4>
                 </div>

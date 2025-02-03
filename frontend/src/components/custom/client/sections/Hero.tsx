@@ -28,7 +28,7 @@ export default function Hero() {
           <img
               src="/assets/images/image1.png"
               alt="Team Collaboration"
-              className="w-full cursor-pointer"
+              className="w-full md:hidden cursor-pointer"
             />
         </div>
         <div className="hidden md:flex flex-row space-x-[20px]">

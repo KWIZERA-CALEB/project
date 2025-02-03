@@ -26,7 +26,7 @@ export default function Hero() {
       <div className="mt-[60px] lg:mt-0 flex justify-center lg:justify-end w-full md:w-[50%] lg:w-auto">
         <div>
           <img
-              src="/assets/images/Image1.png"
+              src="/assets/images/image1.png"
               alt="Team Collaboration"
               className="w-full cursor-pointer"
             />

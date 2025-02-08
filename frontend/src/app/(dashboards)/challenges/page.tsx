@@ -149,7 +149,7 @@ export default function AdminChallenges () {
                                     </Link>
                                 </div>)
                                 :
-                                (<div className='flex flex-row flex-wrap space-x-[1px] mb-[10px]'>
+                                (<div className='flex flex-row flex-wrap space-x-[3px] mb-[10px]'>
                                     <Button onClick={() => handleFilterChange('all')} className={selectedFilter === 'all' ? 'bg-[#D0E0FC] text-black hover:bg-[#D0E0FC] border-solid border-[1px] border-[#FCD2C2] flex flex-row items-center justify-between' : 'bg-[#F0F2F5] text-[#667185] hover:bg-[#F0F2F5] border-solid border-[1px] border-[#D0D5DD] flex flex-row items-center justify-between'}>
                                         <div>
                                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width='18' height='18' fill={selectedFilter === 'all' ? '#2B71F0' : '#667185'}>

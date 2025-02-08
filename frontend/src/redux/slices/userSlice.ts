@@ -82,18 +82,29 @@ const userSlice = createSlice({
                 state.loading = false;
                 state.error = action.payload as string;
             })
+            .addCase(fetchLoggedInUser.pending, (state) => {
+                state.loading = true;
+                state.error = null;
+            })
             .addCase(fetchLoggedInUser.fulfilled, (state, action) => {
                 state.user = action.payload;
+                state.loading = false;
             })
             .addCase(fetchLoggedInUser.rejected, (state) => {
+                state.loading = false;
                 localStorage.removeItem("token");
                 state.token = null;
                 state.user = null;
+            })
+            .addCase(logoutUser.pending, (state) => {
+                state.loading = true;
+                state.error = null;
             })
             .addCase(logoutUser.fulfilled, (state) => {
                 state.token = null;
                 state.user = null;
                 delete api.defaults.headers.common["Authorization"];
+                state.loading = false;
             });
     },
 });

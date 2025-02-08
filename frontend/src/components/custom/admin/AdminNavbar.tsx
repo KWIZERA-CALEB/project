@@ -14,7 +14,7 @@ const AdminNavbar = () => {
     const [inputValue, setInputValue] = useState('')
     const [isPopoverOpen, setIsPopoverOpen] = useState(false)
     const { data = [] } = useAppSelector((state) => state.challenges);
-    const { user } = useAppSelector((state) => state.user);
+    const { user, loading } = useAppSelector((state) => state.user);
     const dispatch = useAppDispatch()
     const router = useRouter()
 
@@ -123,16 +123,27 @@ const AdminNavbar = () => {
                                 <div className='w-[40px] h-[40px] rounded-full border-solid border-white border-[2px]'>
                                     <img src="/assets/images/default.png" className='w-full h-full object-cover object-center rounded-full' alt="User"/>
                                 </div>
+                                {loading ? 
+                                <div className='flex flex-col'>
+                                    <div className='animate-pulse rounded-full bg-[#333]/[30%] w-full h-[6px]'></div>
+                                    <div className='animate-pulse rounded-full bg-[#333]/[30%] w-full h-[6px]'></div>
+                                </div>
+                                : 
                                 <div className='flex flex-col'>
                                     <p className='font-sans text-[14px] truncate'>{user?.fullName || 'Login Please'}</p>
                                     <p className='font-sans text-[14px] truncate'>{user?.email || 'Login Please'}</p>
                                 </div>
+                                }
                             </div>
+                            {loading ? 
+                            <div className='aimate-spin w-[18px] h-[18px]'>X</div>
+                            : 
                             <div onClick={handleLogout} className='cursor-pointer'>
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width='18' height='18' fill='#ff0000'>
                                     <path d="M5 22C4.44772 22 4 21.5523 4 21V3C4 2.44772 4.44772 2 5 2H19C19.5523 2 20 2.44772 20 3V6H18V4H6V20H18V18H20V21C20 21.5523 19.5523 22 19 22H5ZM18 16V13H11V11H18V8L23 12L18 16Z"></path>
                                 </svg>
                             </div>
+                            }
                         </div>
                     </PopoverContent>
                 </Popover>

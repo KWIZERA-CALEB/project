@@ -5,10 +5,12 @@ import clsx from "clsx";
 import { useState } from "react";
 import { usePathname } from "next/navigation";
 import { Button } from "@/components/ui/button"
+import { useAppSelector } from '@/redux/hooks';
 
 const Navbar = () => {
   const currentPath = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { user } = useAppSelector((state) => state.user);
 
   const navLinks = [
     { name: "Home", path: "/" },
@@ -46,9 +48,15 @@ const Navbar = () => {
       </div>
 
       <div className="hidden md:block">
-        <Link href="/login">
-          <Button className='bg-[#041738] text-[12px] hover:bg-umuravaBlueColor transition ease-in-out'>Join the Program</Button>
-        </Link>
+        {user ? 
+          <Link href="/dashboard">
+            <Button className='bg-[#041738] text-[12px] hover:bg-umuravaBlueColor transition ease-in-out'>Open App</Button>
+          </Link>
+        : 
+          <Link href="/login">
+            <Button className='bg-[#041738] text-[12px] hover:bg-umuravaBlueColor transition ease-in-out'>Join the Program</Button>
+          </Link>
+        }
       </div>
 
       <button
@@ -78,9 +86,15 @@ const Navbar = () => {
           ))}
 
           <div className="mt-4 w-full">
-            <Link href="/login" className='w-full'>
-              <Button className='bg-[#041738] w-ful text-[12px] hover:bg-umuravaBlueColor transition ease-in-out'>Join the Program</Button>
-            </Link>
+            {user ? 
+              <Link href="/dashboard" className='w-full'>
+                <Button className='bg-[#041738] w-full text-[12px] hover:bg-umuravaBlueColor transition ease-in-out'>Open App</Button>
+              </Link>
+            : 
+              <Link href="/login" className='w-full'>
+                <Button className='bg-[#041738] w-full text-[12px] hover:bg-umuravaBlueColor transition ease-in-out'>Join the Program</Button>
+              </Link>
+            }
           </div>
 
         </div>

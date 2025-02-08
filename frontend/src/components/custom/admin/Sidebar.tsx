@@ -19,7 +19,7 @@ import {
 const Sidebar = () => {
     const pathname = usePathname() || '';
     const [currentPath, setCurrentPath] = useState('');
-    const { user } = useAppSelector((state) => state.user);
+    const { loading, user } = useAppSelector((state) => state.user);
     const router = useRouter()
     const dispatch = useAppDispatch()
     
@@ -44,8 +44,6 @@ const Sidebar = () => {
     if (typeof window === 'undefined') {
         return null;
     }
-
-    console.log(currentPath);
 
     const navItems = [
         {
@@ -146,21 +144,36 @@ const Sidebar = () => {
                     ))}
                 </div>
                 <div className='mt-[20px] flex flex-row justify-between items-center'>
-                    <div className='flex flex-row space-x-[10px] cursor-pointer items-center'>
-                        <div className='w-[40px] h-[40px] relative rounded-full border-solid border-white border-[2px]'>
-                            <img src="/assets/images/default.png" className='w-full h-full object-cover object-center rounded-full' alt="User"/>
-                            <div className='w-[14px] h-[14px] bg-[#0F973D] rounded-full border-solid border-white border-[2px] absolute bottom-[-2px] right-[-2px]'></div>
+                    {loading ? 
+                        <div className='flex flex-row space-x-[10px] cursor-pointer items-center'>
+                            <div className='w-[40px] h-[40px] animate-pulse rounded-full bg-[#333]/[30%]'>
+                            </div>
+                            <div className='flex flex-col'>
+                                <div className='animate-pulse rounded-full bg-[#333]/[30%] w-[150px] h-[6px]'></div>
+                                <div className='animate-pulse rounded-full bg-[#333]/[30%] w-[150px] h-[6px]'></div>
+                            </div>
                         </div>
-                        <div className='flex flex-col'>
-                            <p className='font-sans text-white text-[14px] truncate'>{user?.fullName || 'Login Please'}</p>
-                            <p className='font-sans text-white text-[14px] truncate'>{user?.email || 'Login Please'}</p>
+                    : 
+                        <div className='flex flex-row space-x-[10px] cursor-pointer items-center'>
+                            <div className='w-[40px] h-[40px] relative rounded-full border-solid border-white border-[2px]'>
+                                <img src="/assets/images/default.png" className='w-full h-full object-cover object-center rounded-full' alt="User"/>
+                                <div className='w-[14px] h-[14px] bg-[#0F973D] rounded-full border-solid border-white border-[2px] absolute bottom-[-2px] right-[-2px]'></div>
+                            </div>
+                            <div className='flex flex-col'>
+                                <p className='font-sans text-white text-[14px] truncate'>{user?.fullName || 'Login Please'}</p>
+                                <p className='font-sans text-white text-[14px] truncate'>{user?.email || 'Login Please'}</p>
+                            </div>
                         </div>
-                    </div>
+                    }
+                    {loading ? 
+                    <div className='w-[18px] h-[18px] animate-spin'>X</div>
+                    : 
                     <div onClick={handleLogout} className='cursor-pointer'>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width='18' height='18' fill='#fff'>
                             <path d="M5 22C4.44772 22 4 21.5523 4 21V3C4 2.44772 4.44772 2 5 2H19C19.5523 2 20 2.44772 20 3V6H18V4H6V20H18V18H20V21C20 21.5523 19.5523 22 19 22H5ZM18 16V13H11V11H18V8L23 12L18 16Z"></path>
                         </svg>
                     </div>
+                    }
                 </div>
             </div>
         </div>

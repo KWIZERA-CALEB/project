@@ -28,30 +28,60 @@ const router = express.Router();
  *               - moneyPrize
  *               - contactEmail
  *               - projectDescription
+ *               - projectBrief
+ *               - projectDescriptionTasks
+ *               - status
+ *               - levels
+ *               - skills
+ *               - category
  *             properties:
  *               challengeTitle:
  *                 type: string
  *                 description: Title of the challenge
  *               challengeDeadline:
  *                 type: string
- *                 description: Deadline for the challenge
+ *                 description: Deadline for the challenge (e.g., "2025-05-01")
  *               challengeDuration:
  *                 type: string
- *                 description: Duration of the challenge
+ *                 description: Duration of the challenge (e.g., "2 weeks")
  *               moneyPrize:
  *                 type: string
- *                 description: Prize money for the challenge
+ *                 description: Prize money for the challenge (e.g., "$1000")
  *               contactEmail:
  *                 type: string
- *                 description: Contact email for the challenge
+ *                 description: Contact email for the challenge (e.g., "example@domain.com")
  *               projectDescription:
  *                 type: string
- *                 description: Description of the project
+ *                 description: Description of the project (e.g., "A web development challenge to build a UI")
+ *               projectBrief:
+ *                 type: string
+ *                 description: Brief overview of the project (e.g., "Create a responsive website")
+ *               projectDescriptionTasks:
+ *                 type: string
+ *                 description: Breakdown of tasks for the project (e.g., "Design UI, Implement features")
+ *               status:
+ *                 type: string
+ *                 enum:
+ *                   - open
+ *                   - closed
+ *                   - ongoing
+ *                 description: Current status of the challenge (default is "open")
+ *               levels:
+ *                 type: string
+ *                 description: Skill level required for the challenge (e.g., "Senior")
+ *               skills:
+ *                 type: string
+ *                 description: Skills required for the challenge (e.g., "Frontend, UI/UX")
+ *               category:
+ *                 type: string
+ *                 description: Category of the challenge (e.g., "Web design")
  *     responses:
  *       201:
  *         description: Challenge created successfully
  *       400:
  *         description: Bad Request
+ *       500:
+ *         description: Internal Server Error
  */
 router.post('/create-challenge', createNewChallenge);
 
@@ -59,7 +89,7 @@ router.post('/create-challenge', createNewChallenge);
  * @swagger
  * /update-challenge/{id}:
  *   put:
- *     summary: Update a challenge
+ *     summary: Update an existing challenge
  *     tags: [Challenges]
  *     parameters:
  *       - in: path
@@ -80,19 +110,41 @@ router.post('/create-challenge', createNewChallenge);
  *                 description: Title of the challenge
  *               challengeDeadline:
  *                 type: string
- *                 description: Deadline for the challenge
+ *                 description: Deadline for the challenge (e.g., "2025-05-01")
  *               challengeDuration:
  *                 type: string
- *                 description: Duration of the challenge
+ *                 description: Duration of the challenge (e.g., "2 weeks")
  *               moneyPrize:
  *                 type: string
- *                 description: Prize money for the challenge
+ *                 description: Prize money for the challenge (e.g., "$1000")
  *               contactEmail:
  *                 type: string
- *                 description: Contact email for the challenge
+ *                 description: Contact email for the challenge (e.g., "example@domain.com")
  *               projectDescription:
  *                 type: string
- *                 description: Description of the project
+ *                 description: Description of the project (e.g., "A web development challenge to build a UI")
+ *               projectBrief:
+ *                 type: string
+ *                 description: Brief overview of the project (e.g., "Create a responsive website")
+ *               projectDescriptionTasks:
+ *                 type: string
+ *                 description: Breakdown of tasks for the project (e.g., "Design UI, Implement features")
+ *               status:
+ *                 type: string
+ *                 enum:
+ *                   - open
+ *                   - closed
+ *                   - ongoing
+ *                 description: Current status of the challenge (e.g., "open", "closed", "ongoing")
+ *               levels:
+ *                 type: string
+ *                 description: Skill level required for the challenge (e.g., "Senior")
+ *               skills:
+ *                 type: string
+ *                 description: Skills required for the challenge (e.g., "Frontend, UI/UX")
+ *               category:
+ *                 type: string
+ *                 description: Category of the challenge (e.g., "Web design")
  *     responses:
  *       200:
  *         description: Challenge updated successfully
@@ -100,6 +152,8 @@ router.post('/create-challenge', createNewChallenge);
  *         description: Bad Request
  *       404:
  *         description: Challenge not found
+ *       500:
+ *         description: Internal Server Error
  */
 router.put('/update-challenge/:id', updateChallenge);
 
@@ -129,6 +183,7 @@ router.get('/challenge/:id', getSingleChallenge);
  * /challenges:
  *   get:
  *     summary: Get all challenges or filter by status
+ *     tags: [Challenges]
  *     description: Retrieve all challenges or filter challenges by their status (open, closed, or ongoing).
  *     parameters:
  *       - in: query

@@ -51,6 +51,12 @@ const AdminEditChallenge: React.FC<AdminEditChallengeProps> = ({ params }) => {
     const { challengeDetails, loading } = useAppSelector((state) => state.challenges);
     const { isAuthenticated, isAdmin } = useAuth()
 
+    useEffect(() => {
+        if(!isAdmin) {
+            router.push('/dashboard')
+        }
+    },[isAdmin, router])
+
     const handleFetchChallenge = useCallback(() => {
         dispatch(fetchChallengeDetails({url: `${process.env.NEXT_PUBLIC_API_BASE_URL}/challenge`, id}));
     }, [dispatch, id])

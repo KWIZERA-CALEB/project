@@ -40,6 +40,12 @@ const AdminCreateChallenge = () => {
     const { loading, error } = useAppSelector((state) => state.challenges);
     const { isAuthenticated, isAdmin } = useAuth();
 
+    useEffect(() => {
+        if(!isAdmin) {
+            router.push('/dashboard')
+        }
+    },[isAdmin, router])
+
 
     const handleCreateChallenge = async (data: ChallengeFormData) => {  
         const resultAction = await dispatch(createChallenge(data));
